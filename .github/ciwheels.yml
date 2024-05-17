@@ -1,0 +1,138 @@
+name: Build CI wheels
+
+on:
+  push:
+    branches:
+      - main 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_wheels:
+    name: Build wheel for ${{ matrix.os }} on cp${{ matrix.python }}-${{ matrix.platform_id }}-${{ matrix.manylinux_image }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          # Window 64 bit
+            - os: windows-latest
+              python: 39
+              platform_id: win_amd64
+            - os: windows-latest
+              python: 310
+              platform_id: win_amd64
+            - os: windows-latest
+              python: 311
+              platform_id: win_amd64
+            - os: windows-latest
+              python: 312
+              platform_id: win_amd64
+
+          # Linux 64 bit manylinux2014
+            - os: ubuntu-latest
+              python: 39
+              platform_id: manylinux_x86_64
+              manylinux_image: manylinux2014
+            - os: ubuntu-latest
+              python: 310
+              platform_id: manylinux_x86_64
+              manylinux_image: manylinux2014
+            - os: ubuntu-latest
+              python: 311
+              platform_id: manylinux_x86_64
+              manylinux_image: manylinux2014
+            - os: ubuntu-latest
+              python: 312
+              platform_id: manylinux_x86_64
+              manylinux_image: manylinux2014
+
+          # MacOS x86_64
+            - os: macos-12
+              python: 39
+              platform_id: macosx_x86_64
+            - os: macos-12
+              python: 310
+              platform_id: macosx_x86_64
+            - os: macos-12
+              python: 311
+              platform_id: macosx_x86_64
+            - os: macos-12
+              python: 312
+              platform_id: macosx_x86_64
+    
+            # MacOS arm64
+            - os: macos-14
+              python: 39
+              platform_id: macosx_arm64
+            - os: macos-14
+              python: 310
+              platform_id: macosx_arm64
+            - os: macos-14
+              python: 311
+              platform_id: macosx_arm64
+            - os: macos-14
+              python: 312
+              platform_id: macosx_arm64
+       
+    # continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up MSYS2 (Windows only)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            base-devel
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-gcc-fortran
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-lapack
+            mingw-w64-x86_64-metis
+            mingw-w64-x86_64-eigen3
+            git
+            unzip
+            
+      - name: Run set up script in MSYS2 (Windows only)
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          bash .github/workflows/scripts/windows-setup.sh
+          
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.17.0
+        env:
+          # Skip 32-bit builds and musllinux
+          CIBW_SKIP: "*-win32 *-manylinux_i686 *musllinux*"
+          CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
+          CIBW_BEFORE_ALL_MACOS: |
+            brew install eigen ipopt
+            git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
+            mkdir build && cd build
+            cmake ..
+            make
+            sudo make install
+          CIBW_BEFORE_ALL_LINUX: |
+            yum install -y epel-release eigen3-devel coin-or-Ipopt-devel
+            # rpm -ql coin-or-Ipopt-devel
+            git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
+            mkdir build && cd build
+            cmake ..
+            make
+            make install
+          CIBW_BEFORE_ALL_WINDOWS: >-
+            echo "OK" &&
+            echo "OK WINDOWS"
+        with:
+          package-dir: .
+          output-dir: wheelhouse
+          config-file: '{package}/pyproject.toml'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact-${{ matrix.os }}-cp${{ matrix.python }}-${{ matrix.platform_id }}
+          path: ./wheelhouse/*.whl
