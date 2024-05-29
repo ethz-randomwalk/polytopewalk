@@ -34,7 +34,7 @@ class FacialReduction {
          * @param err_dc error sensitivity for decomposition calculation
          * @return res
          */
-        FacialReduction(int max_iter = 3000, double tol = 1e-8, double s_max = 100, double err_lp = 1e-8, double err_dc = 1e-5) : MAX_ITER(max_iter), TOL(tol), S_MAX(s_max), ERR_LP(err_lp),  ERR_DC(err_dc){}
+        FacialReduction(int max_iter = 500000, double tol = 1e-10, double s_max = 100, double err_lp = 1e-8, double err_dc = 1e-5) : MAX_ITER(max_iter), TOL(tol), S_MAX(s_max), ERR_LP(err_lp),  ERR_DC(err_dc){}
         /**
          * @brief completes facial reduction on Ax = b, x >=_c 0
          * @param A polytope matrix (Ax = b)

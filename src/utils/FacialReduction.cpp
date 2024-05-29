@@ -10,21 +10,21 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
 
     SparseMatrixXd ineqA(n + 1, d-x_dim);
     for(int i = x_dim; i < d; i++){
-        ineqA.col(i - x_dim) = -1 * A.col(i)/A.col(i).norm();
+        ineqA.col(i - x_dim) = -1 * A.col(i);
     }
     ineqA = ineqA.transpose();
     ineqA.col(n) = (-1 * VectorXd::Ones(d-x_dim)).sparseView();
 
     SparseMatrixXd eqA(n + 1, x_dim + 2);
     for(int j = 0; j < x_dim; j++){
-        eqA.col(j) = A.col(j)/A.col(j).norm();
+        eqA.col(j) = A.col(j);
     }
-    eqA.col(x_dim + 1) = b.sparseView()/b.norm();
+    eqA.col(x_dim + 1) = b.sparseView();
     VectorXd eqb = VectorXd::Zero(eqA.cols());
 
     for(int i = global_index; i < d; i++){
-        eqA.col(x_dim) = A.col(i)/A.col(i).norm();
-        eqb(x_dim) = 1.0/A.col(i).norm();
+        eqA.col(x_dim) = A.col(i);
+        eqb(x_dim) = 1.0;
         eqA = eqA.transpose();
 
         SparseQR<SparseMatrixXd, COLAMDOrdering<SparseMatrix<double>::StorageIndex>> solver (eqA.block(0, 0, x_dim + 2, n));
@@ -45,6 +45,7 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
         if(init(init.rows() - 1) <= ERR_LP){
             VectorXd temp = init.head(init.rows() - 1);
             init = temp;
+
             ans.found_sol = true; 
             ans.z = (A.transpose() * init);
             return ans;
@@ -88,7 +89,6 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
 
 SparseMatrixXd FacialReduction::pickV(const VectorXd& z, int x_dim){
     int d = z.rows();
-    
     vector<T> indices;
     for(int i = 0; i < x_dim; i++){
         indices.push_back(T(indices.size(), i, 1)); 
@@ -96,13 +96,14 @@ SparseMatrixXd FacialReduction::pickV(const VectorXd& z, int x_dim){
     for(int i = x_dim; i < d; i++){
          if(z(i) < ERR_DC) indices.push_back(T(indices.size(), i, 1)); 
     }
+
+
     SparseMatrixXd mat(indices.size(), d);
     mat.setFromTriplets(indices.begin(), indices.end());
     return mat.transpose();
 }
 
 SparseMatrixXd FacialReduction::pickP(const SparseMatrixXd& AV){
-
     SparseQR<SparseMatrixXd, NaturalOrdering<SparseMatrix<double>::StorageIndex>> solver;
     solver.compute(AV.transpose());
     SparseMatrixXd R = solver.matrixR();
@@ -120,6 +121,7 @@ SparseMatrixXd FacialReduction::pickP(const SparseMatrixXd& AV){
 
 fr_res FacialReduction::entireFacialReductionStep(SparseMatrixXd A, VectorXd b, int x_dim){
     z_res z_ans = findZ(A, b, x_dim);
+
     if(!z_ans.found_sol){
         fr_res ans;
         ans.A = A;
@@ -139,12 +141,10 @@ res FacialReduction::reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse){
     int x_dim = A.cols() - k; 
     savedV = SparseMatrixXd(VectorXd::Ones(A.cols()).asDiagonal());
     global_index = x_dim; 
-
     //remove dependent rows
     SparseMatrixXd P = pickP(A);
     A = P * A; 
     b = P * b; 
-
     fr_res result = entireFacialReductionStep(A, b, x_dim);
     res final_res; 
 
