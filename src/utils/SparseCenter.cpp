@@ -3,7 +3,9 @@
 VectorXd SparseCenter::getInitialPoint(SparseMatrixXd A, VectorXd b, int k){
     SparseQR<SparseMatrixXd, COLAMDOrdering<SparseMatrix<double>::StorageIndex>> solver (A);
     VectorXd solved = solver.solve(b);
+    
 
+    
     double delta = -1 * solved.minCoeff();
     VectorXd init (A.cols() + 1);
     init << solved, delta; 

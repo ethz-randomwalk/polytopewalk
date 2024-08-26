@@ -65,18 +65,9 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
             }
 
             inv.coeffRef(i, j) = z;
+            inv.coeffRef(j, i) = z; 
         }
     }
-    
-    SparseMatrixXd inv_d (inv.rows(), inv.cols());
-    for(int p = 0; p < inv.outerSize(); p++){
-        for(SparseMatrixXd::InnerIterator it(inv, p); it; ++it){
-            inv_d.coeffRef(it.row(), it.col()) = inv.coeff(it.row(), it.col());
-            inv_d.coeffRef(it.col(), it.row()) = inv.coeff(it.row(), it.col());
-        }
-    }
-
-    inv = inv_d;
 
     SparseMatrixXd AG_inv_sqrt = A * G_inv_sqrt;
     SparseMatrixXd P = inv * AG_inv_sqrt;
