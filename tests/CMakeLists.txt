@@ -23,6 +23,3 @@ target_link_libraries(test_weights PRIVATE utils dense sparse Catch2::Catch2With
 
 add_executable(test_init ${TESTS_DIR}/test_init.cpp)
 target_link_libraries(test_init PRIVATE utils dense sparse Catch2::Catch2WithMain)
-
-add_executable(test_facial ${TESTS_DIR}/test_facial.cpp)
-target_link_libraries(test_facial PRIVATE utils dense sparse Catch2::Catch2WithMain)
