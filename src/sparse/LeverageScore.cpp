@@ -103,5 +103,6 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
 
     auto overall_stop = chrono::high_resolution_clock::now();
     duration = chrono::duration_cast<chrono::milliseconds>(overall_stop - overall_start);
+    cout << "OVERALL DURATION" << endl;
     cout << duration.count() << endl;
 }
