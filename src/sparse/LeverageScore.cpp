@@ -1,25 +1,34 @@
 #include "LeverageScore.hpp"
+#include <chrono>
 
 VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& W, const VectorXd& x, const double ERR, const int k){
     
-    SparseMatrixXd S_inv(x.rows(), x.rows());
+    VectorXd S_inv(x.rows());
     for(int i = x.rows() - k; i < x.rows(); i++){
-        S_inv.coeffRef(i, i) = 1/x(i);
+        S_inv.coeffRef(i) = 1/x(i);
     }
-    SparseMatrixXd G_sqrt = S_inv * W;
+    VectorXd G_sqrt = W * S_inv;
     for(int i = 0; i < x.rows() - k; i++){
-        G_sqrt.coeffRef(i, i) = ERR;
+        G_sqrt.coeffRef(i) = ERR;
     }
 
-    SparseMatrixXd G_inv_sqrt = SparseMatrixXd(VectorXd(G_sqrt.diagonal()).cwiseInverse().asDiagonal());
+    SparseMatrixXd G_inv_sqrt = SparseMatrixXd(G_sqrt.cwiseInverse().asDiagonal());
+    SparseMatrixXd AG_inv_sqrt = A * G_inv_sqrt;
 
-    SparseMatrixXd hess = A * (G_inv_sqrt * G_inv_sqrt)* A.transpose();
+    SparseMatrixXd hess = AG_inv_sqrt * AG_inv_sqrt.transpose();
+    auto start = chrono::high_resolution_clock::now();
+
     SimplicialLDLT<SparseMatrix<double>, Eigen::Lower, Eigen::NaturalOrdering<int>> cholesky;
     cholesky.analyzePattern(hess);
     cholesky.factorize(hess);
     SparseMatrixXd L0 = cholesky.matrixL();
     VectorXd D = cholesky.vectorD();
     SparseMatrixXd D_sqrt (L0.rows(), L0.cols());
+    auto stop = chrono::high_resolution_clock::now();
+
+    auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+    cout << "CHOLESKY DURATION" << endl;
+    cout << duration.count() << endl;
 
     for(int i = 0; i < L0.rows(); i++){
         D_sqrt.coeffRef(i, i) = sqrt(D(i));
@@ -36,7 +45,7 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     SparseMatrixXd inv(L.rows(), L.rows());
     map<int, vector<pair<int, int>>> row_major;
     map<int, vector<pair<int, int>>> col_major;
-
+    start = chrono::high_resolution_clock::now();
     for(int i = L.rows() - 1; i >= 0; i--){
         for(int v = sparsity_ref[i].size() - 1; v >= 0; v--){
             int j = sparsity_ref[i][v];
@@ -68,23 +77,25 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
             inv.coeffRef(j, i) = z; 
         }
     }
+    stop = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+    cout << "FOR LOOP DURATION" << endl;
+    cout << duration.count() << endl;
 
-    SparseMatrixXd AG_inv_sqrt = A * G_inv_sqrt;
     SparseMatrixXd P = inv * AG_inv_sqrt;
-    SparseMatrixXd result (AG_inv_sqrt.cols(), AG_inv_sqrt.cols());
+    VectorXd result (AG_inv_sqrt.cols());
     for(int i = 0; i < AG_inv_sqrt.cols(); i++){
         double val = AG_inv_sqrt.col(i).dot(P.col(i));
-        result.coeffRef(i, i) = val;
+        result.coeffRef(i) = val;
     }
 
-    SparseMatrixXd I = SparseMatrixXd(x.rows(), x.rows());
     for(int i = 0; i < x.rows() - k; i++){
-        I.coeffRef(i, i) = result.coeffRef(i, i);
+        result(i) = 0;
     }
-    for(int i = x.rows() - k; i < x.rows(); i++){
-        I.coeffRef(i, i) = 1; 
-    }
-    result = I - result;
 
-    return result.diagonal();
+    for(int i = x.rows() - k; i < x.rows(); i++){
+        result(i) = 1 - result(i);
+    }
+
+    return result; 
 }
