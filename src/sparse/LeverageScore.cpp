@@ -3,6 +3,8 @@
 
 VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& W, const VectorXd& x, const double ERR, const int k){
     
+
+    auto overall_start = chrono::high_resolution_clock::now();
     VectorXd S_inv(x.rows());
     for(int i = x.rows() - k; i < x.rows(); i++){
         S_inv.coeffRef(i) = 1/x(i);
@@ -98,4 +100,8 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     }
 
     return result; 
+
+    auto overall_stop = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::milliseconds>(overall_stop - overall_start);
+    cout << duration.count() << endl;
 }
