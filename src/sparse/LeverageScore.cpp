@@ -29,19 +29,18 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
         perm.coeffRef(i, perm.rows() - 1 - i) = 1; 
     }
 
-    SparseMatrixXd L_col = (perm * L0.transpose() * perm);
-    SparseMatrix<double,Eigen::RowMajor> L_row = L_col;
+    SparseMatrixXd L_col = (perm * L0 * perm);
 
     SparseMatrixXd inv(L0.rows(), L0.rows());
 
-    for(int i = 0; i < L_row.outerSize(); i++){
-        for(SparseMatrix<double,Eigen::RowMajor>::InnerIterator it(L_row, i); it; ++it){
-            int j = it.col();
-            double z = (i == j) ? (double)1/D(L_row.outerSize() - 1 - i) : 0;
+    for(int i = 0; i < L_col.outerSize(); i++){
+        for(SparseMatrixXd::InnerIterator it(L_col, i); it; ++it){
+            int j = it.row();
+            double z = (i == j) ? (double)1/D(L_col.outerSize() - 1 - i) : 0;
 
-            for(SparseMatrix<double,Eigen::RowMajor>::InnerIterator it2(L_row, i); it2; ++it2){
-                if (it2.col() >= i) break;
-                double val = it.col() <= j ? inv.coeffRef(it2.col(), j) : inv.coeffRef(j, it2.col());
+            for(SparseMatrixXd::InnerIterator it2(L_col, i); it2; ++it2){
+                if (it2.row() >= i) break;
+                double val = it.row() <= j ? inv.coeffRef(it2.row(), j) : inv.coeffRef(j, it2.row());
                 z -= it2.value() * val;
             }
             inv.coeffRef(i, j) = z;
@@ -49,7 +48,7 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
         }
     }
     
-    inv = perm * inv.transpose() * perm;
+    inv = perm * inv * perm;
 
     auto stop = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
