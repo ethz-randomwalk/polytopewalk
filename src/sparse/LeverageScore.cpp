@@ -3,8 +3,6 @@
 
 VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& W, const VectorXd& x, const double ERR, const int k){
     
-
-    auto overall_start = chrono::high_resolution_clock::now();
     VectorXd S_inv(x.rows());
     for(int i = x.rows() - k; i < x.rows(); i++){
         S_inv.coeffRef(i) = 1/x(i);
@@ -18,71 +16,46 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     SparseMatrixXd AG_inv_sqrt = A * G_inv_sqrt;
 
     SparseMatrixXd hess = AG_inv_sqrt * AG_inv_sqrt.transpose();
-    auto start = chrono::high_resolution_clock::now();
 
     SimplicialLDLT<SparseMatrix<double>, Eigen::Lower, Eigen::NaturalOrdering<int>> cholesky;
     cholesky.analyzePattern(hess);
     cholesky.factorize(hess);
     SparseMatrixXd L0 = cholesky.matrixL();
     VectorXd D = cholesky.vectorD();
-    SparseMatrixXd D_sqrt (L0.rows(), L0.cols());
-    auto stop = chrono::high_resolution_clock::now();
 
-    auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
-    cout << "CHOLESKY DURATION" << endl;
-    cout << duration.count() << endl;
-
-    for(int i = 0; i < L0.rows(); i++){
-        D_sqrt.coeffRef(i, i) = sqrt(D(i));
-    }
-    SparseMatrixXd L = L0 * D_sqrt;
-    map<int, vector<int>> sparsity_ref; 
-    // row : list of col indices
-    for(int p = 0; p < L.outerSize(); p++){
-        for(SparseMatrixXd::InnerIterator it(L, p); it; ++it){
-            sparsity_ref[it.col()].push_back(it.row());
-        }
+    auto start = chrono::high_resolution_clock::now();
+    SparseMatrixXd perm (L0.rows(), L0.rows());
+    for(int i = 0; i < perm.rows(); i++){
+        perm.coeffRef(i, perm.rows() - 1 - i) = 1; 
     }
 
-    SparseMatrixXd inv(L.rows(), L.rows());
-    map<int, vector<pair<int, int>>> row_major;
-    map<int, vector<pair<int, int>>> col_major;
-    start = chrono::high_resolution_clock::now();
-    for(int i = L.rows() - 1; i >= 0; i--){
-        for(int v = sparsity_ref[i].size() - 1; v >= 0; v--){
-            int j = sparsity_ref[i][v];
-            double z = (i == j) ? (double)1/D(i) : 0;
+    SparseMatrixXd L_col = (perm * L0.transpose() * perm);
+    SparseMatrix<double,Eigen::RowMajor> L_row = L_col;
 
-            for(auto pair : col_major[j]){
-                int first = pair.first;
-                int second = pair.second;
-                double term = inv.coeff(first, second);
-                int p = min(first, second);
+    SparseMatrixXd inv(L0.rows(), L0.rows());
 
-                z -= term * L0.coeff(p, i);
+    for(int i = 0; i < L_row.outerSize(); i++){
+        for(SparseMatrix<double,Eigen::RowMajor>::InnerIterator it(L_row, i); it; ++it){
+            int j = it.col();
+            double z = (i == j) ? (double)1/D(L_row.outerSize() - 1 - i) : 0;
+
+            for(SparseMatrix<double,Eigen::RowMajor>::InnerIterator it2(L_row, i); it2; ++it2){
+                if (it2.col() >= i) break;
+                double val = it.col() <= j ? inv.coeffRef(it2.col(), j) : inv.coeffRef(j, it2.col());
+                z -= it2.value() * val;
             }
-
-            for(auto pair : row_major[j]){
-                int first = pair.first;
-                int second = pair.second;
-                double term = inv.coeff(first, second);
-                int p = max(first, second);
-                z -= term * L0.coeff(p, i);
-            }
-
-            col_major[j].push_back(make_pair(i, j));
-            if (i != j){
-                row_major[i].push_back(make_pair(i, j));
-            }
-
             inv.coeffRef(i, j) = z;
-            inv.coeffRef(j, i) = z; 
+            inv.coeffRef(j, i) = z;
         }
     }
-    stop = chrono::high_resolution_clock::now();
-    duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
+    
+    inv = perm * inv.transpose() * perm;
+
+    auto stop = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
     cout << "FOR LOOP DURATION" << endl;
     cout << duration.count() << endl;
+
 
     SparseMatrixXd P = inv * AG_inv_sqrt;
     VectorXd result (AG_inv_sqrt.cols());
@@ -98,11 +71,6 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     for(int i = x.rows() - k; i < x.rows(); i++){
         result(i) = 1 - result(i);
     }
-
-    auto overall_stop = chrono::high_resolution_clock::now();
-    duration = chrono::duration_cast<chrono::milliseconds>(overall_stop - overall_start);
-    cout << "OVERALL DURATION" << endl;
-    cout << duration.count() << endl;
 
     return result; 
 }
