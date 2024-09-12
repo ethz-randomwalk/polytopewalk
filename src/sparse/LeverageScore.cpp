@@ -22,12 +22,12 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     SparseMatrixXd L0 = cholesky.matrixL();
     VectorXd D = cholesky.vectorD();
 
-    SparseMatrixXd perm (L0.rows(), L0.rows());
-    for(int i = 0; i < perm.rows(); i++){
-        perm.coeffRef(i, perm.rows() - 1 - i) = 1; 
+    Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic> perm (L0.rows());
+    for(int i = 0; i < L0.rows(); i++){
+        perm.indices()(i) = perm.rows() - 1 - i;
     }
 
-    SparseMatrixXd L_col = (perm * L0 * perm);
+    SparseMatrixXd L_col = perm * L0 * perm;
 
     SparseMatrixXd inv(L0.rows(), L0.rows());
 
