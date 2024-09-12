@@ -31,14 +31,11 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
 
     SparseMatrixXd inv(L0.rows(), L0.rows());
 
-    /*
     VectorXd nnz (L0.rows());
-    SparseMatrixXd LLT = L_col + SparseMatrixXd(L_col.transpose());
-    for(int i = 0; i < LLT.rows(); i++){
-        nnz(i) = LLT.col(i).nonZeros();
+    for(int i = 0; i < L_col.rows(); i++){
+        nnz(i) = L_col.col(i).nonZeros();
     }
-    inv.reserve(nnz);*/
-    inv.reserve(2 * L_col.nonZeros());
+    inv.reserve(nnz);
 
     for(int i = 0; i < L_col.outerSize(); i++){
         for(SparseMatrixXd::InnerIterator it(L_col, i); it; ++it){
@@ -50,15 +47,13 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
                 double val = it.row() <= j ? inv.coeffRef(it2.row(), j) : inv.coeffRef(j, it2.row());
                 z -= it2.value() * val;
             }
-            inv.insert(i, j) = z;
-
-            if (i != j) inv.insert(j, i) = z;
+            if (i <= j) inv.insert(i, j) = z;
+            else inv.insert(j, i) = z;
         }
     }
-
     inv = perm * inv * perm;
 
-    SparseMatrixXd P = inv * AG_inv_sqrt;
+    SparseMatrixXd P = inv.selfadjointView<Lower>() * AG_inv_sqrt;
     VectorXd result (AG_inv_sqrt.cols());
     for(int i = 0; i < AG_inv_sqrt.cols(); i++){
         double val = AG_inv_sqrt.col(i).dot(P.col(i));
