@@ -24,7 +24,6 @@ SparseMatrixXd SparseJohnWalk::generateWeight(
     }
     VectorXd next_weight = w_i;
 
-    int num_ref = 0;
     for(int i = 0; i < MAX_ITER; i++){
         w_i = next_weight;
         SparseMatrixXd W (w_i.rows(), w_i.rows());
@@ -37,7 +36,6 @@ SparseMatrixXd SparseJohnWalk::generateWeight(
         if ((w_i - next_weight).cwiseAbs().maxCoeff() < LIM){
             break;
         }
-        num_ref ++;
     }
 
     return SparseMatrixXd(w_i.asDiagonal());
