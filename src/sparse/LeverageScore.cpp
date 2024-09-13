@@ -44,7 +44,7 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
 
             for(SparseMatrixXd::InnerIterator it2(L_col, i); it2; ++it2){
                 if (it2.row() >= i) break;
-                double val = it.row() <= j ? inv.coeffRef(it2.row(), j) : inv.coeffRef(j, it2.row());
+                double val = it2.row() <= j ? inv.coeffRef(it2.row(), j) : inv.coeffRef(j, it2.row());
                 z -= it2.value() * val;
             }
             if (i <= j) inv.insert(i, j) = z;
