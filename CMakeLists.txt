@@ -14,10 +14,12 @@ elseif(WIN32)
     endforeach()
 endif()
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+find_package(GLPK REQUIRED)
+
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
-find_package(ifopt CONFIG REQUIRED)
 
 set(POLYTOPEWALK_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(SOURCES_DIR ${POLYTOPEWALK_DIR}/src)
@@ -28,8 +30,8 @@ add_subdirectory("src")
 #add_subdirectory ("docs")
 
 pybind11_add_module(${PROJECT_NAME} MODULE pybind11/PybindExt.cpp)
-target_link_libraries(${PROJECT_NAME} PUBLIC utils dense sparse pybind11::module Eigen3::Eigen ifopt::ifopt_ipopt)
-target_include_directories(${PROJECT_NAME} PRIVATE ${Eigen3_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC utils dense sparse pybind11::module Eigen3::Eigen ${GLPK_LIBRARY})
+target_include_directories(${PROJECT_NAME} PRIVATE ${Eigen3_INCLUDE_DIRS} ${GLPK_INCLUDE_DIR})
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION .)
 
 add_subdirectory("tests")

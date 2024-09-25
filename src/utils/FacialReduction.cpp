@@ -2,89 +2,85 @@
 
 
 z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_dim){
-    int n = A.rows();
-    int d = A.cols();
-
     z_res ans;
     ans.found_sol = false;
 
-    SparseMatrixXd ineqA(n + 1, d-x_dim);
-    for(int i = x_dim; i < d; i++){
-        ineqA.col(i - x_dim) = -1 * A.col(i);
+    glp_prob *lp;
+    glp_term_out(GLP_OFF);
+    lp = glp_create_prob();
+    int amount = 1 + A.nonZeros() + 2 * b.rows();
+    int ia [amount];
+    int ja [amount];
+    double ar [amount];
+
+    int row_length = A.cols() + 2;
+    int col_length = A.rows();
+
+    glp_add_rows(lp, row_length);
+    glp_add_cols(lp, col_length);
+    glp_set_obj_coef(lp, col_length, 1);
+
+    for(int i = 1; i <= col_length; i++){
+        glp_set_col_bnds(lp, i, GLP_FR, 0, 0);
     }
-    ineqA = ineqA.transpose();
-    ineqA.col(n) = (-1 * VectorXd::Ones(d-x_dim)).sparseView();
 
-    SparseMatrixXd eqA(n + 1, x_dim + 2);
-    for(int j = 0; j < x_dim; j++){
-        eqA.col(j) = A.col(j);
+    for(int i = 0; i < x_dim; i++){
+        glp_set_row_bnds(lp, i + 1, GLP_FX, 0, 0);
     }
-    eqA.col(x_dim + 1) = b.sparseView();
-    VectorXd eqb = VectorXd::Zero(eqA.cols());
+    
+    for(int i = x_dim; i < A.cols(); i++){
+        glp_set_row_bnds(lp, i + 1, GLP_LO, 0, 0);
+    }
+    glp_set_row_bnds(lp, A.cols() + 1, GLP_FX, 0, 0);
+    glp_set_row_bnds(lp, A.cols() + 2, GLP_FX, 1, 1);
 
-    for(int i = global_index; i < d; i++){
-        eqA.col(x_dim) = A.col(i);
-        eqb(x_dim) = 1.0;
-        eqA = eqA.transpose();
+    int ind = 1;
+    for(int i = 0; i < A.outerSize(); i++){
+        for(SparseMatrixXd::InnerIterator it(A, i); it; ++it){
+            int row = it.row();
+            int col = it.col();
+            double val = it.value();
 
-        SparseQR<SparseMatrixXd, COLAMDOrdering<SparseMatrix<double>::StorageIndex>> solver (eqA.block(0, 0, x_dim + 2, n));
-        VectorXd init = solver.solve(eqb);
-        VectorXd temp_solve (init.rows() + 1);
-        temp_solve << init, 0; 
-        double delta = (ineqA * temp_solve).maxCoeff();
-        VectorXd temp (init.rows() + 1);
-        temp << init, delta;
-        init = temp; 
+            ia[ind] = col + 1;
+            ja[ind] = row + 1; 
+            ar[ind] = val; 
+            ind ++; 
+        }
+    }
+    for(int i = 0; i < b.rows(); i++){
+        ia[ind] = A.cols() + 1;
+        ja[ind] = i + 1;
+        ar[ind] = b.coeff(i); 
+        ind++;
+    }
 
-        if((eqA * init - eqb).cwiseAbs().maxCoeff() > ERR_LP){
-            eqA = eqA.transpose();
-            global_index ++; 
-            continue;
+    int saved_ind = ind;
+    for(int i = global_index; i < A.outerSize(); i++){
+        ind = saved_ind;
+        for(SparseMatrixXd::InnerIterator it(A, i); it; ++it){
+            int row = it.row();
+            int col = it.col();
+            double val = it.value();
+            ia[ind] = A.cols() + 2; 
+            ja[ind] = row + 1; 
+            ar[ind] = val; 
+            ind ++; 
         }
 
-        if(init(init.rows() - 1) <= ERR_LP){
-            VectorXd temp = init.head(init.rows() - 1);
-            init = temp;
-
-            ans.found_sol = true; 
-            ans.z = (A.transpose() * init);
-            return ans;
+        glp_load_matrix(lp, ind - 1, ia, ja, ar);
+        glp_simplex(lp, NULL);
+        VectorXd sol(col_length);
+        for(int i = 0; i < col_length; i++){
+            sol.coeffRef(i) = glp_get_col_prim(lp, i + 1);
         }
-
-        string name = "var_set1";
-        Problem lp;
-        lp.AddVariableSet(make_shared<SparseExVariables>(n + 1, name, init));
-        lp.AddConstraintSet(make_shared<SparseExConstraint1>(ineqA.rows(),name,ineqA, ERR_LP));
-        lp.AddConstraintSet(make_shared<SparseExConstraint2>(eqA.rows(),name,eqA,eqb, ERR_LP));
-        lp.AddCostSet(make_shared<SparseExCost>(name));
-        IpoptSolver ipopt;
-        ipopt.SetOption("print_level", 0);
-        ipopt.SetOption("sb", "yes");
-        ipopt.SetOption("max_iter", MAX_ITER);
-        ipopt.SetOption("tol", TOL);
-        ipopt.SetOption("s_max", S_MAX);
-        ipopt.Solve(lp);
-
-        VectorXd sol = lp.GetOptVariables()->GetValues();
-
-        if (ipopt.GetReturnStatus() != 0){
-            global_index ++;
-            eqA = eqA.transpose();
-            continue; 
-        }
-
-        if (sol(sol.rows() - 1) <= ERR_LP){
-            VectorXd temp = sol.head(sol.rows() - 1);
-            sol = temp;
+        if (sol.cwiseAbs().sum() != 0){
             ans.found_sol = true; 
             ans.z = (A.transpose() * sol);
             return ans;
         }
-        global_index ++;
-        eqA = eqA.transpose();
-
+        global_index++;
     }
-    return ans;
+    return ans; 
 }
 
 SparseMatrixXd FacialReduction::pickV(const VectorXd& z, int x_dim){
@@ -96,8 +92,6 @@ SparseMatrixXd FacialReduction::pickV(const VectorXd& z, int x_dim){
     for(int i = x_dim; i < d; i++){
          if(z(i) < ERR_DC) indices.push_back(T(indices.size(), i, 1)); 
     }
-
-
     SparseMatrixXd mat(indices.size(), d);
     mat.setFromTriplets(indices.begin(), indices.end());
     return mat.transpose();

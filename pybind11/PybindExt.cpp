@@ -143,13 +143,11 @@ PYBIND11_MODULE(polytopewalk, m) {
     auto m_sparse = m.def_submodule("sparse", "Sparse Module");
 
     py::class_<DenseCenter>(m_dense, "DenseCenter")
-         .def(py::init<int, double, double, int >(),
-        py::arg("max_iter") = 3000, py::arg("tol") = 1e-8, py::arg("s_max") = 100, py::arg("start") = 10000)
+        .def(py::init<>())
         .def("getInitialPoint", &DenseCenter::getInitialPoint, py::arg("A"), py::arg("b"));
     
     py::class_<SparseCenter>(m_sparse, "SparseCenter")
-        .def(py::init<int, double, double, double >(),
-        py::arg("max_iter") = 3000, py::arg("tol") = 1e-8, py::arg("s_max") = 100, py::arg("err_lp") = 1e-8)
+        .def(py::init<>())
         .def("getInitialPoint", &SparseCenter::getInitialPoint, py::arg("A"), py::arg("b"), py::arg("k"));
     
     py::class_<RandomWalk, PyRandomWalk<>>(m_dense, "RandomWalk")
@@ -188,8 +186,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         py::arg("r") = 0.9, py::arg("thin") = 1, py::arg("lim") = 1e-5, py::arg("max_iter") = 1000);
     
     py::class_<FacialReduction>(m, "FacialReduction")
-        .def(py::init<int, double, double, double, double>(),
-        py::arg("max_iter") = 3000, py::arg("tol") = 1e-8, py::arg("s_max") = 100, py::arg("err_lp") = 1e-7, py::arg("err_dc") = 1e-6)
+        .def(py::init<double>(), py::arg("err_dc") = 1e-6)
         .def("reduce", &FacialReduction::reduce, py::arg("A"), py::arg("b"), py::arg("k"), py::arg("sparse"));
     
     py::class_<res>(m, "res")

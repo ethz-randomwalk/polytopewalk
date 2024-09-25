@@ -117,22 +117,35 @@ TEST_CASE( "Check Weight Properties", "[require]" ){
     john.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
     dikinls.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
     vaidya.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
-    REQUIRE_THAT(dikinls.weights.diagonal().sum(), Catch::Matchers::WithinAbs(2, 0.01));
-    REQUIRE_THAT(john.weights.diagonal().sum(), Catch::Matchers::WithinAbs(3, 0.01));
-    REQUIRE_THAT(vaidya.weights.diagonal().sum(), Catch::Matchers::WithinAbs(4, 0.01));
+    double dw, jw, vw;
+    dw = dikinls.weights.diagonal().sum();
+    jw = john.weights.diagonal().sum();
+    vw = vaidya.weights.diagonal().sum();
+
+    REQUIRE_THAT(dw, Catch::Matchers::WithinAbs(2, 0.01));
+    REQUIRE_THAT(jw, Catch::Matchers::WithinAbs(3, 0.01));
+    REQUIRE_THAT(vw, Catch::Matchers::WithinAbs(4, 0.01));
 
     john.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
     dikinls.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
     vaidya.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
-    REQUIRE_THAT(dikinls.weights.diagonal().sum(), Catch::Matchers::WithinAbs(2, 0.01));
-    REQUIRE_THAT(john.weights.diagonal().sum(), Catch::Matchers::WithinAbs(3, 0.01));
-    REQUIRE_THAT(vaidya.weights.diagonal().sum(), Catch::Matchers::WithinAbs(4, 0.01));
+    dw = dikinls.weights.diagonal().sum();
+    jw = john.weights.diagonal().sum();
+    vw = vaidya.weights.diagonal().sum();
+
+    REQUIRE_THAT(dw, Catch::Matchers::WithinAbs(2, 0.01));
+    REQUIRE_THAT(jw, Catch::Matchers::WithinAbs(3, 0.01));
+    REQUIRE_THAT(vw, Catch::Matchers::WithinAbs(4, 0.01));
 
     john.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
     dikinls.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
     vaidya.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
-    REQUIRE_THAT(dikinls.weights.diagonal().sum(), Catch::Matchers::WithinAbs(1, 0.01));
-    REQUIRE_THAT(john.weights.diagonal().sum(), Catch::Matchers::WithinAbs(1.5, 0.01));
-    REQUIRE_THAT(vaidya.weights.diagonal().sum(), Catch::Matchers::WithinAbs(2, 0.01));
+    dw = dikinls.weights.diagonal().sum();
+    jw = john.weights.diagonal().sum();
+    vw = vaidya.weights.diagonal().sum();
+
+    REQUIRE_THAT(dw, Catch::Matchers::WithinAbs(1, 0.01));
+    REQUIRE_THAT(jw, Catch::Matchers::WithinAbs(1.5, 0.01));
+    REQUIRE_THAT(vw, Catch::Matchers::WithinAbs(2, 0.01));
 
 }

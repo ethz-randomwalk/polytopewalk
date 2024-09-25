@@ -96,11 +96,11 @@ TEST_CASE( "Check Initialization Algorithm", "[require]" ){
     MatrixXd A1 (4, 2);
     A1 << 1, 0, 0, 1, -1, 0, 0, -1;
     VectorXd b1 (4);
-    b1 << 1, 1, 1, 1;
+    b1 << 1, 1, 0, 0;
 
     VectorXd center1 = dc.getInitialPoint(A1, b1);
-    REQUIRE_THAT(center1(0), Catch::Matchers::WithinAbs(0, 0.0001));
-    REQUIRE_THAT(center1(1), Catch::Matchers::WithinAbs(0, 0.0001));
+    REQUIRE_THAT(center1(0), Catch::Matchers::WithinAbs(0.5, 0.0001));
+    REQUIRE_THAT(center1(1), Catch::Matchers::WithinAbs(0.5, 0.0001));
 
     MatrixXd A2 (3, 2);
     A2 << -1, 0, 0, -1, 1, 1;
@@ -108,7 +108,7 @@ TEST_CASE( "Check Initialization Algorithm", "[require]" ){
     b2 << 0, 0, 1;
 
     VectorXd center2 = dc.getInitialPoint(A2, b2);
-    REQUIRE_THAT(center2(0), Catch::Matchers::WithinAbs(0.29, 0.01));
-    REQUIRE_THAT(center2(1), Catch::Matchers::WithinAbs(0.29, 0.01));
+    REQUIRE_THAT(center2(0), Catch::Matchers::WithinAbs(0.33, 0.01));
+    REQUIRE_THAT(center2(1), Catch::Matchers::WithinAbs(0.33, 0.01));
 
 }

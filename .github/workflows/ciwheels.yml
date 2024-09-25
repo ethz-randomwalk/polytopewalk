@@ -16,18 +16,19 @@ jobs:
       matrix:
         include:
           # Window 64 bit
-            - os: windows-latest
-              python: 39
-              platform_id: win_amd64
-            - os: windows-latest
-              python: 310
-              platform_id: win_amd64
-            - os: windows-latest
-              python: 311
-              platform_id: win_amd64
-            - os: windows-latest
-              python: 312
-              platform_id: win_amd64
+
+            #- os: windows-latest
+             #python: 39
+              #platform_id: win_amd64
+            #- os: windows-latest
+              #python: 310
+              #platform_id: win_amd64
+           # - os: windows-latest
+              #python: 311
+              #platform_id: win_amd64
+            #- os: windows-latest
+              #python: 312
+              #platform_id: win_amd64
 
           # Linux 64 bit manylinux2014
             - os: ubuntu-latest
@@ -118,21 +119,10 @@ jobs:
           CIBW_SKIP: "*-win32 *-manylinux_i686 *musllinux*"
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           CIBW_BEFORE_ALL_MACOS: |
-            brew install eigen ipopt
-            git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
-            mkdir build && cd build
-            cmake ..
-            make
-            sudo make install
+            brew install eigen glpk
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
           CIBW_BEFORE_ALL_LINUX: |
-            yum install -y epel-release eigen3-devel coin-or-Ipopt-devel
-            # rpm -ql coin-or-Ipopt-devel
-            git clone https://github.com/ethz-adrl/ifopt.git && cd ifopt
-            mkdir build && cd build
-            cmake ..
-            make
-            make install
+            yum install -y epel-release eigen3-devel glpk-devel
           CIBW_BEFORE_ALL_WINDOWS: >-
             echo "OK" &&
             echo "OK WINDOWS"
