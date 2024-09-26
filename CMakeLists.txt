@@ -15,6 +15,7 @@ elseif(WIN32)
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 find_package(GLPK REQUIRED)
 
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
