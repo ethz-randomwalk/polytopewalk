@@ -17,7 +17,7 @@ set(ALL_FILES
   ${SPARSE_FILES}
   ${UTILS_FILES}
 )
-find_package(glpk REQUIRED)
+#find_package(glpk REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 add_library(dense ${DENSE_FILES})
