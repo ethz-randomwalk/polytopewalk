@@ -4,75 +4,55 @@
 z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_dim){
     z_res ans;
     ans.found_sol = false;
-
-    glp_prob *lp;
-    glp_term_out(GLP_OFF);
-    lp = glp_create_prob();
-    int amount = 1 + A.nonZeros() + 2 * b.rows();
-    int ia [amount];
-    int ja [amount];
-    double ar [amount];
+    SparseLP sparse_lp;
 
     int row_length = A.cols() + 2;
     int col_length = A.rows();
+    SparseMatrixXd obj_mat(row_length, col_length);
+    VectorXd obj_vec = VectorXd::Zero(col_length);
+    obj_vec(obj_vec.rows() - 1) = 1; 
 
-    glp_add_rows(lp, row_length);
-    glp_add_cols(lp, col_length);
-    glp_set_obj_coef(lp, col_length, 1);
-
-    for(int i = 1; i <= col_length; i++){
-        glp_set_col_bnds(lp, i, GLP_FR, 0, 0);
-    }
+    VectorXd row_bnds = VectorXd::Zero(row_length);
+    VectorXd row_rel = VectorXd::Zero(row_length);
+    VectorXd col_bnds = VectorXd::Zero(col_length);
+    VectorXd col_rel = VectorXd::Zero(col_length); 
 
     for(int i = 0; i < x_dim; i++){
-        glp_set_row_bnds(lp, i + 1, GLP_FX, 0, 0);
+        row_bnds(i) = 0;
+        row_rel(i) = GLP_FX; 
     }
-    
     for(int i = x_dim; i < A.cols(); i++){
-        glp_set_row_bnds(lp, i + 1, GLP_LO, 0, 0);
+        row_bnds(i) = 0;
+        row_rel(i) = GLP_LO; 
     }
-    glp_set_row_bnds(lp, A.cols() + 1, GLP_FX, 0, 0);
-    glp_set_row_bnds(lp, A.cols() + 2, GLP_FX, 1, 1);
+    row_bnds(A.cols()) = 0;
+    row_rel(A.cols()) = GLP_FX;
+    row_bnds(A.cols() + 1) = 1;
+    row_rel(A.cols() + 1) = GLP_FX; 
 
-    int ind = 1;
+    for(int i = 0; i < col_length; i++){
+        col_bnds(i) = 0;
+        col_rel(i) = GLP_FR; 
+    }
     for(int i = 0; i < A.outerSize(); i++){
         for(SparseMatrixXd::InnerIterator it(A, i); it; ++it){
             int row = it.row();
             int col = it.col();
             double val = it.value();
 
-            ia[ind] = col + 1;
-            ja[ind] = row + 1; 
-            ar[ind] = val; 
-            ind ++; 
+            obj_mat.insert(col, row) = val; 
         }
     }
     for(int i = 0; i < b.rows(); i++){
-        ia[ind] = A.cols() + 1;
-        ja[ind] = i + 1;
-        ar[ind] = b.coeff(i); 
-        ind++;
+        obj_mat.insert(A.cols(), i) = b.coeff(i); 
     }
-
-    int saved_ind = ind;
-    for(int i = global_index; i < A.outerSize(); i++){
-        ind = saved_ind;
-        for(SparseMatrixXd::InnerIterator it(A, i); it; ++it){
-            int row = it.row();
-            int col = it.col();
-            double val = it.value();
-            ia[ind] = A.cols() + 2; 
-            ja[ind] = row + 1; 
-            ar[ind] = val; 
-            ind ++; 
+    for(int i = global_index; i < A.cols(); i++){
+        for(int j = 0; j < A.rows(); j++){
+            double val = A.coeff(j, i); 
+            obj_mat.coeffRef(A.cols() + 1, j) = val;
         }
 
-        glp_load_matrix(lp, ind - 1, ia, ja, ar);
-        glp_simplex(lp, NULL);
-        VectorXd sol(col_length);
-        for(int i = 0; i < col_length; i++){
-            sol.coeffRef(i) = glp_get_col_prim(lp, i + 1);
-        }
+        VectorXd sol = sparse_lp.findOptimalVector(obj_mat, row_bnds, obj_vec, row_rel, col_bnds, col_rel);
         if (sol.cwiseAbs().sum() != 0){
             ans.found_sol = true; 
             ans.z = (A.transpose() * sol);

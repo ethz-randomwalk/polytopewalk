@@ -121,7 +121,11 @@ TEST_CASE( "Check Facial Reduction Algorithm", "[require]" ) {
     b2 << 1, 1, 0, 0, 0, 0;
 
     res test2a = fr.reduce(SA2, b2, 6, true);
-    REQUIRE((test2a.sparse_A.rows() == 4 && test2a.sparse_A.cols() == 5));
+    int sparse_rows = test2a.sparse_A.rows();
+    int sparse_cols = test2a.sparse_A.cols();
+
+    REQUIRE_THAT(sparse_rows, Catch::Matchers::WithinAbs(4, 0.01));
+    REQUIRE_THAT(sparse_cols, Catch::Matchers::WithinAbs(5, 0.01));
     res test2b = fr.reduce(SA2, b2, 6, false);
     dense_A_row = test2b.dense_A.rows();
     dense_A_col = test2b.dense_A.cols();

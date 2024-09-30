@@ -1,71 +1,59 @@
 #include "SparseCenter.hpp"
 
 VectorXd SparseCenter::getInitialPoint(SparseMatrixXd A, VectorXd b, int k){
-    glp_prob *lp;
-    glp_term_out(GLP_OFF);
-    lp = glp_create_prob();
-    int amount = 1 + A.nonZeros() + 2 * k;
-    int ia [amount];
-    int ja [amount];
-    double ar [amount];
 
+    SparseLP sparse_lp;
     int row_length = A.rows() + k;
     int col_length = A.cols() + 1; 
 
-    glp_add_rows(lp, row_length);
-    glp_add_cols(lp, col_length);
-    glp_set_obj_coef(lp, col_length, 1);
-    glp_set_obj_dir(lp, GLP_MAX);
+    SparseMatrixXd obj_mat(row_length, col_length);
+    VectorXd obj_vec = VectorXd::Zero(col_length);
+    obj_vec(obj_vec.rows() - 1) = 1; 
+
+    VectorXd row_bnds = VectorXd::Zero(row_length);
+    VectorXd row_rel = VectorXd::Zero(row_length);
+    VectorXd col_bnds = VectorXd::Zero(col_length);
+    VectorXd col_rel = VectorXd::Zero(col_length); 
+    vector<T> coefficients;  
 
     for(int i = 0; i < b.rows(); i++){
-        glp_set_row_bnds(lp, i + 1, GLP_FX, b(i), b(i));
+        row_bnds(i) = b(i);
+        row_rel(i) = GLP_FX; 
     }
     for(int i = b.rows(); i < row_length; i++){
-        glp_set_row_bnds(lp, i + 1, GLP_LO, 0, 0);
+        row_bnds(i) = 0;
+        row_rel(i) = GLP_LO; 
     }
-
     for(int i = 0; i < col_length - k - 1; i++){
-        glp_set_col_bnds(lp, i + 1, GLP_FR, 0, 0);
+        col_bnds(i) = 0;
+        col_rel(i) = GLP_FR; 
     }
     for(int i = col_length - k - 1; i < col_length; i++){
-        glp_set_col_bnds(lp, i + 1, GLP_LO, 0, 0);
+        col_bnds(i) = 0;
+        col_rel(i) = GLP_LO; 
     }
 
-    int ind = 1;
     for(int i = 0; i < A.outerSize(); i++){
         for(SparseMatrixXd::InnerIterator it(A, i); it; ++it){
             int row = it.row();
             int col = it.col();
             double val = it.value();
-
-            ia[ind] = row + 1;
-            ja[ind] = col + 1; 
-            ar[ind] = val; 
-
-            ind ++; 
+            coefficients.push_back(T(row, col, val));
         }
     }
     for(int i = 0; i < k; i++){
-        int row_val = A.rows() + 1 + i; 
-        int col_val = A.cols() - k + i + 1; 
-        ia[ind] = row_val;
-        ja[ind] = col_val; 
-        ar[ind] = 1.0; 
-        ia[ind+1] = row_val;  
-        ja[ind+1] = A.cols() + 1; 
-        ar[ind+1] = -1.0;
-        ind += 2;
+        int row_val = A.rows() + i; 
+        int col_val = A.cols() - k + i; 
+        coefficients.push_back(T(row_val, col_val, 1));
+        coefficients.push_back(T(row_val, A.cols(), -1));
     }
+    obj_mat.setFromTriplets(coefficients.begin(), coefficients.end());
 
-    glp_load_matrix(lp, amount-1, ia, ja, ar);
-    glp_simplex(lp, NULL);
-    double val = glp_get_obj_val(lp); 
-
-    VectorXd ans(A.cols());
-    for(int i = 0; i < A.cols(); i++){
-        ans.coeffRef(i) = glp_get_col_prim(lp, i + 1);
+    VectorXd sol = sparse_lp.findOptimalVector(obj_mat, row_bnds, obj_vec, row_rel, col_bnds, col_rel); 
+    VectorXd ans = VectorXd::Zero(sol.rows() - 1);
+    for(int i = 0; i < ans.rows(); i++){
+        ans(i) = sol(i);
     }
-    glp_delete_prob(lp);
     return ans;
     
 }

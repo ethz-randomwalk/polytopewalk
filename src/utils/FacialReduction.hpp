@@ -2,6 +2,7 @@
 #define SPARSE_FR_HPP
 
 #include "Common.hpp"
+#include "SparseLP.hpp"
 
 struct z_res{
     bool found_sol; 

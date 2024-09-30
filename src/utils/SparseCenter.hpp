@@ -2,6 +2,7 @@
 #define SPARSE_CENTER_HPP
 
 #include "Common.hpp"
+#include "SparseLP.hpp"
 
 class SparseCenter {
     public:
