@@ -2,6 +2,14 @@
 
 
 z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_dim){
+    // A size n * d
+    // b size n
+    // x_dim = d-k
+    // finds a vector y satisfying 
+    // A^Ty = [0 z]
+    // s.t. <b, y> = 0
+    // z in R^k, z >= 0, z != 0
+    // first n-k terms is 0, last k terms is z
     z_res ans;
     ans.found_sol = false;
     SparseLP sparse_lp;
@@ -17,23 +25,33 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
     VectorXd col_bnds = VectorXd::Zero(col_length);
     VectorXd col_rel = VectorXd::Zero(col_length); 
 
-    for(int i = 0; i < x_dim; i++){
-        row_bnds(i) = 0;
-        row_rel(i) = GLP_FX; 
+    // construct [0 z]
+    // z in R^k, z >= 0, z != 0
+    // first d-k terms is 0, last k terms is z
+    for(int i = 0; i < A.cols(); i++){
+        // row_bnds(i) = 0;
+        if (i < x_dim) {
+            row_rel(i) = GLP_FX; 
+        } else {
+            row_rel(i) = GLP_LO;
+        }
     }
-    for(int i = x_dim; i < A.cols(); i++){
-        row_bnds(i) = 0;
-        row_rel(i) = GLP_LO; 
-    }
+
+    // <b, y> = 0
     row_bnds(A.cols()) = 0;
     row_rel(A.cols()) = GLP_FX;
+    // at least one coordinate of z is nonzero
+    // the problem is scale-invariant, can make it 1
     row_bnds(A.cols() + 1) = 1;
     row_rel(A.cols() + 1) = GLP_FX; 
 
+    // y is free
     for(int i = 0; i < col_length; i++){
-        col_bnds(i) = 0;
+        // col_bnds(i) = 0;
         col_rel(i) = GLP_FR; 
     }
+
+    // copy A into obj_mat
     for(int i = 0; i < A.outerSize(); i++){
         for(SparseMatrixXd::InnerIterator it(A, i); it; ++it){
             int row = it.row();
@@ -43,35 +61,51 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
             obj_mat.insert(col, row) = val; 
         }
     }
+    // copy b into obj_mat
     for(int i = 0; i < b.rows(); i++){
         obj_mat.insert(A.cols(), i) = b.coeff(i); 
     }
+
+    // loop over index i where z_i is nonzero
+    // global_index is the previous known index that works
+    // always start with global_index to save computation
     for(int i = global_index; i < A.cols(); i++){
+        // TODO: set row_rel(i??) = 1 to simplify
         for(int j = 0; j < A.rows(); j++){
             double val = A.coeff(j, i); 
             obj_mat.coeffRef(A.cols() + 1, j) = val;
         }
 
+        // solve the LP via one LP solver
+        // A^Ty = [0 z]
+        // s.t. <b, y> = 0
+        //  z_i = 1
+        //  z in R^k, z >= 0, 
         VectorXd sol = sparse_lp.findOptimalVector(obj_mat, row_bnds, obj_vec, row_rel, col_bnds, col_rel);
         if (sol.cwiseAbs().sum() != 0){
             ans.found_sol = true; 
             ans.z = (A.transpose() * sol);
             return ans;
         }
+        // increment global_index if we didn't find a solution
         global_index++;
     }
     return ans; 
 }
 
 SparseMatrixXd FacialReduction::pickV(const VectorXd& z, int x_dim){
+    // z size d
+    // first d-k coordinate are always 0
     int d = z.rows();
     vector<T> indices;
     for(int i = 0; i < x_dim; i++){
         indices.push_back(T(indices.size(), i, 1)); 
     }
+    // find indices where z == 0 
     for(int i = x_dim; i < d; i++){
          if(z(i) < ERR_DC) indices.push_back(T(indices.size(), i, 1)); 
     }
+    // outputs a matrix selecting the coordinates corresponds to zero of z
     SparseMatrixXd mat(indices.size(), d);
     mat.setFromTriplets(indices.begin(), indices.end());
     return mat.transpose();
