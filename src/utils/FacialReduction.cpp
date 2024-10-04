@@ -14,7 +14,7 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
     ans.found_sol = false;
     SparseLP sparse_lp;
 
-    int row_length = A.cols() + 2;
+    int row_length = A.cols() + 1;
     int col_length = A.rows();
     SparseMatrixXd obj_mat(row_length, col_length);
     VectorXd obj_vec = VectorXd::Zero(col_length);
@@ -29,7 +29,6 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
     // z in R^k, z >= 0, z != 0
     // first d-k terms is 0, last k terms is z
     for(int i = 0; i < A.cols(); i++){
-        // row_bnds(i) = 0;
         if (i < x_dim) {
             row_rel(i) = GLP_FX; 
         } else {
@@ -38,16 +37,10 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
     }
 
     // <b, y> = 0
-    row_bnds(A.cols()) = 0;
     row_rel(A.cols()) = GLP_FX;
-    // at least one coordinate of z is nonzero
-    // the problem is scale-invariant, can make it 1
-    row_bnds(A.cols() + 1) = 1;
-    row_rel(A.cols() + 1) = GLP_FX; 
 
     // y is free
     for(int i = 0; i < col_length; i++){
-        // col_bnds(i) = 0;
         col_rel(i) = GLP_FR; 
     }
 
@@ -70,11 +63,10 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
     // global_index is the previous known index that works
     // always start with global_index to save computation
     for(int i = global_index; i < A.cols(); i++){
-        // TODO: set row_rel(i??) = 1 to simplify
-        for(int j = 0; j < A.rows(); j++){
-            double val = A.coeff(j, i); 
-            obj_mat.coeffRef(A.cols() + 1, j) = val;
-        }
+        // at least one coordinate of z is nonzero
+        // the problem is scale-invariant, can make it 1
+        row_rel(i) = GLP_FX;
+        row_bnds(i) = 1; 
 
         // solve the LP via one LP solver
         // A^Ty = [0 z]
@@ -89,6 +81,8 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
         }
         // increment global_index if we didn't find a solution
         global_index++;
+        row_rel(i) = GLP_LO;
+        row_bnds(i) = 0; 
     }
     return ans; 
 }
