@@ -5,6 +5,7 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
     // A size n * d
     // b size n
     // x_dim = d-k
+
     // finds a vector y satisfying 
     // A^Ty = [0 z]
     // s.t. <b, y> = 0
@@ -106,6 +107,7 @@ SparseMatrixXd FacialReduction::pickV(const VectorXd& z, int x_dim){
 }
 
 SparseMatrixXd FacialReduction::pickP(const SparseMatrixXd& AV){
+    // sparse QR decomposition to find redundant constraints
     SparseQR<SparseMatrixXd, NaturalOrdering<SparseMatrix<double>::StorageIndex>> solver;
     solver.compute(AV.transpose());
     SparseMatrixXd R = solver.matrixR();
@@ -113,48 +115,57 @@ SparseMatrixXd FacialReduction::pickP(const SparseMatrixXd& AV){
     vector<T> indices;
     for (int i = 0; i < min(R.cols(), R.rows()); i++){
         if (abs(R.coeffRef(i, i)) > ERR_DC){
+            // nonzero R(i,i) means linearly independent row
             indices.push_back(T(indices.size(), solver.colsPermutation().indices()(i), 1));
         }
     }
+    // proj is a projection that projects into linearly independent rows
     SparseMatrixXd proj (indices.size(), AV.rows());
     proj.setFromTriplets(indices.begin(), indices.end());
     return proj; 
 }
 
-fr_res FacialReduction::entireFacialReductionStep(SparseMatrixXd A, VectorXd b, int x_dim){
+fr_res FacialReduction::entireFacialReductionStep(SparseMatrixXd A, VectorXd b, int x_dim, SparseMatrixXd savedV){
+    // findZ->pickV->pickP
     z_res z_ans = findZ(A, b, x_dim);
 
+    // if findZ is not successful, then the original form is strictly feasible
     if(!z_ans.found_sol){
         fr_res ans;
         ans.A = A;
         ans.b = b; 
+        ans.savedV = savedV;
         return ans; 
     }
     SparseMatrixXd V = pickV(z_ans.z, x_dim);
+    // savedV stores the multiplication of all Vs in all pickV steps
     savedV = savedV * V; 
     SparseMatrixXd AV = A * V;
     SparseMatrixXd P = pickP(AV);
     A = P * AV;
     b = P * b; 
-    return entireFacialReductionStep(A, b, x_dim);
+    return entireFacialReductionStep(A, b, x_dim, savedV);
 }
 
 res FacialReduction::reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse){
     int x_dim = A.cols() - k; 
-    savedV = SparseMatrixXd(VectorXd::Ones(A.cols()).asDiagonal());
+    SparseMatrixXd savedV = SparseMatrixXd(VectorXd::Ones(A.cols()).asDiagonal());
     global_index = x_dim; 
     //remove dependent rows
     SparseMatrixXd P = pickP(A);
     A = P * A; 
     b = P * b; 
-    fr_res result = entireFacialReductionStep(A, b, x_dim);
+    fr_res result = entireFacialReductionStep(A, b, x_dim, savedV);
     res final_res; 
 
     final_res.sparse_A = result.A;
     final_res.sparse_b = result.b;
-    final_res.saved_V = savedV;
+    final_res.saved_V = result.savedV;
 
     if(!sparse){
+        // get full-dim formulation after facial reduction via QR decomp
+        // Ax <= b
+        // but A and b can be dense
         HouseholderQR <MatrixXd> qr(result.A.cols(), result.A.rows());
         qr.compute(MatrixXd(result.A.transpose()));
         MatrixXd Q = qr.householderQ();
@@ -173,6 +184,7 @@ res FacialReduction::reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse){
         final_res.dense_A = reduced_A;
         final_res.dense_b = reduced_b;
         
+        // z1 and Q are saved so that we can convert back to original form
         final_res.z1 = z1;
         final_res.Q = Q;
     }

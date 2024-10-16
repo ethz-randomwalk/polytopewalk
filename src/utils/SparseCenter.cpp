@@ -2,6 +2,10 @@
 
 VectorXd SparseCenter::getInitialPoint(SparseMatrixXd A, VectorXd b, int k){
 
+    // Solve the linear program
+    // max delta 
+    // s.t. A x = b
+    // and x>= delta, on the last k coordinates 
     SparseLP sparse_lp;
     int row_length = A.rows() + k;
     int col_length = A.cols() + 1; 
@@ -49,7 +53,10 @@ VectorXd SparseCenter::getInitialPoint(SparseMatrixXd A, VectorXd b, int k){
     }
     obj_mat.setFromTriplets(coefficients.begin(), coefficients.end());
 
+    // call the lp solver
     VectorXd sol = sparse_lp.findOptimalVector(obj_mat, row_bnds, obj_vec, row_rel, col_bnds, col_rel); 
+
+    // retrieve x 
     VectorXd ans = VectorXd::Zero(sol.rows() - 1);
     for(int i = 0; i < ans.rows(); i++){
         ans(i) = sol(i);

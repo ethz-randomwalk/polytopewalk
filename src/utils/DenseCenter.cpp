@@ -1,6 +1,9 @@
 #include "DenseCenter.hpp"
 
 VectorXd DenseCenter::getInitialPoint(MatrixXd A, VectorXd b){
+    // Solve the linear program
+    // max delta 
+    // s.t. A x + delta * 1 <= b
     glp_prob *lp;
     lp = glp_create_prob();
     glp_term_out(GLP_OFF);
@@ -10,10 +13,12 @@ VectorXd DenseCenter::getInitialPoint(MatrixXd A, VectorXd b){
     double ar [amount];
 
     int row_length = A.rows(); 
+    // delta is stored at the last column
     int col_length = A.cols() + 1; 
 
     glp_add_rows(lp, row_length);
     glp_add_cols(lp, col_length);
+    // maximize delta * 1
     glp_set_obj_coef(lp, col_length , 1);
     glp_set_obj_dir(lp, GLP_MAX);
 
@@ -26,12 +31,14 @@ VectorXd DenseCenter::getInitialPoint(MatrixXd A, VectorXd b){
 
     int ind = 1;
     for(int i = 0; i < A.rows(); i++){
+        // for A * x
         for(int j = 0; j < A.cols(); j++){
             ia[ind] = i + 1;
             ja[ind] = j + 1;
             ar[ind] = A.coeff(i, j); 
             ind ++; 
         }
+        // for + delta * 1
         ia[ind] = i + 1;
         ja[ind] = A.cols() + 1; 
         ar[ind] = 1.0; 
@@ -42,6 +49,7 @@ VectorXd DenseCenter::getInitialPoint(MatrixXd A, VectorXd b){
     glp_simplex(lp, NULL);
     double val = glp_get_obj_val(lp); 
 
+    // retrieve x
     VectorXd ans(A.cols());
     for(int i = 0; i < A.cols(); i++){
         ans.coeffRef(i) = glp_get_col_prim(lp, i + 1);

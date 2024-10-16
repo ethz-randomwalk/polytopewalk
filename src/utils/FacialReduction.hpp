@@ -12,6 +12,7 @@ struct z_res{
 struct fr_res{
     SparseMatrixXd A;
     VectorXd b; 
+    SparseMatrixXd savedV;
 };
 
 struct res{
@@ -78,12 +79,7 @@ class FacialReduction {
          * @param k values >= 0 constraint
          * @return fr_res
          */
-        fr_res entireFacialReductionStep(SparseMatrixXd A, VectorXd b, int k);
-
-        /**
-         * @brief return global V variable
-         */
-        SparseMatrixXd savedV;
+        fr_res entireFacialReductionStep(SparseMatrixXd A, VectorXd b, int k, SparseMatrixXd savedV);
 
         /**
          * @brief DC error parameter
