@@ -1,6 +1,6 @@
 #include "SparseLP.hpp"
 
-VectorXd SparseLP::findOptimalVector(SparseMatrixXd A, VectorXd b, VectorXd c, VectorXd row_rel, VectorXd col_cons, VectorXd col_rel){
+VectorXd SparseLP::findOptimalVector(SparseMatrixXd& A, VectorXd& b, VectorXd& c, VectorXd& row_rel, VectorXd& col_cons, VectorXd& col_rel){
 
     glp_prob *lp;
     glp_term_out(GLP_OFF);

@@ -1,6 +1,6 @@
 #include "DenseCenter.hpp"
 
-VectorXd DenseCenter::getInitialPoint(MatrixXd A, VectorXd b){
+VectorXd DenseCenter::getInitialPoint(MatrixXd& A, VectorXd& b){
     // Solve the linear program
     // max delta 
     // s.t. A x + delta * 1 <= b
@@ -25,9 +25,10 @@ VectorXd DenseCenter::getInitialPoint(MatrixXd A, VectorXd b){
     for(int i = 0; i < b.rows(); i++){
         glp_set_row_bnds(lp, i + 1, GLP_UP, b(i), b(i));
     }
-    for(int i = 0; i < col_length; i++){
+    for(int i = 0; i < col_length - 1; i++){
         glp_set_col_bnds(lp, i + 1, GLP_FR, 0, 0);
     }
+    glp_set_col_bnds(lp, col_length, GLP_LO, 0, 0);
 
     int ind = 1;
     for(int i = 0; i < A.rows(); i++){

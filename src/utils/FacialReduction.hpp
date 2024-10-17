@@ -77,9 +77,10 @@ class FacialReduction {
          * @param A polytope matrix (Ax = b)
          * @param b polytope vector (Ax = b)
          * @param k values >= 0 constraint
+         * @param savedV V in AVv = b
          * @return fr_res
          */
-        fr_res entireFacialReductionStep(SparseMatrixXd A, VectorXd b, int k, SparseMatrixXd savedV);
+        fr_res entireFacialReductionStep(SparseMatrixXd& A, VectorXd& b, int k, SparseMatrixXd& savedV);
 
         /**
          * @brief DC error parameter

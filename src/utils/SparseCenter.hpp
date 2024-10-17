@@ -19,7 +19,7 @@ class SparseCenter {
          * @param k k values >= 0 constraint
          * @return VectorXd 
          */
-        VectorXd getInitialPoint(SparseMatrixXd A, VectorXd b, int k);
+        VectorXd getInitialPoint(SparseMatrixXd& A, VectorXd& b, int k);
 
 };
 

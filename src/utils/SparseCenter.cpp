@@ -1,6 +1,6 @@
 #include "SparseCenter.hpp"
 
-VectorXd SparseCenter::getInitialPoint(SparseMatrixXd A, VectorXd b, int k){
+VectorXd SparseCenter::getInitialPoint(SparseMatrixXd& A, VectorXd& b, int k){
 
     // Solve the linear program
     // max delta 
@@ -25,15 +25,12 @@ VectorXd SparseCenter::getInitialPoint(SparseMatrixXd A, VectorXd b, int k){
         row_rel(i) = GLP_FX; 
     }
     for(int i = b.rows(); i < row_length; i++){
-        row_bnds(i) = 0;
         row_rel(i) = GLP_LO; 
     }
     for(int i = 0; i < col_length - k - 1; i++){
-        col_bnds(i) = 0;
         col_rel(i) = GLP_FR; 
     }
     for(int i = col_length - k - 1; i < col_length; i++){
-        col_bnds(i) = 0;
         col_rel(i) = GLP_LO; 
     }
 

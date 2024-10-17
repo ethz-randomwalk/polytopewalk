@@ -19,7 +19,7 @@ class DenseCenter {
          * @param b polytope vector (Ax <= b)
          * @return VectorXd 
          */
-        VectorXd getInitialPoint(MatrixXd A, VectorXd b);
+        VectorXd getInitialPoint(MatrixXd& A, VectorXd& b);
 
 };
 

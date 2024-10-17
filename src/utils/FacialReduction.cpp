@@ -125,7 +125,7 @@ SparseMatrixXd FacialReduction::pickP(const SparseMatrixXd& AV){
     return proj; 
 }
 
-fr_res FacialReduction::entireFacialReductionStep(SparseMatrixXd A, VectorXd b, int x_dim, SparseMatrixXd savedV){
+fr_res FacialReduction::entireFacialReductionStep(SparseMatrixXd& A, VectorXd& b, int x_dim, SparseMatrixXd& savedV){
     // findZ->pickV->pickP
     z_res z_ans = findZ(A, b, x_dim);
 
