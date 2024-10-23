@@ -15,7 +15,7 @@ SparseMatrixXd SparseDikinLSWalk::generateWeight(
         w_i = VectorXd::Ones(x.rows());
     }
 
-    VectorXd term1 = (alpha) * VectorXd::Ones(x.rows());
+    VectorXd term1 = (alpha/2) * VectorXd::Ones(x.rows());
     VectorXd errors = ERR * VectorXd::Ones(x.rows());
 
     for(int i = 0; i < w_i.rows() - k; i++){
