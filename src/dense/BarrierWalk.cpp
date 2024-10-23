@@ -24,8 +24,9 @@ double BarrierWalk::localNorm(VectorXd v, const MatrixXd& m){
 }
 
 void BarrierWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
-    int d = b.rows();
-    weights = VectorXd::Zero(d).asDiagonal();
+    // always overwrite
+    // int d = b.rows();
+    // weights = VectorXd::Zero(d).asDiagonal();
 }
 
 void BarrierWalk::generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
@@ -41,7 +42,8 @@ void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const Vec
     mt19937 gen(rd());
     uniform_real_distribution<> dis(0.0, 1.0);
 
-    generateHessian(x, A, b);
+    generateHessian(x, A, b); // sets global hess
+    // cholesky decomposition to compute inverse of hess
     LLT<MatrixXd> cholesky1(hess);
     MatrixXd L = cholesky1.matrixL();
     FullPivLU<MatrixXd> lu(L);
@@ -63,6 +65,7 @@ void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const Vec
     dist = -(0.5/DIST_TERM) * localNorm(x - prop, hess);
     double g_z_x = det + dist;  
 
+    // accept reject step
     double alpha = min(1.0, exp(g_z_x-g_x_z));
     double val = dis(gen);
     prop = val < alpha ? prop : x;

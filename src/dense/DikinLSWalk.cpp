@@ -20,8 +20,6 @@ void DikinLSWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const Vec
     DiagonalMatrix<double, Dynamic> slack_inv = slack.cwiseInverse().asDiagonal();
     MatrixXd A_x = slack_inv * A; 
 
-    VectorXd term1 = (alpha) * VectorXd::Ones(A.rows()); 
-
     DiagonalMatrix<double, Dynamic> W;
     MatrixXd WAX (A.rows(), A.cols());
     VectorXd term2a (A.rows());
@@ -32,16 +30,18 @@ void DikinLSWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const Vec
     VectorXd term3 (A.rows());
     VectorXd error = 0.00001 * VectorXd::Ones(A.rows());
 
+    // gradient descent to compute LS weights
     for(int i = 0; i < MAXITER; i++){
         W = VectorXd(w_i.array().pow(alpha * 0.5)).asDiagonal();
         term2a = alpha * w_i.cwiseInverse();
 
         WAX = W * A_x;
+        // leverage score based on previous W
         term2b = (WAX * (WAX.transpose() * WAX).inverse()).cwiseProduct(WAX).rowwise().sum();
 
         term2 = term2a.cwiseProduct(term2b);
         
-        gradient = term1 - term2;
+        gradient =  (alpha/2) * VectorXd::Ones(A.rows()) - term2;
         if(gradient.norm() < GRADLIM){
             break;
         }

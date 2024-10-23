@@ -28,6 +28,8 @@ double HitAndRun::binarySearch(VectorXd direction, VectorXd& x, const MatrixXd& 
             right = mid; 
         }
     }
+    // return the distance bewteen the intersection of direction and polytope
+    // and x
     return distance(mid, x);
 }
 
@@ -44,7 +46,9 @@ MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x, const
         double neg_side = binarySearch(new_direct * -1, x, A, b) * -1;
         double val = dis(gen);
         double random_point = val * (pos_side - neg_side) + neg_side; 
+        // the next iterate is uniform on the segment passing x
         x = random_point * new_direct + x; 
+        
         if (i % THIN == 0 && i/THIN > burn){
             results.row((int)i/THIN - burn - 1) = x; 
         }
