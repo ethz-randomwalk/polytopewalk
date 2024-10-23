@@ -41,7 +41,7 @@ void DikinLSWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const Vec
 
         term2 = term2a.cwiseProduct(term2b);
         
-        gradient =  (alpha/2) * VectorXd::Ones(A.rows()) - term2;
+        gradient =  (alpha) * VectorXd::Ones(A.rows()) - term2;
         if(gradient.norm() < GRADLIM){
             break;
         }
