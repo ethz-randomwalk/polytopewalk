@@ -25,8 +25,6 @@ double BarrierWalk::localNorm(VectorXd v, const MatrixXd& m){
 
 void BarrierWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
     // always overwrite
-    // int d = b.rows();
-    // weights = VectorXd::Zero(d).asDiagonal();
 }
 
 void BarrierWalk::generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
