@@ -61,7 +61,8 @@ double SparseBarrierWalk::generateProposalDensity(
 
     SparseMatrixXd G_inv_sqrt = SparseMatrixXd(VectorXd(G.diagonal()).cwiseInverse().cwiseSqrt().asDiagonal());
     SparseMatrixXd AG_inv_sqrt = A * G_inv_sqrt;
-
+    
+    // determinant of S^{-1} W S^{-1}
     double det1 = G.diagonal().array().log().sum();
 
     SimplicialLLT<SparseMatrixXd> d2; 
@@ -70,7 +71,9 @@ double SparseBarrierWalk::generateProposalDensity(
     d2.factorize(mat);
 
     double det2 = 2 * SparseMatrixXd(d2.matrixL()).diagonal().array().log().sum();
-
+    // -logdet of the matrix g^{-1/2} A^T (A g A^T )^{-1} A g^{-1/2}
+    // equals to logdet(g) + logdet(A g A^T) - \logdet(AA^T)
+    // but  - \logdet(AA^T) is shared at x or z, so ignored
     double det = det1 + det2; 
 
     VectorXd diff = z - x;
@@ -80,7 +83,8 @@ double SparseBarrierWalk::generateProposalDensity(
     Qx = diff - Qx; 
 
     double dist = Qx.transpose() * (G * Qx);
-    return 0.5 * det -0.5/DIST_TERM * dist;
+    // return the log proposal density
+    return 0.5 * det - 0.5/DIST_TERM * dist;
 }
 
 MatrixXd SparseBarrierWalk::generateCompleteWalk(

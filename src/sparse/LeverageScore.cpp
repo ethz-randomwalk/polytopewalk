@@ -2,6 +2,10 @@
 
 
 VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& W, const VectorXd& x, const double ERR, const int k){
+    // Efficient Computation of Leverage Score in B.2.3 of Kook et al. 2022,
+    // Sampling with Riemannian Hamiltonian Monte Carlo in a Constrained Space
+    // Takahashi, Fagan, and Chin method for sparse matrix inversion 
+    // via sparse Cholesky decomposition
     VectorXd S_inv(x.rows());
     for(int i = x.rows() - k; i < x.rows(); i++){
         S_inv.coeffRef(i) = 1/x(i);
@@ -22,6 +26,7 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     SparseMatrixXd L0 = cholesky.matrixL();
     VectorXd D = cholesky.vectorD();
 
+    // permutation matrix rearranges the row and columns
     Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic> perm (L0.rows());
     for(int i = 0; i < L0.rows(); i++){
         perm.indices()(i) = perm.rows() - 1 - i;
@@ -31,12 +36,17 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
 
     SparseMatrixXd inv(L0.rows(), L0.rows());
 
+    // get the sparsity pattern of L
+    // computer the inverse of (A g^{-1} A^T) restricted to L's sparsity pattern
     VectorXd nnz (L0.rows());
     for(int i = 0; i < L_col.rows(); i++){
         nnz(i) = L_col.col(i).nonZeros();
     }
     inv.reserve(nnz);
 
+    // the inverse can be computed top row -> bottom row
+    // left -> right, one by one 
+    // Takahashi, Fagan, and Chin method
     for(int i = 0; i < L_col.outerSize(); i++){
         for(SparseMatrixXd::InnerIterator it(L_col, i); it; ++it){
             int j = it.row();
@@ -51,12 +61,15 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
             else inv.insert(j, i) = z;
         }
     }
+    // the permutation matrix rearranges the row and column
     inv = perm * inv * perm;
 
+    // P = (A g^{-1} A^T)^{-1} * A g^{-1/2}
     SparseMatrixXd P = inv.selfadjointView<Lower>() * AG_inv_sqrt;
     VectorXd result (AG_inv_sqrt.cols());
     for(int i = 0; i < AG_inv_sqrt.cols(); i++){
         double val = AG_inv_sqrt.col(i).dot(P.col(i));
+        // i-th leverage score
         result.coeffRef(i) = val;
     }
 
@@ -64,6 +77,7 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
         result(i) = 0;
     }
 
+    // leverage score of I - g^{-1/2} A^T (A g^{-1} A^T)^{-1} A g^{-1/2}
     for(int i = x.rows() - k; i < x.rows(); i++){
         result(i) = 1 - result(i);
     }

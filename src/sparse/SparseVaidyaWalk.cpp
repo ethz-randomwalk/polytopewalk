@@ -13,6 +13,9 @@ SparseMatrixXd SparseVaidyaWalk::generateWeight(
     }
     VectorXd weights = L.generate(A, W, x, ERR, k);
     for (int i = weights.rows() - k; i < weights.rows(); i++){
+        // in the full-rank form of the polytope
+        // # constraints = A.cols() - A.rows()
+        // # variables = k
         weights(i) += ((double)(A.cols() - A.rows())/k);
     }
     return SparseMatrixXd(weights.asDiagonal());
