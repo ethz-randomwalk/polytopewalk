@@ -27,6 +27,8 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     VectorXd D = cholesky.vectorD();
 
     // permutation matrix rearranges the row and columns
+    // the reason is that sparse matrix does not allow backward access
+    // of row entries
     Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic> perm (L0.rows());
     for(int i = 0; i < L0.rows(); i++){
         perm.indices()(i) = perm.rows() - 1 - i;
