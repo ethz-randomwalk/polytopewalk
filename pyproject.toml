@@ -11,6 +11,8 @@ name = 'polytopewalk'
 requires-python = '>=3.9'
 version = '1.0.2'
 description='Open Source Implementation of MCMC Polytope Walks'
+readme = "README.md"
+keywords = ["MCMC", "Dikin Walk", "Vaidya Walk", "John Walk", "Sparse", "Polytope"]
 authors = [
   { name = 'Benny Sun', email = 'benny.sun@duke.edu' },
   { name = 'Yuansi Chen', email = 'yuansi.chen@duke.edu' },
