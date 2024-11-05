@@ -14,7 +14,7 @@ readme = "README.md"
 keywords = ["MCMC", "Dikin Walk", "Vaidya Walk", "John Walk", "Sparse", "Polytope"]
 authors = [
   { name = 'Benny Sun', email = 'benny.sun@duke.edu' },
-  { name = 'Yuansi Chen', email = 'yuansi.chen@stat.math.ethz.edu' },
+  { name = 'Yuansi Chen', email = 'yuansi.chen@stat.math.ethz.ch' },
 ]
 classifiers = [
     'License :: OSI Approved :: MIT License'
