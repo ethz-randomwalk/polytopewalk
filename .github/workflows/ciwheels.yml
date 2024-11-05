@@ -47,23 +47,23 @@ jobs:
               platform_id: manylinux_x86_64
               manylinux_image: manylinux2014
 
-          # MacOS x86_64
-            - os: macos-12
-              python: 39
-              platform_id: macosx_x86_64
-              deployment_target: "12"
-            - os: macos-12
-              python: 310
-              platform_id: macosx_x86_64
-              deployment_target: "12"
-            - os: macos-12
-              python: 311
-              platform_id: macosx_x86_64
-              deployment_target: "12"
-            - os: macos-12
-              python: 312
-              platform_id: macosx_x86_64
-              deployment_target: "12"
+          # MacOS macos-12 x86_64 is deprecated
+            # - os: macos-12
+            #   python: 39
+            #   platform_id: macosx_x86_64
+            #   deployment_target: "12"
+            # - os: macos-12
+            #   python: 310
+            #   platform_id: macosx_x86_64
+            #   deployment_target: "12"
+            # - os: macos-12
+            #   python: 311
+            #   platform_id: macosx_x86_64
+            #   deployment_target: "12"
+            # - os: macos-12
+            #   python: 312
+            #   platform_id: macosx_x86_64
+            #   deployment_target: "12"
     
             # MacOS arm64
             - os: macos-14
@@ -106,11 +106,11 @@ jobs:
             git
             unzip
             
-      - name: Run set up script in MSYS2 (Windows only)
-        if: runner.os == 'Windows'
-        shell: msys2 {0}
-        run: |
-          bash .github/workflows/scripts/windows-setup.sh
+      # - name: Run set up script in MSYS2 (Windows only)
+      #   if: runner.os == 'Windows'
+      #   shell: msys2 {0}
+      #   run: |
+      #     bash .github/workflows/scripts/windows-setup.sh
           
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.20.0

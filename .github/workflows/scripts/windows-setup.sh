@@ -4,11 +4,11 @@ echo "Let's start windows-setup"
 # export PATH="/c/msys64/mingw64/bin:/c/Program Files/Git/bin:$PATH"
 export PATH="/mingw64/bin:$PATH"
 
-# install GLPK for Windows from binary
-wget https://downloads.sourceforge.net/project/winglpk/winglpk/GLPK-4.65/winglpk-4.65.zip
-upzip winglpk-4.65.zip
-mkdir /mingw64/local
-cp -r winglpk-4.65/* /mingw64/
+# # install GLPK for Windows from binary
+# wget https://downloads.sourceforge.net/project/winglpk/winglpk/GLPK-4.65/winglpk-4.65.zip
+# upzip winglpk-4.65.zip
+# mkdir /mingw64/local
+# cp -r winglpk-4.65/* /mingw64/
 
 # # install ipopt from binary
 # wget https://github.com/coin-or/Ipopt/releases/download/releases%2F3.14.16/Ipopt-3.14.16-win64-msvs2019-md.zip
@@ -81,3 +81,7 @@ cp -r winglpk-4.65/* /mingw64/
 eigen_dir=$(cygpath -w /mingw64/share/eigen3/cmake)
 echo $eigen_dir
 echo "Eigen3_DIR=$eigen_dir" >> $GITHUB_ENV
+
+glpk_dir=$(cygpath -w /mingw64/share/glpk/cmake)
+echo $glpk_dir
+echo "GLPK_DIR=$glpk_dir" >> $GITHUB_ENV
