@@ -15,6 +15,7 @@ SparseMatrixXd SparseDikinLSWalk::generateWeight(
         w_i = VectorXd::Ones(x.rows());
     }
 
+    // term1 is all 1 vect on the first k coordinates
     VectorXd term1 = (alpha) * VectorXd::Ones(x.rows());
     VectorXd errors = ERR * VectorXd::Ones(x.rows());
 
@@ -22,15 +23,20 @@ SparseMatrixXd SparseDikinLSWalk::generateWeight(
         w_i(i) = 0;
         term1(i) = 0;
     }
+    // gradient descent to optimize the LS barrier
     for(int i = 0; i < MAX_ITER; i++){
         SparseMatrixXd W (x.rows(), x.rows());
         VectorXd term2a = VectorXd::Zero(x.rows());
         for(int j = x.rows() - k; j < x.rows(); j++){
+            // term2a = alpha / w
             term2a(j) = (double)alpha/w_i(j);
             W.coeffRef(j, j) = pow(w_i(j), alpha * 0.5);
         }
-    
+
+        // term2b is leverage score
         VectorXd term2b = L.generate(A, W, x, ERR, k);
+        // term2 is gradient log det
+        // which is the ratio between leverage score and w
         VectorXd term2 = term2a.cwiseProduct(term2b); 
         VectorXd grad = term1 - term2;
         if (grad.norm() < G_LIM){

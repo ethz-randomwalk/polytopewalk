@@ -6,6 +6,7 @@ VectorXd LeverageScore::generate(const SparseMatrixXd& A, const SparseMatrixXd& 
     // Sampling with Riemannian Hamiltonian Monte Carlo in a Constrained Space
     // Takahashi, Fagan, and Chin method for sparse matrix inversion 
     // via sparse Cholesky decomposition
+    // W (A\tp W^2 A)^{-1} W 
     VectorXd S_inv(x.rows());
     for(int i = x.rows() - k; i < x.rows(); i++){
         S_inv.coeffRef(i) = 1/x(i);
