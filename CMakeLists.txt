@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0...3.5)
+cmake_minimum_required(VERSION 3.15)
 project(polytopewalk)
 
 set(CMAKE_CXX_STANDARD 11)

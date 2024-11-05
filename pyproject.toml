@@ -2,7 +2,6 @@
 requires = [
 		'scikit-build-core',
 		'pybind11',
-		'cmake>=3.18',
 ]
 build-backend = 'scikit_build_core.build'
 
@@ -30,7 +29,7 @@ cmake.args = []
 cmake.define = {}
 
 # Verbose printout when building.
-cmake.verbose = true
+build.verbose = true
 
 # The build type to use when building the project. Valid options are: "Debug",
 # "Release", "RelWithDebInfo", "MinSizeRel", "", etc.
