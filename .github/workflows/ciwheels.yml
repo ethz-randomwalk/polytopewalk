@@ -128,7 +128,7 @@ jobs:
             echo "OK starts Windows build"
             choco install eigen glpk -y
           CIBW_ENVIRONMENT: |
-            CMAKE_PREFIX_PATH="C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake"
+            Eigen3_DIR="C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake"
         with:
           package-dir: .
           output-dir: wheelhouse
