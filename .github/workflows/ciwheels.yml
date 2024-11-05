@@ -112,12 +112,14 @@ jobs:
       #   shell: msys2 {0}
       #   run: |
       #     bash .github/workflows/scripts/windows-setup.sh
-      - name: Set CMake Environment Variables
+      - name: Set CMake Environment Variables (Windows only)
+        if: runner.os == 'Windows'
         shell: bash
         run: |
-          echo "Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'" | tee -a $GITHUB_ENV
+          echo "Eigen3_DIR='C:\ProgramData\chocolatey\lib\eigen\share\eigen3\cmake'" | tee -a $GITHUB_ENV
           
-      - name: Debug CMake Environment Variables
+      - name: Debug CMake Environment Variables (Windows only)
+        if: runner.os == 'Windows'
         shell: bash
         run: |
           echo "Eigen3_DIR=$Eigen3_DIR"
