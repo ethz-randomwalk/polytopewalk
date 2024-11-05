@@ -34,18 +34,18 @@ jobs:
               python: 39
               platform_id: manylinux_x86_64
               manylinux_image: manylinux2014
-            - os: ubuntu-latest
-              python: 310
-              platform_id: manylinux_x86_64
-              manylinux_image: manylinux2014
-            - os: ubuntu-latest
-              python: 311
-              platform_id: manylinux_x86_64
-              manylinux_image: manylinux2014
-            - os: ubuntu-latest
-              python: 312
-              platform_id: manylinux_x86_64
-              manylinux_image: manylinux2014
+            # - os: ubuntu-latest
+            #   python: 310
+            #   platform_id: manylinux_x86_64
+            #   manylinux_image: manylinux2014
+            # - os: ubuntu-latest
+            #   python: 311
+            #   platform_id: manylinux_x86_64
+            #   manylinux_image: manylinux2014
+            # - os: ubuntu-latest
+            #   python: 312
+            #   platform_id: manylinux_x86_64
+            #   manylinux_image: manylinux2014
 
           # MacOS macos-12 x86_64 is deprecated
             # - os: macos-12
@@ -66,22 +66,22 @@ jobs:
             #   deployment_target: "12"
     
             # MacOS arm64
-            - os: macos-14
-              python: 39
-              platform_id: macosx_arm64
-              deployment_target: "14"
-            - os: macos-14
-              python: 310
-              platform_id: macosx_arm64
-              deployment_target: "14"
-            - os: macos-14
-              python: 311
-              platform_id: macosx_arm64
-              deployment_target: "14"
-            - os: macos-14
-              python: 312
-              platform_id: macosx_arm64
-              deployment_target: "14"
+            # - os: macos-14
+            #   python: 39
+            #   platform_id: macosx_arm64
+            #   deployment_target: "14"
+            # - os: macos-14
+            #   python: 310
+            #   platform_id: macosx_arm64
+            #   deployment_target: "14"
+            # - os: macos-14
+            #   python: 311
+            #   platform_id: macosx_arm64
+            #   deployment_target: "14"
+            # - os: macos-14
+            #   python: 312
+            #   platform_id: macosx_arm64
+            #   deployment_target: "14"
        
     # continue-on-error: true
     steps:
@@ -105,12 +105,13 @@ jobs:
             mingw-w64-x86_64-glpk
             git
             unzip
-            
-      # - name: Run set up script in MSYS2 (Windows only)
-      #   if: runner.os == 'Windows'
-      #   shell: msys2 {0}
-      #   run: |
-      #     bash .github/workflows/scripts/windows-setup.sh
+      
+      # # If there is need to run scripts on Windows
+      - name: Run set up script in MSYS2 (Windows only)
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          bash .github/workflows/scripts/windows-setup.sh
           
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.20.0

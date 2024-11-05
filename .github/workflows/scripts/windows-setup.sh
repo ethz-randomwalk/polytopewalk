@@ -82,6 +82,6 @@ eigen_dir=$(cygpath -w /mingw64/share/eigen3/cmake)
 echo $eigen_dir
 echo "Eigen3_DIR=$eigen_dir" >> $GITHUB_ENV
 
-glpk_dir=$(cygpath -w /mingw64/share/glpk/cmake)
+glpk_dir=$(cygpath -w /mingw64)
 echo $glpk_dir
 echo "GLPK_DIR=$glpk_dir" >> $GITHUB_ENV
