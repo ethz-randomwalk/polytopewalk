@@ -66,10 +66,10 @@ jobs:
             #   deployment_target: "12"
     
             # MacOS arm64
-            - os: macos-14
-              python: 39
-              platform_id: macosx_arm64
-              deployment_target: "14"
+            # - os: macos-14
+            #   python: 39
+            #   platform_id: macosx_arm64
+            #   deployment_target: "14"
             # - os: macos-14
             #   python: 310
             #   platform_id: macosx_arm64
@@ -125,8 +125,7 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: |
             yum install -y epel-release eigen3-devel glpk-devel
           CIBW_BEFORE_ALL_WINDOWS: >-
-            echo "OK" &&
-            echo "OK WINDOWS"
+            echo "OK, start WINDOWS"
         with:
           package-dir: .
           output-dir: wheelhouse
@@ -138,7 +137,9 @@ jobs:
           path: ./wheelhouse/*.whl
 
   publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to TestPyPI
+    name: >- 
+      Publish Python 🐍 distribution 📦 to TestPyPI
+    if: startsWith(github.ref, 'refs/tags/')  # only publish on tag pushes
     needs:
     - build_wheels
     runs-on: ubuntu-latest
