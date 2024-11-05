@@ -135,7 +135,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: my-artifact-${{ matrix.os }}-cp${{ matrix.python }}-${{ matrix.platform_id }}
-          path: dist/
+          path: ./wheelhouse/*.whl
 
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
@@ -167,7 +167,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: my-artifact-${{ matrix.os }}-cp${{ matrix.python }}-${{ matrix.platform_id }}
-        path: dist/
+        path: ./wheelhouse/*.whl
     - name: Publish distribution 📦 to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
