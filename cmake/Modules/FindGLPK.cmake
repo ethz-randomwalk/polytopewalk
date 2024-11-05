@@ -1,12 +1,11 @@
 find_path(GLPK_INCLUDE_DIR glpk.h
     PATHS
-    /mingw64/include         # Windows MSYS2 path for headers
-    D:/a/_temp/msys64/mingw64/include
+    C:/ProgramData/chocolatey/lib/glpk/include    # Chocolatey install path for GLPK headers
+    C:/ProgramData/chocolatey/lib/glpk            # Additional path just in case
 )
 find_library(GLPK_LIBRARY NAMES glpk
     PATHS
-    /mingw64/lib             # Windows MSYS2 path for libraries
-    D:/a/_temp/msys64/mingw64/lib
+    C:/ProgramData/chocolatey/lib/glpk/lib        # Chocolatey install path for GLPK libraries
 )
 
 if(GLPK_INCLUDE_DIR AND GLPK_LIBRARY)
