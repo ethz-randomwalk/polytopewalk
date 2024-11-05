@@ -116,7 +116,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: bash
         run: |
-          $EIGEN_PATH = "C:\ProgramData\chocolatey\lib\eigen\share\eigen3\cmake"
+          EIGEN_PATH="C:\ProgramData\chocolatey\lib\eigen\share\eigen3\cmake"
           echo "Eigen3_DIR=$EIGEN_PATH" | tee -a $GITHUB_ENV
           
       - name: Debug CMake Environment Variables (Windows only)
