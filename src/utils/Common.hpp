@@ -16,7 +16,17 @@ typedef Eigen::Triplet<double> T;
 #include <algorithm>
 #include <vector>
 #include <cstring>
+// use extern "C" to the C++ compiler 
+// to treat the code inside as if it were C code
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <glpk.h>
+
+#ifdef __cplusplus
+}
+#endif
 
 using namespace Eigen;
 using namespace std;
