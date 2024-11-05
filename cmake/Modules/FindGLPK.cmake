@@ -6,7 +6,7 @@ find_path(GLPK_INCLUDE_DIR glpk.h
 find_library(GLPK_LIBRARY NAMES glpk
     PATHS
     /mingw64/lib             # Windows MSYS2 path for libraries
-    D:/a/_temp/msys64/mingw64/lub
+    D:/a/_temp/msys64/mingw64/lib
 )
 
 if(GLPK_INCLUDE_DIR AND GLPK_LIBRARY)
