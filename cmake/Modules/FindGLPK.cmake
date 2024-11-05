@@ -1,11 +1,12 @@
 find_path(GLPK_INCLUDE_DIR glpk.h
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/include    # Chocolatey install path for GLPK headers
-    C:/ProgramData/chocolatey/lib/glpk            # Additional path just in case
+    C:/ProgramData/chocolatey/lib/glpk/tools/include    # Chocolatey install path for GLPK headers
+    C:/ProgramData/chocolatey/lib/glpk/tools            # Additional path just in case
 )
 find_library(GLPK_LIBRARY NAMES glpk
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/lib        # Chocolatey install path for GLPK libraries
+    C:/ProgramData/chocolatey/lib/glpk/tools/lib        # Chocolatey install path for GLPK libraries
+    C:/ProgramData/chocolatey/lib/glpk/tools
 )
 
 if(GLPK_INCLUDE_DIR AND GLPK_LIBRARY)
