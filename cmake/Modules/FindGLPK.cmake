@@ -1,5 +1,11 @@
-find_path(GLPK_INCLUDE_DIR glpk.h)
-find_library(GLPK_LIBRARY NAMES glpk)
+find_path(GLPK_INCLUDE_DIR glpk.h
+    PATHS
+    /mingw64/include         # Windows MSYS2 path for headers
+)
+find_library(GLPK_LIBRARY NAMES glpk
+    PATHS
+    /mingw64/lib             # Windows MSYS2 path for libraries
+)
 
 if(GLPK_INCLUDE_DIR AND GLPK_LIBRARY)
     set(GLPK_FOUND TRUE)
