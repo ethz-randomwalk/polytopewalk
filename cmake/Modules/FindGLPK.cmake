@@ -1,14 +1,10 @@
 find_path(GLPK_INCLUDE_DIR glpk.h
     PATHS
-    /mingw64/include         # MSYS2 path for headers
-    C:/msys64/mingw64/include
-    D:/a/_temp/msys64/mingw64/include
+    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-5.00/src/
 )
 find_library(GLPK_LIBRARY NAMES glpk
     PATHS
-    /mingw64/lib             # MSYS2 path for libraries
-    C:/msys64/mingw64/lib
-    D:/a/_temp/msys64/mingw64/lib
+    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-5.00/w64/
 )
 
 # Handle finding status with CMake standard arguments
