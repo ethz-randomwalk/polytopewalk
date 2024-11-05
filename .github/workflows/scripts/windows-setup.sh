@@ -82,7 +82,7 @@ eigen_dir=$(cygpath -w /mingw64/share/eigen3/cmake)
 echo $eigen_dir
 echo "Eigen3_DIR=$eigen_dir" >> $GITHUB_ENV
 
-glpk_include_dir=$(cygpath -w /mingw64/include)
-glpk_library=$(cygpath -w /mingw64/lib)
-echo "GLPK_INCLUDE_DIR=$glpk_include_dir" >> $GITHUB_ENV
-echo "GLPK_LIBRARY=$glpk_library" >> $GITHUB_ENV
+# glpk_include_dir=$(cygpath -w /mingw64/include)
+# glpk_library=$(cygpath -w /mingw64/lib)
+# echo "GLPK_INCLUDE_DIR=$glpk_include_dir" >> $GITHUB_ENV
+# echo "GLPK_LIBRARY=$glpk_library" >> $GITHUB_ENV
