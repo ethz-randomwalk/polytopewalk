@@ -1,12 +1,12 @@
 find_path(GLPK_INCLUDE_DIR glpk.h
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/tools/include    # Chocolatey install path for GLPK headers
-    C:/ProgramData/chocolatey/lib/glpk/tools            # Additional path just in case
+    /mingw64/include         # MSYS2 path for headers
+    C:/msys64/mingw64/include
 )
 find_library(GLPK_LIBRARY NAMES glpk
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/tools/lib        # Chocolatey install path for GLPK libraries
-    C:/ProgramData/chocolatey/lib/glpk/tools
+    /mingw64/lib             # MSYS2 path for libraries
+    C:/msys64/mingw64/lib
 )
 
 # Handle finding status with CMake standard arguments
