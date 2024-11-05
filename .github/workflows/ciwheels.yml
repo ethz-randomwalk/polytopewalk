@@ -115,6 +115,7 @@ jobs:
       - name: Set CMake Environment Variables
         run: |
           echo "Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'" >> $GITHUB_ENV
+          echo "Eigen3_DIR=$Eigen3_DIR"
           
       - name: Debug CMake Environment Variables
         run: |
