@@ -163,7 +163,7 @@ jobs:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
 
     steps:
-    - name: Download all the dists
+    - name: Download all the wheels / dists
       uses: actions/download-artifact@v4
       with:
         name: my-artifact-${{ matrix.os }}-cp${{ matrix.python }}-${{ matrix.platform_id }}
