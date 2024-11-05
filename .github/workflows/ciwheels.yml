@@ -140,7 +140,9 @@ jobs:
             echo "OK starts Windows build" &&
             echo "OK2" &&
             choco install eigen glpk -y &&
-            dir "C:\ProgramData\chocolatey\lib\glpk\tools"
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools\glpk-5.0" &&
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools\glpk-5.0\src" &&
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools\glpk-5.0\w64"
         with:
           package-dir: .
           output-dir: wheelhouse
