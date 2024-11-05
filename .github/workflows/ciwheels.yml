@@ -124,8 +124,10 @@ jobs:
             brew install eigen glpk
           CIBW_BEFORE_ALL_LINUX: |
             yum install -y epel-release eigen3-devel glpk-devel
-          CIBW_BEFORE_ALL_WINDOWS: >-
+          CIBW_BEFORE_ALL_WINDOWS: |
             choco install eigen glpk -y
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools\include"
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools"
         with:
           package-dir: .
           output-dir: wheelhouse
