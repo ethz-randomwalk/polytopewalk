@@ -112,6 +112,13 @@ jobs:
       #   shell: msys2 {0}
       #   run: |
       #     bash .github/workflows/scripts/windows-setup.sh
+      - name: Set CMake Environment Variables
+        run: |
+          echo "Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'" >> $GITHUB_ENV
+          
+      - name: Debug CMake Environment Variables
+        run: |
+          echo "Eigen3_DIR=$Eigen3_DIR"
           
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.20.0
