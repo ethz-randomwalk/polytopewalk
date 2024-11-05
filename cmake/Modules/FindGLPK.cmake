@@ -1,10 +1,10 @@
 find_path(GLPK_INCLUDE_DIR glpk.h
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-5.00/src/
+    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-5.0/src/
 )
 find_library(GLPK_LIBRARY NAMES glpk
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-5.00/w64/
+    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-5.0/w64/
 )
 
 # Handle finding status with CMake standard arguments

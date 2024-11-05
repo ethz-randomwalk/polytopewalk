@@ -139,7 +139,8 @@ jobs:
           CIBW_BEFORE_ALL_WINDOWS: >
             echo "OK starts Windows build" &&
             echo "OK2" &&
-            choco install eigen glpk -y
+            choco install eigen glpk -y &&
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools"
         with:
           package-dir: .
           output-dir: wheelhouse
