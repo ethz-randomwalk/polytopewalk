@@ -9,15 +9,8 @@ find_library(GLPK_LIBRARY NAMES glpk
     C:/ProgramData/chocolatey/lib/glpk/tools
 )
 
-if(GLPK_INCLUDE_DIR AND GLPK_LIBRARY)
-    set(GLPK_FOUND TRUE)
-    set(GLPK_LIBRARIES ${GLPK_LIBRARY})
-    set(GLPK_INCLUDE_DIRS ${GLPK_INCLUDE_DIR})
-else()
-    set(GLPK_FOUND FALSE)
-endif()
-
-message(STATUS "GLPK_INCLUDE_DIR: ${GLPK_INCLUDE_DIR}")
-message(STATUS "GLPK_LIBRARY: ${GLPK_LIBRARY}")
+# Handle finding status with CMake standard arguments
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(GLPK DEFAULT_MSG GLPK_LIBRARY GLPK_INCLUDE_DIR)
 
 mark_as_advanced(GLPK_INCLUDE_DIR GLPK_LIBRARY)
