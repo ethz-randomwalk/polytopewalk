@@ -126,8 +126,10 @@ jobs:
             yum install -y epel-release eigen3-devel glpk-devel
           CIBW_BEFORE_ALL_WINDOWS: |
             choco install eigen glpk -y
-            dir "C:\ProgramData\chocolatey\lib\glpk\tools\include"
-            dir "C:\ProgramData\chocolatey\lib\glpk\tools"
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools\include" > tools_log.txt
+            dir "C:\ProgramData\chocolatey\lib\glpk\tools" > tools_log2.txt
+            type tools_log.txt
+            type tools_log2.txt
         with:
           package-dir: .
           output-dir: wheelhouse
