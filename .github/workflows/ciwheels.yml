@@ -136,9 +136,10 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: |
             yum install -y epel-release eigen3-devel glpk-devel
           CIBW_BEFORE_ALL_WINDOWS: |
-            echo "OK starts Windows build"
-            choco install eigen glpk -y
-            echo "Eigen3_DIR=$Eigen3_DIR"
+            echo "OK starts Windows build" &&
+            echo "OK2" &&
+            choco install eigen glpk -y &&
+            echo "Eigen3_DIR=$Eigen3_DIR" &&
             dir $Eigen3_DIR
         with:
           package-dir: .
