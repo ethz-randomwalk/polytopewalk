@@ -113,10 +113,12 @@ jobs:
       #   run: |
       #     bash .github/workflows/scripts/windows-setup.sh
       - name: Set CMake Environment Variables
+        shell: bash
         run: |
           echo "Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'" | tee -a $GITHUB_ENV
           
       - name: Debug CMake Environment Variables
+        shell: bash
         run: |
           echo "Eigen3_DIR=$Eigen3_DIR"
           
@@ -134,8 +136,6 @@ jobs:
           CIBW_BEFORE_ALL_WINDOWS: |
             echo "OK starts Windows build"
             choco install eigen glpk -y
-            export Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'
-            echo "Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'" >> $GITHUB_ENV
         with:
           package-dir: .
           output-dir: wheelhouse
