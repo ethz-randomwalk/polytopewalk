@@ -135,13 +135,25 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: my-artifact-${{ matrix.os }}-cp${{ matrix.python }}-${{ matrix.platform_id }}
-          path: ./wheelhouse/*.whl
+          path: dist/
 
   publish-to-testpypi:
     name: Publish Python 🐍 distribution 📦 to TestPyPI
     needs:
     - build_wheels
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+            - os: ubuntu-latest
+              python: 39
+              platform_id: manylinux_x86_64
+              manylinux_image: manylinux2014
+            - os: macos-14
+              python: 39
+              platform_id: macosx_arm64
+              deployment_target: "14"
 
     environment:
       name: testpypi
@@ -154,7 +166,7 @@ jobs:
     - name: Download all the dists
       uses: actions/download-artifact@v4
       with:
-        name: python-package-distributions
+        name: my-artifact-${{ matrix.os }}-cp${{ matrix.python }}-${{ matrix.platform_id }}
         path: dist/
     - name: Publish distribution 📦 to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
