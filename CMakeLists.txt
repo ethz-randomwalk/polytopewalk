@@ -16,11 +16,11 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
-find_package(GLPK REQUIRED)
 
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
+find_package(GLPK REQUIRED)
 
 set(POLYTOPEWALK_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(SOURCES_DIR ${POLYTOPEWALK_DIR}/src)
