@@ -16,9 +16,9 @@ jobs:
       matrix:
         include:
           # Window 64 bit
-            - os: windows-latest
-              python: 39
-              platform_id: win_amd64
+            # - os: windows-latest
+            #   python: 39
+            #   platform_id: win_amd64
             #- os: windows-latest
               #python: 310
               #platform_id: win_amd64
@@ -66,10 +66,10 @@ jobs:
             #   deployment_target: "12"
     
             # MacOS arm64
-            # - os: macos-14
-            #   python: 39
-            #   platform_id: macosx_arm64
-            #   deployment_target: "14"
+            - os: macos-14
+              python: 39
+              platform_id: macosx_arm64
+              deployment_target: "14"
             # - os: macos-14
             #   python: 310
             #   platform_id: macosx_arm64
@@ -136,3 +136,27 @@ jobs:
         with:
           name: my-artifact-${{ matrix.os }}-cp${{ matrix.python }}-${{ matrix.platform_id }}
           path: ./wheelhouse/*.whl
+
+  publish-to-testpypi:
+    name: Publish Python 🐍 distribution 📦 to TestPyPI
+    needs:
+    - build_wheels
+    runs-on: ubuntu-latest
+
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/polytopewalk
+
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
+    steps:
+    - name: Download all the dists
+      uses: actions/download-artifact@v4
+      with:
+        name: python-package-distributions
+        path: dist/
+    - name: Publish distribution 📦 to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
