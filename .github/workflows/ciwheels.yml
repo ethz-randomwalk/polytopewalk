@@ -114,8 +114,7 @@ jobs:
       #     bash .github/workflows/scripts/windows-setup.sh
       - name: Set CMake Environment Variables
         run: |
-          echo "Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'" >> $GITHUB_ENV
-          echo "Eigen3_DIR=$Eigen3_DIR"
+          echo "Eigen3_DIR='C:/ProgramData/chocolatey/lib/eigen/share/eigen3/cmake'" | tee -a $GITHUB_ENV
           
       - name: Debug CMake Environment Variables
         run: |
