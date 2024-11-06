@@ -140,7 +140,7 @@ jobs:
             echo "OK starts Windows build" &&
             echo "OK2" &&
             choco install eigen -y &&
-            choco install glpk --version=4.65.20210830 -y &&
+            choco install glpk --version=4.65 -y &&
             dir "C:\ProgramData\chocolatey\lib\glpk" &&
             dir "C:\ProgramData\chocolatey\lib\glpk\tools" &&
             dir "C:\ProgramData\chocolatey\lib\glpk\tools\glpk-4.65" &&
