@@ -1,10 +1,12 @@
 find_path(GLPK_INCLUDE_DIR glpk.h
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-4.65/src/
+    D:/a/polytopewalk/polytopewalk/glpk-4.65/src
+    glpk-4.65/src
 )
 find_library(GLPK_LIBRARY NAMES glpk
     PATHS
-    C:/ProgramData/chocolatey/lib/glpk/tools/glpk-4.65/w64/
+    D:/a/polytopewalk/polytopewalk/glpk-4.65/w64
+    glpk-4.65/w64
 )
 
 # Handle finding status with CMake standard arguments
