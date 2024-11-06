@@ -8,9 +8,9 @@ VectorXd DenseCenter::getInitialPoint(MatrixXd& A, VectorXd& b){
     lp = glp_create_prob();
     glp_term_out(GLP_OFF);
     int amount = 1 + (A.rows() * (A.cols() + 1)); 
-    int ia [amount];
-    int ja [amount];
-    double ar [amount];
+    vector<int> ia (amount);
+    vector<int> ja (amount);
+    vector <double> ar (amount);
 
     int row_length = A.rows(); 
     // delta is stored at the last column
@@ -46,7 +46,7 @@ VectorXd DenseCenter::getInitialPoint(MatrixXd& A, VectorXd& b){
         ind ++;
     }
 
-    glp_load_matrix(lp, ind-1, ia, ja, ar);
+    glp_load_matrix(lp, ind-1, ia.data(), ja.data(), ar.data());
     glp_simplex(lp, NULL);
     double val = glp_get_obj_val(lp); 
 

@@ -6,9 +6,10 @@ VectorXd SparseLP::findOptimalVector(SparseMatrixXd& A, VectorXd& b, VectorXd& c
     glp_term_out(GLP_OFF);
     lp = glp_create_prob();
     int amount = 1 + A.nonZeros();
-    int ia [amount];
-    int ja [amount];
-    double ar [amount];
+
+    vector<int> ia (amount);
+    vector<int> ja (amount);
+    vector<double> ar (amount);
 
     int row_length = A.rows();
     int col_length = A.cols(); 
@@ -39,7 +40,7 @@ VectorXd SparseLP::findOptimalVector(SparseMatrixXd& A, VectorXd& b, VectorXd& c
         }
     }
 
-    glp_load_matrix(lp, amount-1, ia, ja, ar);
+    glp_load_matrix(lp, amount-1, ia.data(), ja.data(), ar.data());
     glp_simplex(lp, NULL);
     VectorXd ans(A.cols());
     for(int i = 0; i < A.cols(); i++){
