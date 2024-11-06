@@ -11,7 +11,7 @@ polytopewalk requires:
 - SciPy (>= 1.6.0)
 
 ## User installation
-If you already have a working installation of NumPy and SciPy, the easiest way to install scikit-learn is using `pip`:
+If you already have a working installation of NumPy and SciPy, the easiest way to install polytopewalk is using `pip`:
 ```bash
 pip install -U polytopewalk
 ```
