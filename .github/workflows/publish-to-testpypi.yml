@@ -3,7 +3,7 @@ name: Publish to TestPyPI
 on:
   push:
     tags:
-      - 'v*'   # Matches tags like v1.0, v2.1, etc.
+      - 'polytopewalk v*'   # Matches tags like v1.0, v2.1, etc.
 
 jobs:
   publish:
@@ -22,7 +22,6 @@ jobs:
       with:
         pattern: cibw-*
         path: dist
-        merge-multiple: true
 
     - name: Publish distribution 📦 to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
