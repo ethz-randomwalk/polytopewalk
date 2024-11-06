@@ -3,7 +3,9 @@ name: Build CI wheels
 on:
   push:
     branches:
-      - main 
+      - main
+    tags:
+      - 'v*'  # Triggers on tag pushes that match the pattern (e.g., v1.0.0, v2.0.1, etc.)
   pull_request:
     branches:
       - main
