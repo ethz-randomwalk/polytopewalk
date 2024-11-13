@@ -40,7 +40,7 @@ pip install .
 ```
 
 
-### Complie C++ from source (not necessary)
+### Compile C++ from source (not necessary)
 Only do this, if there is need to run and test C++ code directly. For normal users, we recommend only using the Python interface. 
 
 Build with cmake
