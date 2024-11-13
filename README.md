@@ -50,3 +50,6 @@ cmake -B build -S .
 make
 sudo make install
 ```
+
+# Testing
+The `tests` folder includes tests of the initialization algorithm, facial reduction algorithm, weights from the various barrier based MCMC algorithms, and sparse/dense walk algorithms in both Python and C++. The user can run each of the files separately to make sure it the package passes all of the test suites. 
