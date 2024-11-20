@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ethz-randomwalk/polytopewalk/main/docs/logo_wide.png" width="1000" object-fit = "cover">
+  <img src="https://raw.githubusercontent.com/ethz-randomwalk/polytopewalk/main/docs/logo1.png" width="1000" object-fit = "cover">
 </p>
 
 ![compiled](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
