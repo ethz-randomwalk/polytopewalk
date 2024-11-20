@@ -2,16 +2,17 @@
 # PolytopeWalk
 **PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes facial reduction and initialization algorithms for pre-processing as well. Sample code that samples from both real polytopes from a data set and artificial polytopes are shown in the Examples folder.
 
-## Algorithms
+## Implemented Algorithms
+If we let `d` be the dimension of the polytope, `n' be the number of boundaries, and `R/r` be where the convex body contains a ball of radius `r` and is mostly contained in a ball of radius `R`. 
 
-| Name      | Year | Mixing Time |
+| Name      | Mixing Time | Author |
 | ------------ | ----------------- | ------------------- |
-| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
-| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
-| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
-| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
-| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
-| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
+| `Ball Walk`   | $\tau$        | 0.91(0.05)          |
+| `Hit and Run`   | $\tau$         | 0.91(0.05)          |
+| `Dikin Walk`   | $\tau$         | 0.91(0.05)          |
+| `Vaidya Walk`   | $\tau$        | 0.91(0.05)          |
+| `John Walk`   | $\tau$        | 0.91(0.05)          |
+| `Lee Sidford Walk`   | $\tau$         | 0.91(0.05)          |
 
 ## Installation
 
