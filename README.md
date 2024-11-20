@@ -13,7 +13,7 @@
 </p>
 
 ## Implemented Algorithms
-Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `R/r` be where the convex body contains a ball of radius `r` and is mostly contained in a ball of radius `R`. We implement the following 6 MCMC sampling algorithm for uniform sampling over polytopes.  
+Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `R/r` be where the convex body contains a ball of radius `r` and is mostly contained in a ball of radius `R`. We implement the following 6 MCMC sampling algorithms for uniform sampling over polytopes.  
 
 | Name      | Mixing Time | Author |
 | ------------ | ----------------- | ------------------- |
