@@ -2,6 +2,17 @@
 # PolytopeWalk
 **PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes facial reduction and initialization algorithms for pre-processing as well. Sample code that samples from both real polytopes from a data set and artificial polytopes are shown in the Examples folder.
 
+## Algorithms
+
+| Name      | Year | Mixing Time |
+| ------------ | ----------------- | ------------------- |
+| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
+| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
+| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
+| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
+| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
+| `OMPSolver`   | 1.00(0.01)        | 0.91(0.05)          |
+
 ## Installation
 
 ### Dependencies
@@ -51,5 +62,5 @@ make
 sudo make install
 ```
 
-# Testing
+## Testing
 The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. The user can run each of the files separately to make sure the package passes all of the test suites. 
