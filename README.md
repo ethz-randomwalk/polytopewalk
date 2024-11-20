@@ -2,15 +2,15 @@
 # PolytopeWalk
 **PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes facial reduction and initialization algorithms for pre-processing as well. Sample code that samples from both real polytopes from a data set and artificial polytopes are shown in the Examples folder.
 
-# Installation
+## Installation
 
-## Dependencies
+### Dependencies
 polytopewalk requires:
 - Python (>= 3.9)
 - NumPy (>= 1.20)
 - SciPy (>= 1.6.0)
 
-## User installation
+### User installation
 If you already have a working installation of NumPy and SciPy, the easiest way to install polytopewalk is using `pip`:
 ```bash
 pip install -U polytopewalk
