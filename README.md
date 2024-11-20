@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ethz-randomwalk/polytopewalk/main/docs/logo.png" width="450">
+  <img src="https://raw.githubusercontent.com/ethz-randomwalk/polytopewalk/main/docs/logo.png" width="1000">
 </p>
 
 ![compiled](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
