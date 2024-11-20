@@ -7,12 +7,12 @@ If we let `d` be the dimension of the polytope, `n' be the number of boundaries,
 
 | Name      | Mixing Time | Author |
 | ------------ | ----------------- | ------------------- |
-| `Ball Walk`   | $\tau$        | 0.91(0.05)          |
-| `Hit and Run`   | $\tau$         | 0.91(0.05)          |
-| `Dikin Walk`   | $\tau$         | 0.91(0.05)          |
-| `Vaidya Walk`   | $\tau$        | 0.91(0.05)          |
-| `John Walk`   | $\tau$        | 0.91(0.05)          |
-| `Lee Sidford Walk`   | $\tau$         | 0.91(0.05)          |
+| `Ball Walk`   | $\tau$(d^2R^2/r^2)        | [Vempala (2005)](https://faculty.cc.gatech.edu/~vempala/papers/survey.pdf)       |
+| `Hit and Run`   | $\tau(d^2R^2/r^2)$         | [Lovasz (1999)](https://link.springer.com/content/pdf/10.1007/s101070050099.pdf)         |
+| `Dikin Walk`   | $\tau(nd)$         | 0.91(0.05)  [Sachdeva and Vishnoi (2015)](https://arxiv.org/pdf/1508.01977)     |
+| `Vaidya Walk`   | $\tau(n^{1/2}d^{3/2})$        |   [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)       |
+| `John Walk`   | $\tau(d^{2.5})$        | [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)           |
+| `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)          |
 
 ## Installation
 
