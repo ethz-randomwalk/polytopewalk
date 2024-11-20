@@ -9,8 +9,7 @@
 ## Code Structure
 
 <p align="center">
-  <embed  src="https://raw.githubusercontent.com/ethz-randomwalk/polytopewalk/main/docs/Code_Design.pdf" width="1000" object-fit = "cover">
-    </embed>
+  <img src="https://raw.githubusercontent.com/ethz-randomwalk/polytopewalk/main/docs/Code_Design.png" width="500" object-fit = "cover">
 </p>
 
 ## Implemented Algorithms
