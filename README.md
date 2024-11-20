@@ -1,15 +1,19 @@
-![example branch parameter](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
+.. image:: https://raw.githubusercontent.com/pygod-team/pygod/main/docs/pygod_logo.png
+   :width: 1050
+   :alt: PyGOD Logo
+   :align: center
+![compiled](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
 # PolytopeWalk
 **PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes facial reduction and initialization algorithms for pre-processing as well. Sample code that samples from both real polytopes from a data set and artificial polytopes are shown in the Examples folder.
 
 ## Implemented Algorithms
-If we let `d` be the dimension of the polytope, `n` be the number of boundaries, and `R/r` be where the convex body contains a ball of radius `r` and is mostly contained in a ball of radius `R`. 
+Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `R/r` be where the convex body contains a ball of radius `r` and is mostly contained in a ball of radius `R`. We implement the following 6 MCMC sampling algorithm for uniform sampling over polytopes.  
 
 | Name      | Mixing Time | Author |
 | ------------ | ----------------- | ------------------- |
 | `Ball Walk`   | $\tau(d^2R^2/r^2)$        | [Vempala (2005)](https://faculty.cc.gatech.edu/~vempala/papers/survey.pdf)       |
 | `Hit and Run`   | $\tau(d^2R^2/r^2)$         | [Lovasz (1999)](https://link.springer.com/content/pdf/10.1007/s101070050099.pdf)         |
-| `Dikin Walk`   | $\tau(nd)$         | 0.91(0.05)  [Sachdeva and Vishnoi (2015)](https://arxiv.org/pdf/1508.01977)     |
+| `Dikin Walk`   | $\tau(nd)$         | [Sachdeva and Vishnoi (2015)](https://arxiv.org/pdf/1508.01977)     |
 | `Vaidya Walk`   | $\tau(n^{1/2}d^{3/2})$        |   [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)       |
 | `John Walk`   | $\tau(d^{2.5})$        | [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)           |
 | `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)          |
