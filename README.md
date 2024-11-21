@@ -77,8 +77,7 @@ sudo make install
 The `examples` folder provides examples of sampling from both sparse and dense formulations of the MCMC sampling algorithms. We test our random walk algorithms on family of 3 structured polytopes and 3 real life polytopes from `netlib`. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
 ```python
 import numpy as np
-import pandas as pd 
-import matplotlib.pyplot as plt
+from scipy.sparse import csr_matrix, lil_matrix, csr_array
 from polytopewalk.sparse import SparseDikinWalk
 
 def generate_simplex(d):
@@ -87,6 +86,28 @@ def generate_simplex(d):
 x, A, b, k, name = generate_simplex(5)
 sparse_dikin = SparseDikinWalk(r = 0.9, thin = 1)
 dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burn = 100)
+```
+We can also provide a corollary example using the dense formulation
+```python
+import numpy as np
+from scipy.sparse import csr_matrix, lil_matrix, csr_array
+from polytopewalk.dense import DikinWalk
+from polytopewalk import FacialReduction
+
+def generate_simplex(d):
+    return np.array([1/d] * d), np.array([[1] * d]), np.array([1]), d, 'simplex'
+
+fr = FacialReduction()
+_, A, b, k, name = generate_simplex(5)
+
+polytope = fr.reduce(A, b, k, sparse = False)
+dense_A = polytope.dense_A
+dense_b = polytope.dense_b
+
+dc = DenseCenter()
+init = dc.getInitialPoint(dense_A, dense_b)
+
+dikin_res = dikin.generateCompleteWalk(1_000, init, dense_A, dense_b, burn = 100)
 ```
 
 ## Testing
