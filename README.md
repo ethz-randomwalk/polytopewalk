@@ -73,5 +73,21 @@ make
 sudo make install
 ```
 
+## Examples
+The `examples` folder provides examples of sampling from both sparse and dense formulations of the MCMC sampling algorithms. We test our random walk algorithms on family of 3 structured polytopes and 3 real life polytopes from `netlib`. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
+```python
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+from polytopewalk.sparse import SparseDikinWalk
+
+def generate_simplex(d):
+    return np.array([1/d] * d), np.array([[1] * d]), np.array([1]), d, 'simplex'
+
+x, A, b, k, name = generate_simplex(5)
+sparse_dikin = SparseDikinWalk(r = 0.9, thin = 1)
+dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burn = 100)
+```
+
 ## Testing
 The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. The user can run each of the files separately to make sure the package passes all of the test suites. 
