@@ -23,3 +23,11 @@ Indices and tables
 
 Docs
 ====
+
+.. doxygenclass:: RandomWalk
+   :members:
+   :protected-members:
+
+.. doxygenclass:: BallWalk
+   :members:
+   :protected-members:
