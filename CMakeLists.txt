@@ -28,7 +28,6 @@ set(TESTS_DIR ${POLYTOPEWALK_DIR}/tests/cpp)
 
 add_subdirectory("src")
 # set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
-#add_subdirectory ("docs")
 
 pybind11_add_module(${PROJECT_NAME} MODULE pybind11/PybindExt.cpp)
 target_link_libraries(${PROJECT_NAME} PUBLIC utils dense sparse pybind11::module Eigen3::Eigen ${GLPK_LIBRARY})
@@ -36,3 +35,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${Eigen3_INCLUDE_DIRS} ${GLPK
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION .)
 
 add_subdirectory("tests")
+add_subdirectory ("docs")

@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'polytopewalk'
-copyright = '2023, Yuansi Chen, Benny Sun'
+copyright = '2024, Yuansi Chen, Benny Sun'
 author = 'Yuansi Chen, Benny Sun'
 
 # The full version, including alpha/beta/rc tags
-release = '0.02'
+release = '1.07'
 
 
 # -- General configuration ---------------------------------------------------
