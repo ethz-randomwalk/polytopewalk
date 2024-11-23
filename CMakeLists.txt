@@ -34,10 +34,10 @@ target_link_libraries(${PROJECT_NAME} PUBLIC utils dense sparse pybind11::module
 target_include_directories(${PROJECT_NAME} PRIVATE ${Eigen3_INCLUDE_DIRS} ${GLPK_INCLUDE_DIR})
 install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION .)
 
-if (BUILD_TESTS)
-  add_subdirectory("tests")
-endif()
+# if (BUILD_TESTS)
+add_subdirectory("tests")
+# endif()
 
 if (BUILD_DOCS)
-    add_subdirectory("docs")
+  add_subdirectory("docs")
 endif()
