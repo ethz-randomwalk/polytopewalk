@@ -3,7 +3,7 @@
 </p>
 
 ![Python](https://img.shields.io/pypi/pyversions/polytopewalk.svg)
-![PyPI](https://img.shields.io/pypi/v/polytopwalk)
+![PyPI](https://img.shields.io/pypi/v/polytopewalk)
 ![ciwheels](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
 
 # PolytopeWalk
