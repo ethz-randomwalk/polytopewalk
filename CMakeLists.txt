@@ -17,14 +17,22 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
+# Set project directories
+set(POLYTOPEWALK_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(SOURCES_DIR ${POLYTOPEWALK_DIR}/src)
+set(TESTS_DIR ${POLYTOPEWALK_DIR}/tests/cpp)
+
+# Documentation configuration
+if (BUILD_DOCS)
+    add_subdirectory("docs")
+    return() # Stop processing further targets for BUILD_DOCS
+endif()
+
+# Main project dependencies (only when not building docs)
 find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 find_package(pybind11 CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
 find_package(GLPK REQUIRED)
-
-set(POLYTOPEWALK_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(SOURCES_DIR ${POLYTOPEWALK_DIR}/src)
-set(TESTS_DIR ${POLYTOPEWALK_DIR}/tests/cpp)
 
 add_subdirectory("src")
 # set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
@@ -38,6 +46,3 @@ install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION .)
 add_subdirectory("tests")
 # endif()
 
-if (BUILD_DOCS)
-  add_subdirectory("docs")
-endif()

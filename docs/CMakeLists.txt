@@ -1,7 +1,8 @@
 find_package(Doxygen REQUIRED)
 
 # Find all the public headers
-get_target_property(MY_PUBLIC_HEADER_DIR polytopewalk INTERFACE_INCLUDE_DIRECTORIES)
+# get_target_property(MY_PUBLIC_HEADER_DIR polytopewalk INTERFACE_INCLUDE_DIRECTORIES)
+set(MY_PUBLIC_HEADER_DIR "${CMAKE_SOURCE_DIR}/src")
 file(GLOB_RECURSE MY_PUBLIC_HEADERS ${MY_PUBLIC_HEADER_DIR}/*.hpp)
 
 set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/src)
