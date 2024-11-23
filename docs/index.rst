@@ -7,9 +7,12 @@ Welcome to polytopewalk's documentation!
 =======================================
 
 .. toctree::
+   :maxdepth: 2
    :caption: User Guide
 
    installation
+   python_api
+   cpp_api
    support
 
 
@@ -20,8 +23,27 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+Python API
+===========
 
-Docs
+The Python bindings are created using `pybind11` and are documented here.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Python Modules
+
+   modules
+
+
+C++ API
+========
+
+The C++ API is documented using Doxygen.
+
+.. doxygenindex::
+
+
+Specific C++ Classes (Examples)
 ====
 
 .. doxygenclass:: RandomWalk
