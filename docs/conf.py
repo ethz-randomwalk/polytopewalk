@@ -10,9 +10,11 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
+import subprocess
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+
 
 
 # -- Project information -----------------------------------------------------
@@ -24,8 +26,16 @@ author = 'Yuansi Chen, Benny Sun'
 # The full version, including alpha/beta/rc tags
 release = '1.0.7'
 
-
 # -- General configuration ---------------------------------------------------
+
+# Settings to determine if we are building on readthedocs
+read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+if read_the_docs_build:
+    subprocess.call('pwd', shell=True)
+    subprocess.call('ls', shell=True)
+    subprocess.call('cmake -B ../build -S .. -DBUILD_DOCS=ON', shell=True)
+    subprocess.call('cmake --build ../build  --target Doxygen', shell=True)
+    
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
