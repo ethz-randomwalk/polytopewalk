@@ -12,19 +12,27 @@
 #
 import os
 import subprocess
+import toml
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
 
 
 # -- Project information -----------------------------------------------------
+# obtain project information from pyproject.toml
+# Path to your pyproject.toml file
+pyproject_path = os.path.join(os.path.dirname(__file__), '..', 'pyproject.toml')
 
-project = 'polytopewalk'
-copyright = '2024, Yuansi Chen, Benny Sun'
-author = 'Yuansi Chen, Benny Sun'
+# Load the pyproject.toml file
+with open(pyproject_path, 'r') as f:
+    pyproject_data = toml.load(f)
 
-# The full version, including alpha/beta/rc tags
-release = '1.0.7'
+# Extract the relevant fields from the pyproject.toml
+project = pyproject_data['tool']['poetry']['name']
+authors = pyproject_data['tool']['poetry']['authors']
+author = ', '.join([author['name'] for author in authors])  # Comma-separated list of author names
+release = pyproject_data['tool']['poetry']['version']
+copyright = f"2023, {author}"  # Use author and release for copyright
 
 # -- General configuration ---------------------------------------------------
 
