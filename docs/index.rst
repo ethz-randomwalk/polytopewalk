@@ -38,18 +38,33 @@ The Python bindings are created using `pybind11` and are documented here.
 C++ API
 ========
 
-The C++ API is documented using Doxygen.
+The C++ API is documented using Doxygen. 
+This section provides an overview of the C++ API.
 
-.. doxygenindex::
+Here is a list of important classes in the C++ API:
+
+* `RandomWalk`
+   * `BallWalk`
+   * `HitAndRun`
+   * `BarrierWalk`
+      * `DikinWalk`
+      * `VaidyaWalk`
+      * `JohnWalk`
+      * `DikinLSWalk`
+* `SparseRandomWalk`
+   * `SparseBallWalk`
+   * `SparseHitAndRun`
+   * `SparseBarrierWalk`
+      * `SparseDikinWalk`
+      * `SparseVaidyaWalk`
+      * `SparseJohnWalk`
+      * `SparseDikinLSWalk`
 
 
-Specific C++ Classes (Examples)
-====
+For more detailed documentation on these classes, see the following pages.
 
-.. doxygenclass:: RandomWalk
-   :members:
-   :protected-members:
+.. toctree::
+   :maxdepth: 2
 
-.. doxygenclass:: BallWalk
-   :members:
-   :protected-members:
+   cpp_index
+   cpp_barrier_walk

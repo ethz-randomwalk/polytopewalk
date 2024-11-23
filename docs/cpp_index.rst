@@ -1,0 +1,4 @@
+C++ API index
+==========
+
+.. doxygenindex::
