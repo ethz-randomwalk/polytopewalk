@@ -90,18 +90,12 @@ jobs:
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
           CIBW_BEFORE_ALL_MACOS: |
-            python3 -m venv path/to/venv &&
-            source path/to/venv/bin/activate &&
             python3 -m pip install sphinx breathe &&
             brew install eigen glpk sphinx-doc doxygen
           CIBW_BEFORE_ALL_LINUX: |
-            python3 -m venv path/to/venv &&
-            source path/to/venv/bin/activate &&
             python3 -m pip install sphinx breathe &&
             yum install -y epel-release eigen3-devel glpk-devel doxygen python-sphinx
           CIBW_BEFORE_ALL_WINDOWS: >
-            python3 -m venv path/to/venv &&
-            source path/to/venv/bin/activate &&
             python3 -m pip install sphinx breathe &&
             echo "OK starts Windows build" &&
             choco install eigen doxygen.install sphinx -y
