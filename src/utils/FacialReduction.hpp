@@ -4,17 +4,37 @@
 #include "Common.hpp"
 #include "SparseLP.hpp"
 
+/**
+* @brief Result of Find Z Algorithm 
+* @param found_sol if the algorithm found a z
+* @param z the vector z
+*/
 struct ZResult{
     bool found_sol; 
     VectorXd z; 
 };
 
+/**
+* @brief Result of Facial Reduction Step 
+* @param A Ax = b
+* @param b Ax = b
+* @param savedV PAVv = Pb decomposition
+*/
 struct FRResult{
     SparseMatrixXd A;
     VectorXd b; 
     SparseMatrixXd savedV;
 };
 
+/**
+* @brief Final Output of Facial Reduction Algorithm 
+* @param sparse_A constrained form Ax = b, x >=_k 0
+* @param sparse_b constrained form Ax = b, x >=_k 0
+* @param dense_A full-dim form Ax <= b
+* @param dense_b full-dim form Ax <= b
+* @param Q used to go between forms
+* @param z1 used to go between forms
+*/
 struct FROutput{
     SparseMatrixXd sparse_A;
     VectorXd sparse_b; 
@@ -29,12 +49,7 @@ class FacialReduction {
     public:
         /**
          * @brief Facial Reduction initialization
-         * @param max_iter maximum iterations during linear program
-         * @param tol tolerance term
-         * @param s_max error term
-         * @param err_lp error sensitivity for lp calculation
          * @param err_dc error sensitivity for decomposition calculation
-         * @return res
          */
         FacialReduction(double err_dc = 1e-5) : ERR_DC(err_dc){}
         /**

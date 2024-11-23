@@ -10,7 +10,7 @@ class LeverageScore{
      * @brief Get the Leverage Score approximate calculation
      * @param A polytope matrix (Ax = b)
      * @param W Weight Matrix for slack
-     * @param b polytope vector (Ax = b)
+     * @param x polytope vector (Ax = b)
      * @param ERR error term
      * @param k last k values have inequality constraint
      * @return Vector

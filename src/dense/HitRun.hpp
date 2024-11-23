@@ -23,6 +23,7 @@ class HitAndRun: public RandomWalk{
          * @param x initial starting point
          * @param A polytope matrix
          * @param b polytope matrix
+         * @param burn number of steps to burn
          * @return Matrix
          */
         MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn) override;

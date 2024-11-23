@@ -19,6 +19,7 @@ class SparseRandomWalk{
          * @param A polytope matrix 
          * @param b polytope vector
          * @param k k values >= 0 constraint
+         * @param burn number of steps to burn
          * @return Matrix
          */
         virtual MatrixXd generateCompleteWalk(

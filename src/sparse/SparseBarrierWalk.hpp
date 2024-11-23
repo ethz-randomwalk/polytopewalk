@@ -49,7 +49,6 @@ class SparseBarrierWalk : public SparseRandomWalk{
          * @brief Distribution constant
          * @param d polytope matrix 
          * @param n polytope vector
-         * @return void
          */
         virtual void setDistTerm(int d, int n); 
     
