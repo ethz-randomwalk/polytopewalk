@@ -189,14 +189,14 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double>(), py::arg("err_dc") = 1e-6)
         .def("reduce", &FacialReduction::reduce, py::arg("A"), py::arg("b"), py::arg("k"), py::arg("sparse"));
     
-    py::class_<res>(m, "res")
-        .def_readwrite("sparse_A", &res::sparse_A)
-        .def_readwrite("sparse_b", &res::sparse_b)
-        .def_readwrite("saved_V", &res::saved_V)
-        .def_readwrite("dense_A", &res::dense_A)
-        .def_readwrite("dense_b", &res::dense_b)
-        .def_readwrite("Q", &res::Q)
-        .def_readwrite("z1", &res::z1);
+    py::class_<FROutput>(m, "res")
+        .def_readwrite("sparse_A", &FROutput::sparse_A)
+        .def_readwrite("sparse_b", &FROutput::sparse_b)
+        .def_readwrite("saved_V", &FROutput::saved_V)
+        .def_readwrite("dense_A", &FROutput::dense_A)
+        .def_readwrite("dense_b", &FROutput::dense_b)
+        .def_readwrite("Q", &FROutput::Q)
+        .def_readwrite("z1", &FROutput::z1);
     
     py::class_<SparseRandomWalk, PySparseRandomWalk<>>(m_dense, "SparseRandomWalk")
         .def(py::init<int, double>(), py::arg("thin") = 1, py::arg("err") = 1e-6)

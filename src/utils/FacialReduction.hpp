@@ -4,18 +4,18 @@
 #include "Common.hpp"
 #include "SparseLP.hpp"
 
-struct z_res{
+struct ZResult{
     bool found_sol; 
     VectorXd z; 
 };
 
-struct fr_res{
+struct FRResult{
     SparseMatrixXd A;
     VectorXd b; 
     SparseMatrixXd savedV;
 };
 
-struct res{
+struct FROutput{
     SparseMatrixXd sparse_A;
     VectorXd sparse_b; 
     SparseMatrixXd saved_V; 
@@ -43,9 +43,9 @@ class FacialReduction {
          * @param b polytope vector (Ax = b)
          * @param k k values >= 0 constraint
          * @param sparse decision to choose full-dimensional or constraint formulation
-         * @return res
+         * @return FROutput
          */
-        res reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse);
+        FROutput reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse);
     
     protected:
         /**
@@ -53,9 +53,9 @@ class FacialReduction {
          * @param A polytope matrix (Ax = b)
          * @param b polytope vector (Ax = b)
          * @param k values >= 0 constraint
-         * @return z_res
+         * @return ZResult
          */
-        z_res findZ(const SparseMatrixXd& A, const VectorXd& b, int k);
+        ZResult findZ(const SparseMatrixXd& A, const VectorXd& b, int k);
 
         /**
          * @brief finds supports with z vector
@@ -78,9 +78,9 @@ class FacialReduction {
          * @param b polytope vector (Ax = b)
          * @param k values >= 0 constraint
          * @param savedV V in AVv = b
-         * @return fr_res
+         * @return FRResult
          */
-        fr_res entireFacialReductionStep(SparseMatrixXd& A, VectorXd& b, int k, SparseMatrixXd& savedV);
+        FRResult entireFacialReductionStep(SparseMatrixXd& A, VectorXd& b, int k, SparseMatrixXd& savedV);
 
         /**
          * @brief DC error parameter

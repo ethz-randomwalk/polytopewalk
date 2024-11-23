@@ -103,9 +103,9 @@ TEST_CASE( "Check Weight Properties", "[require]" ){
 
     FacialReduction fr;
     DenseCenter dc;
-    res simplex_dense = fr.reduce(simplex.A, simplex.b, simplex.k, false);
-    res hc_dense = fr.reduce(hc.A, hc.b, hc.k, false);
-    res birk_dense = fr.reduce(birk.A, birk.b, birk.k, false);
+    FROutput simplex_dense = fr.reduce(simplex.A, simplex.b, simplex.k, false);
+    FROutput hc_dense = fr.reduce(hc.A, hc.b, hc.k, false);
+    FROutput birk_dense = fr.reduce(birk.A, birk.b, birk.k, false);
     VectorXd sd_x = dc.getInitialPoint(simplex_dense.dense_A, simplex_dense.dense_b);
     VectorXd hc_x = dc.getInitialPoint(hc_dense.dense_A, hc_dense.dense_b);
     VectorXd birk_x = dc.getInitialPoint(birk_dense.dense_A, birk_dense.dense_b);

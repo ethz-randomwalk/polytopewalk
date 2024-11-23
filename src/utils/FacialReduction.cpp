@@ -1,7 +1,7 @@
 #include "FacialReduction.hpp"
 
 
-z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_dim){
+ZResult FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_dim){
     // A size n * d
     // b size n
     // x_dim = d-k
@@ -11,7 +11,7 @@ z_res FacialReduction::findZ(const SparseMatrixXd& A, const VectorXd& b, int x_d
     // s.t. <b, y> = 0
     // z in R^k, z >= 0, z != 0
     // first n-k terms is 0, last k terms is z
-    z_res ans;
+    ZResult ans;
     ans.found_sol = false;
     SparseLP sparse_lp;
 
@@ -125,13 +125,13 @@ SparseMatrixXd FacialReduction::pickP(const SparseMatrixXd& AV){
     return proj; 
 }
 
-fr_res FacialReduction::entireFacialReductionStep(SparseMatrixXd& A, VectorXd& b, int x_dim, SparseMatrixXd& savedV){
+FRResult FacialReduction::entireFacialReductionStep(SparseMatrixXd& A, VectorXd& b, int x_dim, SparseMatrixXd& savedV){
     // findZ->pickV->pickP
-    z_res z_ans = findZ(A, b, x_dim);
+    ZResult z_ans = findZ(A, b, x_dim);
 
     // if findZ is not successful, then the original form is strictly feasible
     if(!z_ans.found_sol){
-        fr_res ans;
+        FRResult ans;
         ans.A = A;
         ans.b = b; 
         ans.savedV = savedV;
@@ -147,7 +147,7 @@ fr_res FacialReduction::entireFacialReductionStep(SparseMatrixXd& A, VectorXd& b
     return entireFacialReductionStep(A, b, x_dim, savedV);
 }
 
-res FacialReduction::reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse){
+FROutput FacialReduction::reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse){
     int x_dim = A.cols() - k; 
     SparseMatrixXd savedV = SparseMatrixXd(VectorXd::Ones(A.cols()).asDiagonal());
     global_index = x_dim; 
@@ -155,8 +155,8 @@ res FacialReduction::reduce(SparseMatrixXd A, VectorXd b, int k, bool sparse){
     SparseMatrixXd P = pickP(A);
     A = P * A; 
     b = P * b; 
-    fr_res result = entireFacialReductionStep(A, b, x_dim, savedV);
-    res final_res; 
+    FRResult result = entireFacialReductionStep(A, b, x_dim, savedV);
+    FROutput final_res; 
 
     final_res.sparse_A = result.A;
     final_res.sparse_b = result.b;
