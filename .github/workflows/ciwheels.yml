@@ -90,7 +90,8 @@ jobs:
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
           CIBW_BEFORE_ALL_MACOS: |
-            python3 -m pip install sphinx breathe && 
+            brew install pipx && 
+            python3 -m pipx install sphinx breathe && 
             brew install eigen glpk sphinx-doc doxygen
           CIBW_BEFORE_ALL_LINUX: |
             python3 -m pip install sphinx breathe && 
