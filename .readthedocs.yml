@@ -8,9 +8,9 @@ build:
     python: "3.10"
     # You can also specify other tool versions:
     # nodejs: "16"
-  commands:
-    - cmake -B build -S . -DBUILD_DOCS=ON # Configure CMake
-    - cmake --build build --target Doxygen Sphinx # Build project
+  # commands:
+  #   - cmake -B build -S . -DBUILD_DOCS=ON # Configure CMake
+  #   - cmake --build build --target Doxygen Sphinx # Build project
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
