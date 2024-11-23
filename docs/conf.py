@@ -28,10 +28,10 @@ with open(pyproject_path, 'r') as f:
     pyproject_data = toml.load(f)
 
 # Extract the relevant fields from the pyproject.toml
-project = pyproject_data['tool']['poetry']['name']
-authors = pyproject_data['tool']['poetry']['authors']
+project = pyproject_data['project']['name']
+authors = pyproject_data['project']['authors']
 author = ', '.join([author['name'] for author in authors])  # Comma-separated list of author names
-release = pyproject_data['tool']['poetry']['version']
+release = pyproject_data['project']['version']
 copyright = f"2023, {author}"  # Use author and release for copyright
 
 # -- General configuration ---------------------------------------------------
