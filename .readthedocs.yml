@@ -4,7 +4,6 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.10"
-    cmake: "3.22"
     # You can also specify other tool versions:
     # nodejs: "16"
   commands:
