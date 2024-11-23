@@ -30,7 +30,7 @@ class RandomWalk{
          * @param z vector
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @return void
+         * @return bool
          */
         bool inPolytope(const VectorXd& z, const MatrixXd& A, const VectorXd& b);
 
@@ -43,7 +43,6 @@ class RandomWalk{
 
         /**
          * @brief prints unique identifier of the walk
-         * @return void
          */
         virtual void printType();
 

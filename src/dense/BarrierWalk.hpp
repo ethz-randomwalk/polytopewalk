@@ -25,7 +25,6 @@ class BarrierWalk : public RandomWalk{
          * @param x point in polytope to generate weight
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @return void (update global variable weights)
          */
         virtual void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 
@@ -44,7 +43,6 @@ class BarrierWalk : public RandomWalk{
          * @brief set Distribution Constant
          * @param d (dimension)
          * @param n (number of constraints)
-         * @return void
          */
         virtual void setDistTerm(int d, int n);
     
@@ -89,7 +87,6 @@ class BarrierWalk : public RandomWalk{
          * @param x point
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @return void
          */
         void generateSlack(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 
@@ -106,7 +103,6 @@ class BarrierWalk : public RandomWalk{
          * @param x centered at x
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @return void
          */
         void generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 
@@ -115,7 +111,6 @@ class BarrierWalk : public RandomWalk{
          * @param x centered point in the polytope
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @return void (updates global variable z)
          */
         void generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 };

@@ -9,7 +9,6 @@ class DenseCenter {
 
         /**
          * @brief Center Algorithm
-         * @return res
          */
         DenseCenter(){};
 

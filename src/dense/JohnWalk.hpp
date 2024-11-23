@@ -20,7 +20,6 @@ class JohnWalk: public BarrierWalk{
 
         /**
          * @brief print john walk
-         * @return void
          */
         void printType() override;
 
@@ -29,7 +28,6 @@ class JohnWalk: public BarrierWalk{
          * @param x point in polytope to generate DikinLS weight
          * @param A polytope matrix
          * @param b polytope matrix
-         * @return void (update global variable weights)
          */
         void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override;
 
@@ -55,7 +53,6 @@ class JohnWalk: public BarrierWalk{
          * @brief set Dist Term for John Walk
          * @param d (dimension)
          * @param n (number of constraints)
-         * @return void
          */
         void setDistTerm(int d, int n) override;
 

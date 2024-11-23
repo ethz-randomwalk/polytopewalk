@@ -8,7 +8,6 @@ class SparseCenter {
     public:
         /**
          * @brief Center Algorithm for sparse input
-         * @return res
          */
         SparseCenter(){};
 

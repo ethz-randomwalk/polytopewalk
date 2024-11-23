@@ -35,7 +35,6 @@ class SparseJohnWalk : public SparseBarrierWalk{
          * @brief Distribution constant
          * @param d polytope matrix 
          * @param n polytope vector
-         * @return void
          */
         void setDistTerm(int d, int n) override;
 

@@ -21,7 +21,6 @@ class DikinLSWalk: public BarrierWalk{
 
         /**
          * @brief print dikinls
-         * @return void
          */
         void printType() override;
 
@@ -30,7 +29,6 @@ class DikinLSWalk: public BarrierWalk{
          * @param x point in polytope to generate DikinLS weight
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @return void (update global variable weights)
          */
         void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override;
     
@@ -59,7 +57,6 @@ class DikinLSWalk: public BarrierWalk{
          * @brief set Distribution Constant
          * @param d (dimension)
          * @param n (number of constraints)
-         * @return void
          */
         void setDistTerm(int d, int n) override;
 };

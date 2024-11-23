@@ -31,7 +31,6 @@ class BallWalk: public RandomWalk{
         
         /**
          * @brief print general type 
-         * @return void
          */
         void printType() override;
     

@@ -16,7 +16,6 @@ class VaidyaWalk: public BarrierWalk{
 
         /**
          * @brief print general type 
-         * @return void
          */
         void printType() override;
 
@@ -25,7 +24,6 @@ class VaidyaWalk: public BarrierWalk{
          * @param x center vector
          * @param A polytope matrix
          * @param b polytope vector
-         * @return void
          */
         void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override;
     
@@ -35,7 +33,6 @@ class VaidyaWalk: public BarrierWalk{
          * @brief set Dist Term for Vaidya Walk
          * @param d (dimension)
          * @param n (number of constraints)
-         * @return void
          */
         void setDistTerm(int d, int n) override;
 
