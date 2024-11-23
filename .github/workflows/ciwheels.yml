@@ -88,17 +88,15 @@ jobs:
           # Skip 32-bit builds and musllinux
           CIBW_SKIP: "*-win32 *-manylinux_i686 *musllinux*"
           CIBW_BUILD: cp${{ matrix.python }}-${{ matrix.platform_id }}
+          BUILD_DOCS: "OFF"
           MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target }}
           CIBW_BEFORE_ALL_MACOS: |
-            pipx install sphinx breathe &&
-            brew install eigen glpk sphinx-doc doxygen
+            brew install eigen glpk
           CIBW_BEFORE_ALL_LINUX: |
-            pipx  install sphinx breathe &&
-            yum install -y epel-release eigen3-devel glpk-devel doxygen python-sphinx
+            yum install -y epel-release eigen3-devel glpk-devel
           CIBW_BEFORE_ALL_WINDOWS: >
-            pipx install sphinx breathe &&
             echo "OK starts Windows build" &&
-            choco install eigen doxygen.install sphinx -y
+            choco install eigen -y
         with:
           package-dir: .
           output-dir: wheelhouse

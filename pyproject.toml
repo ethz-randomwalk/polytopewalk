@@ -26,7 +26,7 @@ classifiers = [
 cmake.args = []
 
 # A table of defines to pass to CMake when configuring the project. Additive.
-cmake.define = {}
+cmake.define = {BUILD_DOCS = "OFF"}
 
 # Verbose printout when building.
 build.verbose = true
@@ -34,3 +34,7 @@ build.verbose = true
 # The build type to use when building the project. Valid options are: "Debug",
 # "Release", "RelWithDebInfo", "MinSizeRel", "", etc.
 cmake.build-type = "Release"
+
+[tool.scikit-build-core.env]
+# Allow overriding CMake options via environment variables
+BUILD_DOCS = { default = "OFF" }
