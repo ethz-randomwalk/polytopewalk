@@ -1,4 +1,4 @@
-C++ API index
+C++ API auto-gen index
 ==========
 
 .. doxygenindex::

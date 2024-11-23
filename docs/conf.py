@@ -42,7 +42,13 @@ if read_the_docs_build:
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [ "breathe" ]
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',  # For Google/NumPy-style docstrings
+    'sphinx.ext.viewcode',  # Links to source code
+    'breathe',              # For C++ API
+]
+
 # Breathe Configuration
 breathe_default_project = "polytopewalk"
 if read_the_docs_build:

@@ -32,7 +32,7 @@ The Python bindings are created using `pybind11` and are documented here.
    :maxdepth: 2
    :caption: Python Modules
 
-   modules
+   py_modules
 
 
 C++ API
