@@ -35,6 +35,8 @@ if read_the_docs_build:
     subprocess.call('ls', shell=True)
     subprocess.call('cmake -B ../build -S .. -DBUILD_DOCS=ON', shell=True)
     subprocess.call('cmake --build ../build  --target Doxygen', shell=True)
+    xml_dir = os.path.abspath("../build/docs/xml")
+
     
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -43,6 +45,9 @@ if read_the_docs_build:
 extensions = [ "breathe" ]
 # Breathe Configuration
 breathe_default_project = "polytopewalk"
+if read_the_docs_build:
+    breathe_projects = {"polytopewalk": xml_dir}
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
