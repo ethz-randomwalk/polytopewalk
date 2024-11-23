@@ -22,7 +22,9 @@
  * @param k values >= 0 constraint
  * @param num_sim number of steps
  * @param walk dense random walk implementation
+ * @param fr facial reduction algorithm
  * @param init initialization algorithm 
+ * @param burn how many to exclude
  * @return Matrix
  */
 MatrixXd denseFullWalkRun(SparseMatrixXd A, VectorXd b, int k, int num_sim, RandomWalk* walk, FacialReduction* fr, DenseCenter* init, int burn = 0){
@@ -42,10 +44,13 @@ MatrixXd denseFullWalkRun(SparseMatrixXd A, VectorXd b, int k, int num_sim, Rand
 /**
  * @brief runs full preprocessing, walk, and post-processing steps in sparse formulation
  * @param A polytope matrix (Ax <= b)
- * @param b polytope vector (Ax =< b)
+ * @param b polytope vector (Ax <= b)
+ * @param k last k coordinates >= 0
  * @param num_sim number of steps
  * @param walk sparse random walk implementation
+ * @param fr facial reduction algorithm
  * @param init initialization algorithm 
+ * @param burn how many to exclude
  * @return Matrix
  */
 MatrixXd sparseFullWalkRun(SparseMatrixXd A, VectorXd b, int k, int num_sim, SparseRandomWalk* walk, FacialReduction* fr, SparseCenter* init, int burn = 0){
