@@ -7,7 +7,7 @@ class LeverageScore{
 
     LeverageScore (){};
     /**
-     * @brief Get the Leverage Score approximate calculation
+     * @brief get the Leverage Score approximate calculation
      * @param A polytope matrix (Ax = b)
      * @param W Weight Matrix for slack
      * @param x polytope vector (Ax = b)

@@ -8,7 +8,7 @@ class SparseDikinLSWalk : public SparseBarrierWalk{
 
     public:
         /**
-         * @brief constructor for weighted Dikin Walk class
+         * @brief initialization of Sparse Lee Sidford Walk class
          * @param r spread parameter
          * @param thin thin parameter
          * @param g_lim gradient descent norm limit
@@ -34,7 +34,7 @@ class SparseDikinLSWalk : public SparseBarrierWalk{
     protected:
 
         /**
-         * @brief Distribution constant
+         * @brief set distribution constant
          * @param d polytope matrix 
          * @param n polytope vector
          */

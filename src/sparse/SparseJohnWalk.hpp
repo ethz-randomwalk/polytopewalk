@@ -7,7 +7,7 @@ class SparseJohnWalk : public SparseBarrierWalk{
 
     public:
         /**
-         * @brief constructor for the John Walk class
+         * @brief initialization of Sparse John Walk class
          * @param r spread parameter
          * @param thin thin parameter
          * @param lim limit in l-infinity norm
@@ -32,7 +32,7 @@ class SparseJohnWalk : public SparseBarrierWalk{
     protected:
 
         /**
-         * @brief Distribution constant
+         * @brief set distribution constant
          * @param d polytope matrix 
          * @param n polytope vector
          */

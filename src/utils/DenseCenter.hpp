@@ -8,12 +8,12 @@ class DenseCenter {
     public:
 
         /**
-         * @brief Center Algorithm
+         * @brief initialization for Center Algorithm
          */
         DenseCenter(){};
 
         /**
-         * @brief Finds analytical center Ax <= b
+         * @brief finds analytical center Ax <= b
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
          * @return VectorXd 

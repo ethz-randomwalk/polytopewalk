@@ -6,7 +6,7 @@
 class SparseHitAndRun : public SparseRandomWalk{
     public:
         /**
-         * @brief constructor for HitAndRun
+         * @brief initialization of Sparse Hit and Run class
          * @param r spread parameter
          * @param thin thin parameter
          * @param err error constant
@@ -14,7 +14,7 @@ class SparseHitAndRun : public SparseRandomWalk{
         SparseHitAndRun(double r, int thin = 1, double err = 1e-6) : R(r), SparseRandomWalk(thin, err) {}
 
          /**
-         * @brief Generate values from the Hit and Run
+         * @brief generate values from the Hit and Run
          * @param num_steps number of steps wanted to take
          * @param init initial starting point
          * @param A polytope matrix 

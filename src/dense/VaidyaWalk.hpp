@@ -8,7 +8,7 @@ class VaidyaWalk: public BarrierWalk{
 
     public:
         /**
-         * @brief constructor for Vaidya Walk class
+         * @brief initialization of Sparse Vaidya Walk class
          * @param r spread parameter
          * @param thin thin constant
          */
@@ -30,7 +30,7 @@ class VaidyaWalk: public BarrierWalk{
     protected:
 
         /**
-         * @brief set Dist Term for Vaidya Walk
+         * @brief set distribution constant
          * @param d (dimension)
          * @param n (number of constraints)
          */

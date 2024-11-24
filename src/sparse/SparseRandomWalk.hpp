@@ -6,7 +6,7 @@ class SparseRandomWalk{
 
     public:
         /**
-         * @brief Random Walk Superclass implementation
+         * @brief initialization of Sparse Random Walk class
          * @param thin thin constant
          * @param err error constant
          */

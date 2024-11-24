@@ -8,7 +8,7 @@ class JohnWalk: public BarrierWalk{
 
     public:
          /**
-         * @brief constructor for John Walk class
+         * @brief initialization of John Walk class
          * @param r spread parameter
          * @param thin thin constant
          * @param lim norm limit for fixed point iteration
@@ -50,7 +50,7 @@ class JohnWalk: public BarrierWalk{
         VectorXd w_i = VectorXd::Zero(1) - VectorXd::Ones(1); 
 
         /**
-         * @brief set Dist Term for John Walk
+         * @brief set distribution constant
          * @param d (dimension)
          * @param n (number of constraints)
          */

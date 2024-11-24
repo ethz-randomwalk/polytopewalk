@@ -7,7 +7,7 @@ class BarrierWalk : public RandomWalk{
     public:
         
         /**
-         * @brief BarrierWalk class
+         * @brief initialization of BarrierWalk class
          * @param r spread parameter
          * @param thin thin constant
          */
@@ -29,18 +29,18 @@ class BarrierWalk : public RandomWalk{
         virtual void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 
         /**
-         * @brief Generate values from the walk
+         * @brief generate values from the walk
          * @param num_steps number of steps wanted to take
          * @param x initial starting point
          * @param A polytope matrix
          * @param b polytope vector
          * @param burn number of initial steps to cut
-         * @return Matrix
+         * @return num_steps by d (dimension of x) matrix
          */
         MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn) override;
 
          /**
-         * @brief set Distribution Constant
+         * @brief set distribution constant
          * @param d (dimension)
          * @param n (number of constraints)
          */
@@ -55,7 +55,7 @@ class BarrierWalk : public RandomWalk{
 
 
         /**
-         * @brief Distribution constant
+         * @brief distribution constant
          */
         double DIST_TERM;
 
@@ -65,7 +65,7 @@ class BarrierWalk : public RandomWalk{
         VectorXd slack{}; 
 
         /**
-         * @brief Hessian Matrix from global variable from generateHessian
+         * @brief hessian matrix from global variable from generateHessian
          */
         MatrixXd hess{};
 
@@ -94,7 +94,7 @@ class BarrierWalk : public RandomWalk{
          * @brief calculates Mahalanobis distance weighted by Hessian matrix m
          * @param m Weighted Hessian Matrix
          * @param v vector to be measured
-         * @return double
+         * @return norm distance (double)
          */
         double localNorm(VectorXd v, const MatrixXd& m);
 

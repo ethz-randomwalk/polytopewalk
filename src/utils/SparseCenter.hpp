@@ -7,12 +7,12 @@
 class SparseCenter {
     public:
         /**
-         * @brief Center Algorithm for sparse input
+         * @brief initialization for Sparse Center Algorithm
          */
         SparseCenter(){};
 
         /**
-         * @brief Finds analytical center Ax = b, x >=_k 0 
+         * @brief finds analytical center Ax = b, x >=_k 0 
          * @param A polytope matrix (Ax = b)
          * @param b polytope vector (Ax = b)
          * @param k k values >= 0 constraint

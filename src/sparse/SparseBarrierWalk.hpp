@@ -6,7 +6,7 @@ class SparseBarrierWalk : public SparseRandomWalk{
 
     public:
         /**
-         * @brief SparseBarrierWalk class
+         * @brief initialization of Sparse Barrier Walk class
          * @param r spread parameter
          * @param thin thin parameter
          * @param err error term parameter
@@ -27,14 +27,14 @@ class SparseBarrierWalk : public SparseRandomWalk{
         );
 
         /**
-         * @brief Generate values from the SparseBarrierWalk
+         * @brief generate values from the SparseBarrierWalk
          * @param num_steps number of steps wanted to take
          * @param init initial starting point
          * @param A polytope matrix 
          * @param b polytope vector
          * @param k k values >= 0 constraint
          * @param burn number of initial steps to cut
-         * @return Matrix
+         * @return num_steps by d (dimension of x) matrix
          */
         MatrixXd generateCompleteWalk(
             const int num_steps, 
@@ -46,7 +46,7 @@ class SparseBarrierWalk : public SparseRandomWalk{
         ) override;
         
         /**
-         * @brief Distribution constant
+         * @brief set distribution constant
          * @param d polytope matrix 
          * @param n polytope vector
          */

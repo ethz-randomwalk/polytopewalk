@@ -8,7 +8,7 @@ class DikinLSWalk: public BarrierWalk{
 
     public:
         /**
-         * @brief constructor for weighted Dikin Walk class
+         * @brief initialization of Lee Sidford Walk class
          * @param r spread parameter
          * @param thin thin constant
          * @param g_lim gradient descent norm limit
@@ -54,7 +54,7 @@ class DikinLSWalk: public BarrierWalk{
         VectorXd w_i = VectorXd::Zero(1) - VectorXd::Ones(1); 
 
         /**
-         * @brief set Distribution Constant
+         * @brief set distribution constant
          * @param d (dimension)
          * @param n (number of constraints)
          */

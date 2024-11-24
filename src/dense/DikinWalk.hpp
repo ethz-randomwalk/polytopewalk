@@ -8,7 +8,7 @@ class DikinWalk: public BarrierWalk{
 
     public:
         /**
-         * @brief constructor for Dikin Walk class
+         * @brief initialization of Dikin Walk class
          * @param r spread parameter
          * @param thin thin parameter
          */
@@ -30,7 +30,7 @@ class DikinWalk: public BarrierWalk{
     protected:
 
         /**
-         * @brief set Dist Term for Dikin Walk
+         * @brief set distribution constant
          * @param d (dimension)
          * @param n (number of constraints)
          */

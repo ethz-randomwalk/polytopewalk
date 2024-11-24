@@ -6,12 +6,12 @@
 class SparseLP{
     public:
         /**
-         * @brief Sparse Linear Programming Solver
+         * @brief initialization for Sparse Linear Programming Solver
          */
         SparseLP(){};
 
         /**
-         * @brief Finds analytical center Ax = b, x >=_k 0 
+         * @brief finds analytical center Ax = b, x >=_k 0 
          * @param A constraint matrix
          * @param b constriant vector
          * @param c objective vector 

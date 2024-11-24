@@ -7,7 +7,7 @@ class SparseDikinWalk : public SparseBarrierWalk{
 
     public:
         /**
-         * @brief constructor for Dikin Walk class
+         * @brief initialization of Sparse Dikin Walk class
          * @param r spread parameter
          * @param thin thin parameter
          * @param err error constant
@@ -30,7 +30,7 @@ class SparseDikinWalk : public SparseBarrierWalk{
     protected:
 
         /**
-         * @brief Distribution constant
+         * @brief set distribution constant
          * @param d polytope matrix 
          * @param n polytope vector
          */
