@@ -163,7 +163,34 @@ PYBIND11_MODULE(polytopewalk, m) {
     )pbdoc",
     py::arg("A"), py::arg("b"), py::arg("k"), py::arg("num_sim"), py::arg("walk"), py::arg("fr"), py::arg("dc"), py::arg("burn") = 0);
 
-    m.def("sparseFullWalkRun", &sparseFullWalkRun, "Sparse Central Function (TODO)", py::arg("A"), 
+    m.def("sparseFullWalkRun", &sparseFullWalkRun, R"pbdoc(
+    Sparse Central Function. Run a sparse full walk.
+
+    Parameters:
+    ----------
+    A : numpy.ndarray
+        Constraint matrix.
+    b : numpy.ndarray
+        Constraint vector.
+    k : int
+        Dimensionality of the polytope.
+    num_sim : int
+        Number of simulations.
+    walk : RandomWalk
+        Random walk instance.
+    fr : FacialReduction
+        Facial reduction object.
+    sc : SparseCenter
+        Sparse center object.
+    burn : int, optional
+        Number of burn-in steps (default is 0).
+
+    Returns:
+    --------
+    numpy.ndarray
+        List of sampled points.
+    )pbdoc", 
+    py::arg("A"), 
     py::arg("b"), py::arg("k"), py::arg("num_sim"), py::arg("walk"), py::arg("fr"), py::arg("sc"), py::arg("burn") = 0);
 
     auto m_dense = m.def_submodule("dense", "Dense Module");
