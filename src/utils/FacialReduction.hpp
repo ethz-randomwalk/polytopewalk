@@ -30,6 +30,7 @@ struct FRResult{
 * @brief final output of Facial Reduction algorithm 
 * @param sparse_A constrained form Ax = b, x >=_k 0
 * @param sparse_b constrained form Ax = b, x >=_k 0
+* @param sparse_V PAVv = Pb decomposition
 * @param dense_A full-dim form Ax <= b
 * @param dense_b full-dim form Ax <= b
 * @param Q matrix used to go between forms
@@ -53,7 +54,7 @@ class FacialReduction {
          */
         FacialReduction(double err_dc = 1e-5) : ERR_DC(err_dc){}
         /**
-         * @brief completes facial reduction on Ax = b, x >=_c 0
+         * @brief completes facial reduction on Ax = b, x >=_k 0
          * @param A polytope matrix (Ax = b)
          * @param b polytope vector (Ax = b)
          * @param k k values >= 0 constraint
