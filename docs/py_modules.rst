@@ -107,14 +107,3 @@ Subclasses of SparseRandomWalk
 .. autoclass:: polytopewalk.sparse.SparseHitAndRun
    :members:
    :undoc-members:
-
-Functions
----------
-
-.. autofunction:: polytopewalk.denseFullWalkRun
-   :members:
-   :undoc-members:
-
-.. autofunction:: polytopewalk.sparseFullWalkRun
-   :members:
-   :undoc-members:
