@@ -11,7 +11,7 @@ Module: polytopewalk
    :undoc-members:
    :show-inheritance:
 
-Classes
+Initialization Classes
 --------
 
 .. autoclass:: polytopewalk.DenseCenter
@@ -20,6 +20,11 @@ Classes
    :show-inheritance:
 
 .. autoclass:: polytopewalk.SparseCenter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. autoclass:: polytopewalk.FacialReduction
    :members:
    :undoc-members:
    :show-inheritance:
