@@ -222,7 +222,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Finds analytical center Ax = b, x >=_k 0.
 
             Parameters:
-            ----------
+            -----------
             A : numpy.ndarray
                 Constraint matrix.
             b : numpy.ndarray
@@ -243,7 +243,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Random Walk Super Class.
 
             Parameters:
-            ----------
+            -----------
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             
@@ -253,7 +253,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Generate values from Random Walk (virtual function).
 
             Parameters:
-            ----------
+            -----------
             num_steps : int
                 Number of steps to sample from.
             init : numpy.ndarray
@@ -279,7 +279,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Ball Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for ball (default is 0.3).
             thin : int, optional
@@ -294,7 +294,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Hit and Run Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for starting distance (default is 0.1).
             err : double, optional
@@ -311,7 +311,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Barrier Walk Super Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for starting distance (default is 0.9).
             thin : int, optional
@@ -324,7 +324,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Generate weight from Barrier Walk (virtual function).
 
             Parameters:
-            ----------
+            -----------
             x : numpy.ndarray
                 Point inside polytope.
             A : numpy.ndarray
@@ -341,9 +341,9 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("generateCompleteWalk", &RandomWalk::generateCompleteWalk, 
             R"pbdoc(
             Generate values from Barrier Walk (virtual function).
-            
+
             Parameters:
-            ----------
+            -----------
             num_steps : int
                 Number of steps to sample from.
             init : numpy.ndarray
@@ -369,7 +369,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Dikin Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for Dikin Ellipsoid (default is 0.9).
             thin : int, optional
@@ -383,7 +383,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Vaidya Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for Vaidya Ellipsoid (default is 0.9).
             thin : int, optional
@@ -397,7 +397,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Lee Sidford Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for Lee-Sidford Ellipsoid (default is 0.9).
             thin : int, optional
@@ -418,7 +418,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for John Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for John Ellipsoid (default is 0.9).
             thin : int, optional
@@ -436,7 +436,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Facial Reduction Class.
 
             Parameters:
-            ----------
+            -----------
             err_dc : double, optional
                 Error sensitivity for decomposition calculation (default is 1e-6).
             )pbdoc",
@@ -446,7 +446,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Completes facial reduction on Ax = b, x >=_k 0. 
 
             Parameters:
-            ----------
+            -----------
             A : numpy.ndarray
                 Constraint matrix.
             b : numpy.ndarray
@@ -478,7 +478,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse Random Walk Super Class.
 
             Parameters:
-            ----------
+            -----------
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             err : double, optional
@@ -490,7 +490,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Generate values from Sparse Random Walk (virtual function).
 
             Parameters:
-            ----------
+            -----------
             num_steps : int
                 Number of steps to sample from.
             init : numpy.ndarray
@@ -518,7 +518,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse Ball Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for ball (default is 0.9).
             thin : int, optional
@@ -533,7 +533,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse Hit and Run Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for starting distance (default is 0.5).
             thin : int, optional
@@ -550,7 +550,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse Barrier Walk Super Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for starting distance (default is 0.9).
             thin : int, optional
@@ -584,7 +584,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Generate values from Sparse Barrier Walk.
 
             Parameters:
-            ----------
+            -----------
             num_steps : int
                 Number of steps to sample from.
             init : numpy.ndarray
@@ -612,7 +612,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse Dikin Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for Dikin Ellipsoid (default is 0.9).
             thin : int, optional
@@ -628,7 +628,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse Vaidya Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for Vaidya Ellipsoid (default is 0.9).
             thin : int, optional
@@ -644,7 +644,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse John Walk Class.
 
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for John Ellipsoid (default is 0.9).
             thin : int, optional
@@ -665,7 +665,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             Initialization for Sparse Lee Sidford Walk Class.
             
             Parameters:
-            ----------
+            -----------
             r : double, optional
                 Radius for Lee-Sidford Ellipsoid (default is 0.9).
             thin : int, optional
