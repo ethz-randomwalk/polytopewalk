@@ -130,4 +130,4 @@ dikin_res = dikin.generateCompleteWalk(1_000, init, dense_A, dense_b, burn = 100
 ```
 
 ## Testing
-The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. The user can run each of the files separately to make sure the package passes all of the test suites. 
+The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. The user can run each of the files separately to make sure the package passes all of the test suites.
