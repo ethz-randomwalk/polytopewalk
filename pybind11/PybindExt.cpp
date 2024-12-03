@@ -472,7 +472,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def_readwrite("Q", &FROutput::Q, "Matrix used to go between forms.")
         .def_readwrite("z1", &FROutput::z1, "Vector used to go between forms.");
     
-    py::class_<SparseRandomWalk, PySparseRandomWalk<>>(m_dense, "SparseRandomWalk", "Sparse Random Walk Super Class Implementation.")
+    py::class_<SparseRandomWalk, PySparseRandomWalk<>>(m_sparse, "SparseRandomWalk", "Sparse Random Walk Super Class Implementation.")
         .def(py::init<int, double>(), 
             R"pbdoc(
             Initialization for Sparse Random Walk Super Class.
