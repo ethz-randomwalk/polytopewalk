@@ -28,8 +28,19 @@ Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `
 | `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)          |
 
 For each implemented algorithm, we provide both the full-dimensional formulation and the sparse constrained formulation, as demonstrated below. 
+
+In the full-dimensional formulation with dense matrix A, we specifythe following: 
+
 ![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_1=\{x\in\mathbb{R}^d|Ax\le&space;b\})
-where $\mathcal{K}_1$ is specified with $n$ constraints. 
+
+where the polytope is specified with $n$ constraints.
+
+In the constrained formulation with sparse matrix A, we specifythe following: 
+
+![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_2=\{x\in\mathbb{R}^d|Ax=b,x\succeq_k&space;0\})
+
+where the polytope is specified with $n$ equality constraints and k coordinate-wise inequality constraints
+
 
 
 ## Installation
