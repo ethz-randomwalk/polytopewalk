@@ -39,7 +39,7 @@ In the constrained formulation with sparse matrix A (n x d matrix) and vector b 
 
 ![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_2=\[x\in\mathbb{R}^d|Ax=b,x\succeq_k&space;0\])
 
-where the polytope is specified with $n$ equality constraints and k coordinate-wise inequality constraints
+where the polytope is specified with $n$ equality constraints and k coordinate-wise inequality constraints.
 
 
 
