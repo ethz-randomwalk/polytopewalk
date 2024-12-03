@@ -49,32 +49,26 @@ Subclasses of RandomWalk
 .. autoclass:: polytopewalk.dense.DikinWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.dense.VaidyaWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.dense.JohnWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.dense.DikinLSWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.dense.BallWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.dense.HitAndRun
    :members:
    :undoc-members:
-   :inherited-members:
 
 Subclasses of SparseRandomWalk
 ------------------------
@@ -88,32 +82,26 @@ Subclasses of SparseRandomWalk
 .. autoclass:: polytopewalk.sparse.SparseDikinWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.sparse.SparseVaidyaWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.sparse.SparseJohnWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.sparse.SparseDikinLSWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.sparse.SparseBallWalk
    :members:
    :undoc-members:
-   :inherited-members:
 
 .. autoclass:: polytopewalk.sparse.SparseHitAndRun
    :members:
    :undoc-members:
-   :inherited-members:
 
 Functions
 ---------
