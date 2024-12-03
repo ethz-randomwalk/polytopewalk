@@ -29,7 +29,7 @@ Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `
 
 For each implemented algorithm, we provide both the full-dimensional formulation and the sparse constrained formulation, as demonstrated below. 
 
-![equation](https://latex.codecogs.com/svg.image?\huge&space;\mathcal{K}_1=\{x\in\mathbb{R}^d|Ax\le&space;b\})
+![equation](https://latex.codecogs.com/svg.image?\mathcal{K}_1=\{x\in\mathbb{R}^d|Ax\le&space;b\})
 
 
 ## Installation
