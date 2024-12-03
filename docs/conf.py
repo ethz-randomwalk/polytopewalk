@@ -32,7 +32,7 @@ project = pyproject_data['project']['name']
 authors = pyproject_data['project']['authors']
 author = ', '.join([author['name'] for author in authors])  # Comma-separated list of author names
 release = pyproject_data['project']['version']
-copyright = f"2023, {author}"  # Use author and release for copyright
+copyright = f"2024, {author}"  # Use author and release for copyright
 
 # -- General configuration ---------------------------------------------------
 
@@ -70,6 +70,8 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+
+autoclass_content = 'both'
 
 
 # -- Options for HTML output -------------------------------------------------

@@ -22,8 +22,7 @@ public:
 
 template <class BarrierWalkBase = BarrierWalk> class PyBarrierWalk: public PyRandomWalk<BarrierWalkBase> {
 public:
-    using PyRandomWalk<BarrierWalkBase>::PyRandomWalk; // Inherit constructors
-    // Override PyAnimal's pure virtual go() with a non-pure one:
+    using PyRandomWalk<BarrierWalkBase>::PyRandomWalk;
     MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn) override{
             PYBIND11_OVERRIDE(
                 MatrixXd,
