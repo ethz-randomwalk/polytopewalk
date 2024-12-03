@@ -14,12 +14,12 @@ Module: polytopewalk
 Initialization Classes
 --------
 
-.. autoclass:: polytopewalk.DenseCenter
+.. autoclass:: polytopewalk.dense.DenseCenter
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. autoclass:: polytopewalk.SparseCenter
+.. autoclass:: polytopewalk.sparse.SparseCenter
    :members:
    :undoc-members:
    :show-inheritance:
