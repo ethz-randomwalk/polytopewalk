@@ -515,7 +515,7 @@ PYBIND11_MODULE(polytopewalk, m) {
     py::class_<SparseBallWalk, SparseRandomWalk>(m_sparse, "SparseBallWalk", "Sparse Ball Walk Implementation.")
         .def(py::init<double, int>(), 
             R"doc(
-            Initialization for the Sparse Ball Walk Class.
+            Initialization for Sparse Ball Walk Class.
 
             Parameters
             -----------
@@ -530,7 +530,7 @@ PYBIND11_MODULE(polytopewalk, m) {
     py::class_<SparseHitAndRun, SparseRandomWalk>(m_sparse, "SparseHitAndRun", "Sparse Hit and Run Implementation.")
         .def(py::init<double, int, double>(),  
             R"doc(
-            Initialization for the Sparse Hit and Run Class.\\
+            Initialization for Sparse Hit and Run Class.
 
             Parameters
             -----------
