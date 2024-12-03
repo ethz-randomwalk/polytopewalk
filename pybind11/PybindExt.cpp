@@ -488,6 +488,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             .def("generateCompleteWalk", &SparseRandomWalk::generateCompleteWalk, 
             R"pbdoc(
             Generate values from Sparse Random Walk (virtual function).
+            
             Parameters:
             ----------
             num_steps : int
