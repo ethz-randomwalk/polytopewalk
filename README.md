@@ -27,6 +27,11 @@ Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `
 | `John Walk`   | $\tau(d^{2.5})$        | [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)           |
 | `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)          |
 
+For each implemented algorithm, we provide both the full-dimensional formulation and the sparse constrained formulation, as demonstrated below. 
+
+![equation](https://latex.codecogs.com/svg.image?\huge&space;\mathcal{K}_1=\{x\in\mathbb{R}^d|Ax\le&space;b\})
+
+
 ## Installation
 
 ### Dependencies
@@ -77,7 +82,7 @@ sudo make install
 ```
 
 ## Examples
-The `examples` folder provides examples of sampling from both sparse and dense formulations of the MCMC sampling algorithms. We test our random walk algorithms on family of 3 structured polytopes and 3 real life polytopes from `netlib`. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
+The `examples` folder provides examples of sampling from both sparse (constrained) and dense (full-dimensional) formulations of the MCMC sampling algorithms. We test our random walk algorithms on family of 3 structured polytopes and 3 real life polytopes from `netlib`. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
 ```python
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix, csr_array
