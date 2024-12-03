@@ -201,6 +201,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("getInitialPoint", &DenseCenter::getInitialPoint, 
             R"pbdoc(
             Finds analytical center for Ax <= b.
+
             Parameters:
             ----------
             A : numpy.ndarray
@@ -220,6 +221,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("getInitialPoint",&SparseCenter::getInitialPoint,
             R"pbdoc(
             Finds analytical center Ax = b, x >=_k 0.
+
             Parameters:
             ----------
             A : numpy.ndarray
@@ -240,6 +242,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<int>(), 
             R"pbdoc(
             Initialization for Random Walk Super Class.
+
             Parameters:
             ----------
             thin : int, optional
@@ -249,6 +252,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("generateCompleteWalk", &RandomWalk::generateCompleteWalk, 
             R"pbdoc(
             Generate values from Random Walk (virtual function).
+
             Parameters:
             ----------
             num_steps : int
@@ -274,6 +278,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int>(), 
             R"pbdoc(
             Initialization for Ball Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -288,6 +293,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, double, int>(),  
             R"pbdoc(
             Initialization for Hit and Run Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -304,6 +310,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int>(), 
             R"pbdoc(
             Initialization for Barrier Walk Super Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -316,6 +323,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("generateWeight", &BarrierWalk::generateWeight, 
             R"pbdoc(
             Generate weight from Barrier Walk (virtual function).
+
             Parameters:
             ----------
             x : numpy.ndarray
@@ -334,6 +342,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("generateCompleteWalk", &RandomWalk::generateCompleteWalk, 
             R"pbdoc(
             Generate values from Barrier Walk (virtual function).
+
             Parameters:
             ----------
             num_steps : int
@@ -359,6 +368,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int>(), 
             R"pbdoc(
             Initialization for Dikin Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -372,6 +382,7 @@ PYBIND11_MODULE(polytopewalk, m) {
        .def(py::init<double, int>(), 
             R"pbdoc(
             Initialization for Vaidya Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -385,6 +396,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double, double, int>(), 
             R"pbdoc(
             Initialization for Lee Sidford Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -405,6 +417,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double, int>(), 
             R"pbdoc(
             Initialization for John Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -422,6 +435,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double>(), 
             R"pbdoc(
             Initialization for Facial Reduction Class.
+
             Parameters:
             ----------
             err_dc : double, optional
@@ -430,7 +444,8 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("err_dc") = 1e-6)
         .def("reduce", &FacialReduction::reduce, 
             R"pbdoc(
-            Completes facial reduction on Ax = b, x >=_k 0
+            Completes facial reduction on Ax = b, x >=_k 0. 
+
             Parameters:
             ----------
             A : numpy.ndarray
@@ -462,6 +477,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<int, double>(), 
             R"pbdoc(
             Initialization for Sparse Random Walk Super Class.
+
             Parameters:
             ----------
             thin : int, optional
@@ -500,6 +516,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int>(), 
             R"pbdoc(
             Initialization for Sparse Ball Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -514,6 +531,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double>(),  
             R"pbdoc(
             Initialization for Sparse Hit and Run Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -530,6 +548,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double>(), 
             R"pbdoc(
             Initialization for Sparse Barrier Walk Super Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -544,6 +563,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("generateWeight", &SparseBarrierWalk::generateWeight, 
             R"pbdoc(
             Generate weight from Sparse Barrier Walk (virtual function).
+
             Parameters:
             ----------
             x : numpy.ndarray
@@ -562,6 +582,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def("generateCompleteWalk", &SparseRandomWalk::generateCompleteWalk, 
             R"pbdoc(
             Generate values from Sparse Barrier Walk.
+
             Parameters:
             ----------
             num_steps : int
@@ -589,6 +610,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double>(), 
             R"pbdoc(
             Initialization for Sparse Dikin Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -604,6 +626,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double>(), 
             R"pbdoc(
             Initialization for Sparse Vaidya Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -619,6 +642,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double, int, double>(), 
             R"pbdoc(
             Initialization for Sparse John Walk Class.
+
             Parameters:
             ----------
             r : double, optional
@@ -639,6 +663,7 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def(py::init<double, int, double, double, int, double>(), 
             R"pbdoc(
             Initialization for Sparse Lee Sidford Walk Class.
+            
             Parameters:
             ----------
             r : double, optional
