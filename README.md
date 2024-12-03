@@ -31,13 +31,13 @@ For each implemented algorithm, we provide both the full-dimensional formulation
 
 In the full-dimensional formulation with dense matrix A, we specify the following: 
 
-{![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_1=\{x\in\mathbb{R}^d|Ax\le&space;b\})}
+![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_1=\[x\in\mathbb{R}^d|Ax\le&space;b\])
 
 where the polytope is specified with $n$ constraints.
 
 In the constrained formulation with sparse matrix A, we specify the following: 
 
-{![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_2=\{x\in\mathbb{R}^d|Ax=b,x\succeq_k&space;0\})}
+![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_2=\[x\in\mathbb{R}^d|Ax=b,x\succeq_k&space;0\])
 
 where the polytope is specified with $n$ equality constraints and k coordinate-wise inequality constraints
 
