@@ -27,7 +27,7 @@ Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `
 | `John Walk`   | $\tau(d^{2.5})$        | [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)           |
 | `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)          |
 
-For each implemented algorithm, we provide the full-dimensional formulation and the sparse constrained formulation. Each polytope can be expressed from 1 formulation to the other. The main benefit of utilizing the constrained formulation is that it maintains sparse operations in A, ensuring scalability in higher dimensions. Many of the `netlib` dataset sparse polytopes are represented in this formulation. The forumulations are specified below.
+For each implemented algorithm, we provide the full-dimensional formulation and the sparse constrained formulation. Each polytope can be expressed from 1 formulation to the other. The main benefit of utilizing the constrained formulation is that it maintains sparse operations in A, ensuring scalability in higher dimensions. Many of the `netlib` dataset sparse polytopes are represented in this formulation. The forumulations are specified below. 
 
 In the full-dimensional formulation with dense matrix A (n x d matrix) and vector b (n dimensional vector), we specify the following: 
 
