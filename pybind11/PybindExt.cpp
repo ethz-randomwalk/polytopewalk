@@ -195,7 +195,7 @@ PYBIND11_MODULE(polytopewalk, m) {
     auto m_dense = m.def_submodule("dense", "Dense Module");
     auto m_sparse = m.def_submodule("sparse", "Sparse Module");
 
-    py::class_<DenseCenter>(m_dense, "DenseCenter", "Initialization Algorithm for Dense Polytopes")
+    py::class_<DenseCenter>(m_dense, "DenseCenter", "Initialization Algorithm for Dense Polytopes.")
         .def(py::init<>(), "Initialization for Center Algorithm.")
         .def("getInitialPoint", &DenseCenter::getInitialPoint, 
             R"doc(
@@ -215,7 +215,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("A"), py::arg("b"));
     
-    py::class_<SparseCenter>(m_sparse, "SparseCenter", "Initialization Algorithm for Sparse Polytopes")
+    py::class_<SparseCenter>(m_sparse, "SparseCenter", "Initialization Algorithm for Sparse Polytopes.")
         .def(py::init<>(), "Initialization for Center Algorithm.")
         .def("getInitialPoint",&SparseCenter::getInitialPoint,
             R"doc(
@@ -237,7 +237,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("A"), py::arg("b"), py::arg("k"));
     
-    py::class_<RandomWalk, PyRandomWalk<>>(m_dense, "RandomWalk", "Random Walk Superclass Implementation")
+    py::class_<RandomWalk, PyRandomWalk<>>(m_dense, "RandomWalk", "Random Walk Superclass Implementation.")
         .def(py::init<int>(), 
             R"doc(
             Initialization for Random Walk Super Class.
@@ -273,7 +273,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0
         );
     
-    py::class_<BallWalk, RandomWalk>(m_dense, "BallWalk", "Ball Walk Implementation")
+    py::class_<BallWalk, RandomWalk>(m_dense, "BallWalk", "Ball Walk Implementation.")
         .def(py::init<double, int>(), 
             R"doc(
             Initialization for Ball Walk Class.
@@ -288,7 +288,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("r") = 0.3, py::arg("thin") = 1);
     
-    py::class_<HitAndRun, RandomWalk>(m_dense, "HitAndRun", "Hit-Run Class")
+    py::class_<HitAndRun, RandomWalk>(m_dense, "HitAndRun", "Hit-Run Implementation.")
         .def(py::init<double, double, int>(),  
             R"doc(
             Initialization for Hit and Run Class.
@@ -305,7 +305,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("r") = 0.1, py::arg("err") = 0.01, py::arg("thin") = 1);
 
-    py::class_<BarrierWalk, RandomWalk, PyBarrierWalk<>>(m_dense, "BarrierWalk", "Barrier Walk Implementation")
+    py::class_<BarrierWalk, RandomWalk, PyBarrierWalk<>>(m_dense, "BarrierWalk", "Barrier Walk Implementation.")
         .def(py::init<double, int>(), 
             R"doc(
             Initialization for Barrier Walk Super Class.
@@ -363,7 +363,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0
         );
     
-    py::class_<DikinWalk, BarrierWalk, PyBarrierWalk<DikinWalk>>(m_dense, "DikinWalk", "Dikin Walk Implementation")
+    py::class_<DikinWalk, BarrierWalk, PyBarrierWalk<DikinWalk>>(m_dense, "DikinWalk", "Dikin Walk Implementation.")
         .def(py::init<double, int>(), 
             R"doc(
             Initialization for Dikin Walk Class.
@@ -377,7 +377,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("r") = 0.9, py::arg("thin") = 1);
     
-    py::class_<VaidyaWalk, BarrierWalk, PyBarrierWalk<VaidyaWalk>>(m_dense, "VaidyaWalk", "Vaidya Walk Implementation")
+    py::class_<VaidyaWalk, BarrierWalk, PyBarrierWalk<VaidyaWalk>>(m_dense, "VaidyaWalk", "Vaidya Walk Implementation.")
        .def(py::init<double, int>(), 
             R"doc(
             Initialization for Vaidya Walk Class.
@@ -391,7 +391,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("r") = 0.9, py::arg("thin") = 1);
     
-    py::class_<DikinLSWalk, BarrierWalk, PyBarrierWalk<DikinLSWalk>>(m_dense, "DikinLSWalk", "Lee Sidford Walk Implementation")
+    py::class_<DikinLSWalk, BarrierWalk, PyBarrierWalk<DikinLSWalk>>(m_dense, "DikinLSWalk", "Lee Sidford Walk Implementation.")
         .def(py::init<double, int, double, double, int>(), 
             R"doc(
             Initialization for Lee Sidford Walk Class.
@@ -412,7 +412,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("r") = 0.9, py::arg("thin") = 1, py::arg("g_lim") = 0.01, py::arg("step_size") = 0.1, 
             py::arg("max_iter") = 1000);
     
-    py::class_<JohnWalk, BarrierWalk, PyBarrierWalk<JohnWalk>>(m_dense, "JohnWalk", "John Walk Implementation")
+    py::class_<JohnWalk, BarrierWalk, PyBarrierWalk<JohnWalk>>(m_dense, "JohnWalk", "John Walk Implementation.")
         .def(py::init<double, int, double, int>(), 
             R"doc(
             Initialization for John Walk Class.
@@ -454,7 +454,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             k : int
                 Dimensionality of polytope.
             sparse : bool
-                Includes only sparse constrained polytope or adds dense full-dimensional polytope
+                Includes only sparse constrained polytope or adds dense full-dimensional polytope.
 
             Returns
             --------
