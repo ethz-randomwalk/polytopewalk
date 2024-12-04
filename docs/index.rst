@@ -29,10 +29,13 @@ Python API
 The Python bindings are created using `pybind11` and are documented here.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Python Modules
 
-   py_modules
+   py_init
+   py_dense_walk
+   py_sparse_walk
+   py_utils
 
 
 C++ API
@@ -65,6 +68,7 @@ For more detailed documentation on these classes, see the following pages.
 
 .. toctree::
    :maxdepth: 4
+   :caption: C++ Modules
 
    cpp_init
    cpp_dense_walk
