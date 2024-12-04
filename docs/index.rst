@@ -64,7 +64,9 @@ Here is a list of important classes in the C++ API:
 For more detailed documentation on these classes, see the following pages.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-   cpp_index
-   cpp_barrier_walk
+   cpp_init
+   cpp_dense_walk
+   cpp_sparse_walk
+   cpp_utils
