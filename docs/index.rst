@@ -26,7 +26,7 @@ Indices and tables
 Python API
 ===========
 
-The Python bindings are created using `pybind11` and are documented here.
+The Python bindings are created using `pybind11` and are documented here. This section contains the Python API documentation for the PolytopeWalk library.
 
 .. toctree::
    :maxdepth: 4
