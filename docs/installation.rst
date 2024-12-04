@@ -2,12 +2,10 @@
 Installation
 ============
 
-At the command line::
-
-    easy_install polytopewalk
+Developer instructions listed at https://github.com/ethz-randomwalk/polytopewalk
 
 Or, if you have pip installed:
 
 .. code-block:: bash
 
-    pip install crawler
+    pip install polytopewalk
