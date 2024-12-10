@@ -7,7 +7,7 @@
 ![ciwheels](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
 
 # PolytopeWalk
-**PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes facial reduction and initialization algorithms for pre-processing as well. Example code that samples from both real polytopes from a data set and artificial polytopes are shown in the Examples folder. Finally, for documentation, please visit our webpage: https://polytopewalk.readthedocs.io/en/latest/. 
+**PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes facial reduction and initialization algorithms for pre-processing as well. Example code that samples from both real polytopes from a data set and artificial polytopes are shown in the Examples folder. Finally, for documentation, please visit our webpage: https://polytopewalk.readthedocs.io/en/latest/ and read our paper on arXiv here: https://arxiv.org/abs/2412.06629. 
 
 ## Code Structure
 
