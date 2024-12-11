@@ -106,7 +106,7 @@ x, A, b, k, name = generate_simplex(5)
 sparse_dikin = SparseDikinWalk(r = 0.9, thin = 1)
 dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burn = 100)
 ```
-We can also provide a corollary example using the dense formulation.
+We can also provide a corollary using the dense formulation.
 ```python
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix, csr_array
