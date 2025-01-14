@@ -42,7 +42,6 @@ In the constrained formulation with sparse matrix A ($n$ x $d$ matrix) and vecto
 where the polytope is specified with $n$ equality constraints and $k$ coordinate-wise inequality constraints.
 
 
-
 ## Installation
 
 ### Dependencies
