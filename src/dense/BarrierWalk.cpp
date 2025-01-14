@@ -33,6 +33,11 @@ void BarrierWalk::generateHessian(const VectorXd& x, const MatrixXd& A, const Ve
     VectorXd slack_inv = slack.cwiseInverse();
     DiagonalMatrix<double, Dynamic> middle = slack_inv.cwiseProduct(weights.diagonal()).cwiseProduct(slack_inv).asDiagonal();
     hess = A.transpose() * middle * A;
+
+    //add regularization term
+    for (int i = 0; i < hess.rows(); i++){
+        hess.coeffRef(i, i) = hess.coeff(i, i) + LAMBDA; 
+    }
 }
 
 void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b){

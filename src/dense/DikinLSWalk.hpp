@@ -10,14 +10,17 @@ class DikinLSWalk: public BarrierWalk{
         /**
          * @brief initialization of Lee Sidford Walk class
          * @param r spread parameter
+         * @param lambda hessian regularization term
+         * @param dist_type distribution type {uniform, normal, log-concave}
          * @param thin thin constant
          * @param g_lim gradient descent norm limit
          * @param step_size size of gradient descent step
          * @param max_iter maximum number of iterations in gradient descent
          */
-        DikinLSWalk(double r, int thin = 1, double g_lim = 0.01, double step_size = 0.1, int max_iter = 1000) : STEPSIZE(step_size), MAXITER(max_iter), GRADLIM(g_lim), BarrierWalk(r, thin){
-            
-        }
+        DikinLSWalk(double r, double lambda = 0, string dist_type = "uniform", 
+                    int thin = 1, double g_lim = 0.01, double step_size = 0.1, 
+                    int max_iter = 1000) : STEPSIZE(step_size), MAXITER(max_iter), 
+                    GRADLIM(g_lim), BarrierWalk(r, lambda, dist_type, thin){}
 
         /**
          * @brief print dikinls

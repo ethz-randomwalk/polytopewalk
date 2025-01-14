@@ -68,10 +68,10 @@ sparse_polytope hc = generate_hc();
 sparse_polytope birk = generate_birkhoff();
 
 TEST_CASE( "Test All Dense Combinations", "[require]" ){
-    JohnWalk john(0.5, 1, 1e-5, 1000);
-    DikinLSWalk dikinls(3.0, 1, 0.001, 0.01, 100);
-    VaidyaWalk vaidya(0.5);
-    DikinWalk dikin(0.5);
+    JohnWalk john(0.5, 0, "uniform", 1, 1e-5, 1000);
+    DikinLSWalk dikinls(3.0, 0, "uniform", 1, 0.001, 0.01, 100);
+    VaidyaWalk vaidya(0.5, 0, "uniform");
+    DikinWalk dikin(0.5, 0, "uniform");
     BallWalk ball(0.5);
     HitAndRun hitrun(0.5, 0.001);
     DenseCenter dc;

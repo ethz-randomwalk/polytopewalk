@@ -9,11 +9,12 @@ class BarrierWalk : public RandomWalk{
         /**
          * @brief initialization of BarrierWalk class
          * @param r spread parameter
+         * @param lambda hessian regularization term 
+         * @param dist_type distribution type {uniform, normal, log-concave}
          * @param thin thin constant
          */
-        BarrierWalk(double r, int thin = 1) : R(r), RandomWalk(thin){
-
-        }
+        BarrierWalk(double r, double lambda, string dist_type, 
+            int thin = 1) : R(r), LAMBDA(lambda), DIST_TYPE(dist_type), RandomWalk(thin){}
 
         /**
          * @brief weights generated from generateWeights function
@@ -53,6 +54,15 @@ class BarrierWalk : public RandomWalk{
          */
         const double R;
 
+        /**
+         * @brief hessian regularization term
+         */
+        const double LAMBDA;
+
+        /**
+         * @brief distribution type {uniform, normal, log-concave}
+         */
+        const string DIST_TYPE;
 
         /**
          * @brief distribution constant
