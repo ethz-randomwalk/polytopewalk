@@ -11,11 +11,11 @@ class VaidyaWalk: public BarrierWalk{
          * @brief initialization of Sparse Vaidya Walk class
          * @param r spread parameter
          * @param lambda hessian regularization term
-         * @param dist_type distribution type {uniform, normal, log-concave}
+         * @param dist_func convex function f such that x follows exp(-f(x)) log-concave dist
          * @param thin thin constant
          */
-        VaidyaWalk(double r, double lambda = 0, string dist_type = "uniform", 
-            int thin = 1) : BarrierWalk(r, lambda, dist_type, thin){}  
+        VaidyaWalk(double r, double lambda = 0, function<double(const VectorXd&)> dist_func = [](const VectorXd& x) { return 1.0; }, 
+            int thin = 1) : BarrierWalk(r, lambda, dist_func, thin){}  
 
         /**
          * @brief print general type 

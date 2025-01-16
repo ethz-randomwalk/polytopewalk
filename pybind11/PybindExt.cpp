@@ -1,6 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
+#include <pybind11/functional.h>
 #include "utils/FullWalkRun.hpp"
+
 namespace py = pybind11;
 
 template <class RandomWalkBase = RandomWalk> class PyRandomWalk : public RandomWalkBase {
@@ -306,23 +308,23 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("r") = 0.1, py::arg("err") = 0.01, py::arg("thin") = 1);
 
     py::class_<BarrierWalk, RandomWalk, PyBarrierWalk<>>(m_dense, "BarrierWalk", "Barrier Walk Implementation.")
-        .def(py::init<double, double, string, int>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int>(), 
             R"doc(
             Initialization for Barrier Walk Super Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for starting distance (default is 0.9).
-            lambda : double, optional
-                Hessian regularization constant for log-concave sample (default is 0).
-            dist_type : string, optional
-                Distribution sampling type {'uniform', 'normal', 'log-concave'} (default is 'uniform').
+            r : double
+                Radius for starting distance.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func: function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
 
             )doc",
-            py::arg("r") = 0.9, py::arg("lambda") = 0.0, py::arg("dist_type") = "uniform", py::arg("thin") = 1)
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1)
         .def("generateWeight", &BarrierWalk::generateWeight, 
             R"doc(
             Generate weight from Barrier Walk (virtual function).
@@ -368,54 +370,54 @@ PYBIND11_MODULE(polytopewalk, m) {
         );
     
     py::class_<DikinWalk, BarrierWalk, PyBarrierWalk<DikinWalk>>(m_dense, "DikinWalk", "Dikin Walk Implementation.")
-        .def(py::init<double, double, string, int>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int>(), 
             R"doc(
             Initialization for Dikin Walk Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for Dikin Ellipsoid (default is 0.9).
-            lambda : double, optional
-                Hessian regularization constant for log-concave sample (default is 0).
-            dist_type : string, optional
-                Distribution sampling type {'uniform', 'normal', 'log-concave'} (default is 'uniform').
+            r : double
+                Radius for Dikin Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             )doc",
-            py::arg("r") = 0.9, py::arg("lambda") = 0.0, py::arg("dist_type") = "uniform", py::arg("thin") = 1);
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1);
     
     py::class_<VaidyaWalk, BarrierWalk, PyBarrierWalk<VaidyaWalk>>(m_dense, "VaidyaWalk", "Vaidya Walk Implementation.")
-       .def(py::init<double, double, string, int>(), 
+       .def(py::init<double, double, function<double(const VectorXd&)>, int>(), 
             R"doc(
             Initialization for Vaidya Walk Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for Vaidya Ellipsoid (default is 0.9).
-            lambda : double, optional
-                Hessian regularization constant for log-concave sample (default is 0).
-            dist_type : string, optional
-                Distribution sampling type {'uniform', 'normal', 'log-concave'} (default is 'uniform').
+            r : double
+                Radius for Vaidya Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             )doc",
-            py::arg("r") = 0.9, py::arg("lambda") = 0.0, py::arg("dist_type") = "uniform", py::arg("thin") = 1);
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1);
     
     py::class_<DikinLSWalk, BarrierWalk, PyBarrierWalk<DikinLSWalk>>(m_dense, "DikinLSWalk", "Lee Sidford Walk Implementation.")
-        .def(py::init<double, double, string, int, double, double, int>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int, double, double, int>(), 
             R"doc(
             Initialization for Lee Sidford Walk Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for Lee-Sidford Ellipsoid (default is 0.9).
-            lambda : double, optional
-                Hessian regularization constant for log-concave sample (default is 0).
-            dist_type : string, optional
-                Distribution sampling type {'uniform', 'normal', 'log-concave'} (default is 'uniform').
+            r : double
+                Radius for Lee-Sidford Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             g_lim : double, optional
@@ -425,23 +427,23 @@ PYBIND11_MODULE(polytopewalk, m) {
             max_iter : int, optional
                 Constant for maximum number of gradient descent iterations (default is 1000).
             )doc",
-            py::arg("r") = 0.9, py::arg("lambda") = 0.0, py::arg("dist_type") = "uniform", 
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), 
             py::arg("thin") = 1, py::arg("g_lim") = 0.01, py::arg("step_size") = 0.1, 
             py::arg("max_iter") = 1000);
     
     py::class_<JohnWalk, BarrierWalk, PyBarrierWalk<JohnWalk>>(m_dense, "JohnWalk", "John Walk Implementation.")
-        .def(py::init<double, double, string, int, double, int>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int, double, int>(), 
             R"doc(
             Initialization for John Walk Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for John Ellipsoid (default is 0.9).
-            lambda : double, optional
-                Hessian regularization constant for log-concave sample (default is 0).
-            dist_type : string, optional
-                Distribution sampling type {'uniform', 'normal', 'log-concave'} (default is 'uniform').
+            r : double
+                Radius for John Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             lim : double, optional
@@ -449,7 +451,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             max_iter : int, optional
                 Constant for maximum number of fixed point iterations (default is 1000).
             )doc",
-            py::arg("r") = 0.9, py::arg("lambda") = 0.0, py::arg("dist_type") = "uniform",
+            py::arg("r") = 0.9, py::arg("lambda") = 0.0, py::arg("dist_func"),
             py::arg("thin") = 1, py::arg("lim") = 1e-5, py::arg("max_iter") = 1000);
     
     py::class_<FacialReduction>(m, "FacialReduction", "Facial Reduction Implementation.")

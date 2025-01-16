@@ -5,6 +5,9 @@
 #include "utils/FullWalkRun.hpp"
 #include <cstring>
 
+
+double uniform_dist(const VectorXd& x) { return 1.0; };
+
 struct sparse_polytope{
     SparseMatrixXd A;
     VectorXd b; 
@@ -68,10 +71,10 @@ sparse_polytope hc = generate_hc();
 sparse_polytope birk = generate_birkhoff();
 
 TEST_CASE( "Test All Dense Combinations", "[require]" ){
-    JohnWalk john(0.5, 0, "uniform", 1, 1e-5, 1000);
-    DikinLSWalk dikinls(3.0, 0, "uniform", 1, 0.001, 0.01, 100);
-    VaidyaWalk vaidya(0.5, 0, "uniform");
-    DikinWalk dikin(0.5, 0, "uniform");
+    JohnWalk john(0.5, 0, uniform_dist, 1, 1e-5, 1000);
+    DikinLSWalk dikinls(3.0, 0, uniform_dist, 1, 0.001, 0.01, 100);
+    VaidyaWalk vaidya(0.5, 0, uniform_dist);
+    DikinWalk dikin(0.5, 0, uniform_dist);
     BallWalk ball(0.5);
     HitAndRun hitrun(0.5, 0.001);
     DenseCenter dc;

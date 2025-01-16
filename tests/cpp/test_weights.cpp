@@ -5,6 +5,8 @@
 #include "utils/FullWalkRun.hpp"
 #include <cstring>
 
+double uniform_dist(const VectorXd& x) { return 1.0; };
+
 struct sparse_polytope{
     SparseMatrixXd A;
     VectorXd b; 
@@ -110,9 +112,9 @@ TEST_CASE( "Check Weight Properties", "[require]" ){
     VectorXd hc_x = dc.getInitialPoint(hc_dense.dense_A, hc_dense.dense_b);
     VectorXd birk_x = dc.getInitialPoint(birk_dense.dense_A, birk_dense.dense_b);
 
-    JohnWalk john(0.5, 0, "uniform", 1, 0.001, 10000);
-    DikinLSWalk dikinls(0.5, 0, "uniform", 1, 0.001, 0.01, 10000);
-    VaidyaWalk vaidya(0.5, 0, "uniform");
+    JohnWalk john(0.5, 0, uniform_dist, 1, 0.001, 10000);
+    DikinLSWalk dikinls(0.5, 0, uniform_dist, 1, 0.001, 0.01, 10000);
+    VaidyaWalk vaidya(0.5, 0, uniform_dist);
 
     john.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
     dikinls.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);

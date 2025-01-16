@@ -10,11 +10,11 @@ class BarrierWalk : public RandomWalk{
          * @brief initialization of BarrierWalk class
          * @param r spread parameter
          * @param lambda hessian regularization term 
-         * @param dist_type distribution type {uniform, normal, log-concave}
+         * @param dist_func convex function f such that x follows exp(-f(x)) log-concave dist
          * @param thin thin constant
          */
-        BarrierWalk(double r, double lambda, string dist_type, 
-            int thin = 1) : R(r), LAMBDA(lambda), DIST_TYPE(dist_type), RandomWalk(thin){}
+        BarrierWalk(double r, double lambda, function<double(const VectorXd&)> dist_func, 
+            int thin = 1) : R(r), LAMBDA(lambda), DIST_FUNC(dist_func), RandomWalk(thin){}
 
         /**
          * @brief weights generated from generateWeights function
@@ -62,7 +62,7 @@ class BarrierWalk : public RandomWalk{
         /**
          * @brief distribution type {uniform, normal, log-concave}
          */
-        const string DIST_TYPE;
+        const function<double(const VectorXd&)> DIST_FUNC;
 
         /**
          * @brief distribution constant

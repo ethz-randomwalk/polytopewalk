@@ -11,14 +11,14 @@ class JohnWalk: public BarrierWalk{
          * @brief initialization of John Walk class
          * @param r spread parameter
          * @param lambda hessian regularization term
-         * @param dist_type distribution type {uniform, normal, log-concave}
+         * @param dist_func convex function f such that x follows exp(-f(x)) log-concave dist
          * @param thin thin constant
          * @param lim norm limit for fixed point iteration
          * @param max_iter maximum number of iterations in gradient descent
          */
-        JohnWalk(double r, double lambda = 0, string dist_type = "uniform", 
+        JohnWalk(double r, double lambda = 0, function<double(const VectorXd&)> dist_func = [](const VectorXd& x) { return 1.0; }, 
             int thin = 1, double lim = 1e-5, int max_iter = 1000) 
-            : MAXITER(max_iter), LIM(lim), BarrierWalk(r, lambda, dist_type, thin){}
+            : MAXITER(max_iter), LIM(lim), BarrierWalk(r, lambda, dist_func, thin){}
 
         /**
          * @brief print john walk

@@ -68,8 +68,12 @@ void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const Vec
     dist = -(0.5/DIST_TERM) * localNorm(x - prop, hess);
     double g_z_x = det + dist;  
 
+    //compute density
+    double f_z = DIST_FUNC(prop);
+    double f_x = DIST_FUNC(x);
+
     // accept reject step
-    double alpha = min(1.0, exp(g_z_x-g_x_z));
+    double alpha = min(1.0, exp(f_z-f_x+g_z_x-g_x_z));
     double val = dis(gen);
     prop = val < alpha ? prop : x;
 }
