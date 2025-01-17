@@ -25,7 +25,7 @@ Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `
 | `Dikin Walk`   | $\tau(nd)$         | [Sachdeva and Vishnoi (2015)](https://arxiv.org/pdf/1508.01977)     |
 | `Vaidya Walk`   | $\tau(n^{1/2}d^{3/2})$        |   [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)       |
 | `John Walk`   | $\tau(d^{2.5})$        | [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)           |
-| `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)          |
+| `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)  (conjectured, proof incomplete)         |
 
 For each implemented algorithm, we provide the full-dimensional formulation and the sparse constrained formulation. Each polytope can be expressed from 1 formulation to the other. The main benefit of utilizing the constrained formulation is that it maintains sparse operations in A, ensuring scalability in higher dimensions. Many of the `netlib` dataset sparse polytopes are represented in this formulation. The formulations are specified below. 
 
