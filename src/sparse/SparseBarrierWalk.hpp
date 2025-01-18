@@ -8,10 +8,13 @@ class SparseBarrierWalk : public SparseRandomWalk{
         /**
          * @brief initialization of Sparse Barrier Walk class
          * @param r spread parameter
+         * @param lambda hessian regularization term
+         * @param dist_func convex function f such that x follows exp(-f(x)) log-concave dist
          * @param thin thin parameter
          * @param err error term parameter
          */
-        SparseBarrierWalk(double r, int thin = 1, double err = 1e-6) : R(r), SparseRandomWalk(thin, err) {}
+        SparseBarrierWalk(double r, double lambda, function<double(const VectorXd&)> dist_func, 
+            int thin = 1, double err = 1e-6) : R(r), LAMBDA(lambda), DIST_FUNC(dist_func), SparseRandomWalk(thin, err) {}
 
         /**
          * @brief generate weight for slack inverse
@@ -62,6 +65,16 @@ class SparseBarrierWalk : public SparseRandomWalk{
          * @brief spread parameter
          */
         double R; 
+
+        /**
+         * @brief hessian regularization term
+         */
+        const double LAMBDA;
+
+        /**
+         * @brief distribution type {uniform, normal, log-concave}
+         */
+        const function<double(const VectorXd&)> DIST_FUNC;
 
         /**
          * @brief inverse solver

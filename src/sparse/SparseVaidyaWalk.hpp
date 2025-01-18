@@ -9,10 +9,13 @@ class SparseVaidyaWalk : public SparseBarrierWalk{
         /**
          * @brief constructor for Vaidya Walk class
          * @param r spread parameter
+         * @param lambda hessian regularization term
+         * @param dist_func convex function f such that x follows exp(-f(x)) log-concave dist
          * @param thin thin parameter
          * @param err error constant
          */
-        SparseVaidyaWalk(double r, int thin = 1, double err = 1e-6) : SparseBarrierWalk(r, thin, err) {}
+        SparseVaidyaWalk(double r,double lambda, function<double(const VectorXd&)> dist_func,
+            int thin = 1, double err = 1e-6) : SparseBarrierWalk(r, lambda, dist_func, thin, err) {}
 
         /**
          * @brief generate weight (leverage score calculation)

@@ -72,9 +72,9 @@ sparse_polytope birk = generate_birkhoff();
 
 TEST_CASE( "Check Weight Properties", "[require]" ){
     //Vaidya, John, DikinLS
-    SparseVaidyaWalk vaidya_sparse(0.5);
-    SparseDikinLSWalk dikinls_sparse(1.0, 1, 0.001, 0.01, 20000);
-    SparseJohnWalk john_sparse(0.5, 1, 1e-5, 10000);
+    SparseVaidyaWalk vaidya_sparse(0.5, 0, uniform_dist);
+    SparseDikinLSWalk dikinls_sparse(1.0, 0, uniform_dist, 1, 0.001, 0.01, 20000);
+    SparseJohnWalk john_sparse(0.5, 0, uniform_dist, 1, 1e-5, 10000);
 
     VectorXd simplex_start (3);
     simplex_start << 0.33, 0.34, 0.33;

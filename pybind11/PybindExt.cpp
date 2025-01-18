@@ -569,21 +569,25 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 0.01);
 
     py::class_<SparseBarrierWalk, SparseRandomWalk, PySparseBarrierWalk<>>(m_sparse, "SparseBarrierWalk", "Sparse Barrier Walk Implementation.")
-        .def(py::init<double, int, double>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int, double>(), 
             R"doc(
             Initialization for Sparse Barrier Walk Super Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for starting distance (default is 0.9).
+            r : double
+                Radius for starting distance.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
 
             )doc",
-            py::arg("r") = 0.9, py::arg("thin") = 1, py::arg("err") = 1e-6)
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("err") = 1e-6)
         .def("generateWeight", &SparseBarrierWalk::generateWeight, 
             R"doc(
             Generate weight from Sparse Barrier Walk (virtual function).
@@ -631,46 +635,58 @@ PYBIND11_MODULE(polytopewalk, m) {
         );
     
     py::class_<SparseDikinWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseDikinWalk>>(m_sparse, "SparseDikinWalk", "Sparse Dikin Walk Implementation.")
-        .def(py::init<double, int, double>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int, double>(), 
             R"doc(
             Initialization for Sparse Dikin Walk Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for Dikin Ellipsoid (default is 0.9).
+            r : double
+                Radius for Dikin Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc",
-            py::arg("r") = 0.9, py::arg("thin") = 1, py::arg("err") = 1e-6);
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("err") = 1e-6);
     
     py::class_<SparseVaidyaWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseVaidyaWalk>>(m_sparse, "SparseVaidyaWalk", "Sparse Vaidya Walk Implementation.")
-        .def(py::init<double, int, double>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int, double>(), 
             R"doc(
             Initialization for Sparse Vaidya Walk Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for Vaidya Ellipsoid (default is 0.9).
+            r : double
+                Radius for Vaidya Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc",
-             py::arg("r") = 0.9, py::arg("thin") = 1, py::arg("err") = 1e-6);
+             py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("err") = 1e-6);
     
     py::class_<SparseJohnWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseJohnWalk>>(m_sparse, "SparseJohnWalk", "Sparse John Walk Implementation.")
-        .def(py::init<double, int, double, int, double>(), 
+        .def(py::init<double, double, function<double(const VectorXd&)>, int, double, int, double>(), 
             R"doc(
             Initialization for Sparse John Walk Class.
 
             Parameters
             -----------
-            r : double, optional
-                Radius for John Ellipsoid (default is 0.9).
+            r : double
+                Radius for John Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             lim : double, optional
@@ -680,18 +696,22 @@ PYBIND11_MODULE(polytopewalk, m) {
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc", 
-            py::arg("r") = 0.9, py::arg("thin") = 1, py::arg("lim") = 1e-5, 
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("lim") = 1e-5, 
             py::arg("max_iter") = 1000, py::arg("err") = 1e-6);
     
     py::class_<SparseDikinLSWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseDikinLSWalk>>(m_sparse, "SparseDikinLSWalk", "Sparse Lee Sidford Walk Implementation.")
-        .def(py::init<double, int, double, double, int, double>(), 
+        .def(py::init<double,double, function<double(const VectorXd&)>, int, double, double, int, double>(), 
             R"doc(
             Initialization for Sparse Lee Sidford Walk Class.
             
             Parameters
             -----------
-            r : double, optional
-                Radius for Lee-Sidford Ellipsoid (default is 0.9).
+            r : double
+                Radius for Lee-Sidford Ellipsoid.
+            lambda : double
+                Hessian regularization constant for log-concave sample.
+            dist_func : function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             g_lim : double, optional
@@ -703,7 +723,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc",
-            py::arg("r") = 0.9, py::arg("thin") = 1,py::arg("g_lim") = 0.01, 
+            py::arg("r"), py::arg("lambda"), py::arg("dist_func"), py::arg("thin") = 1,py::arg("g_lim") = 0.01, 
             py::arg("step_size") = 0.1, py::arg("max_iter") = 1000, py::arg("err") = 1e-6);
 
 }

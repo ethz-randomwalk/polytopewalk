@@ -10,13 +10,17 @@ class SparseDikinLSWalk : public SparseBarrierWalk{
         /**
          * @brief initialization of Sparse Lee Sidford Walk class
          * @param r spread parameter
+         * @param lambda hessian regularization term
+         * @param dist_func convex function f such that x follows exp(-f(x)) log-concave dist
          * @param thin thin parameter
          * @param g_lim gradient descent norm limit
          * @param step_size size of gradient descent step
          * @param max_iter maximum number of iterations in gradient descent
          * @param err error constant
          */
-        SparseDikinLSWalk(double r, int thin = 1, double g_lim = 0.01, double step_size = 0.1, int max_iter = 1000, double err = 1e-6) : G_LIM(g_lim), STEP_SIZE(step_size), MAX_ITER(max_iter), SparseBarrierWalk(r, thin, err) {}
+        SparseDikinLSWalk(double r, double lambda, function<double(const VectorXd&)> dist_func, 
+            int thin = 1, double g_lim = 0.01, double step_size = 0.1, int max_iter = 1000, double err = 1e-6) : G_LIM(g_lim), 
+            STEP_SIZE(step_size), MAX_ITER(max_iter), SparseBarrierWalk(r, lambda, dist_func, thin, err) {}
 
         /**
          * @brief generate weight by solving convex optimization task
