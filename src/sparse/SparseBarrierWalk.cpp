@@ -28,6 +28,7 @@ VectorXd SparseBarrierWalk::generateSample(
     SparseMatrixXd W = generateWeight(x, A, k);
     SparseMatrixXd G = slack_inv * W * slack_inv;
     for(int i = 0; i < x.rows() - k; i++) G.coeffRef(i, i) = ERR; 
+    for(int i = x.rows()-k; i < x.rows(); i++) G.coeffRef(i, i) = G.coeffRef(i, i) + LAMBDA; 
 
     SparseMatrixXd G_inv_sqrt = SparseMatrixXd(VectorXd(G.diagonal()).cwiseInverse().cwiseSqrt().asDiagonal());
     
@@ -58,6 +59,7 @@ double SparseBarrierWalk::generateProposalDensity(
     SparseMatrixXd W = generateWeight(x, A, k);
     SparseMatrixXd G = slack_inv * W * slack_inv;
     for(int i = 0; i < x.rows() - k; i++) G.coeffRef(i, i) = ERR; 
+    for(int i = x.rows()-k; i < x.rows(); i++) G.coeffRef(i, i) = G.coeffRef(i, i) + LAMBDA;
 
     SparseMatrixXd G_inv_sqrt = SparseMatrixXd(VectorXd(G.diagonal()).cwiseInverse().cwiseSqrt().asDiagonal());
     SparseMatrixXd AG_inv_sqrt = A * G_inv_sqrt;
@@ -108,7 +110,11 @@ MatrixXd SparseBarrierWalk::generateCompleteWalk(
         if (inPolytope(z, k)){
             double g_x_z = generateProposalDensity(x, z, A, k);
             double g_z_x = generateProposalDensity(z, x, A, k);
-            double alpha = min(1.0, exp(g_z_x - g_x_z));
+
+            double f_z = DIST_FUNC(z);
+            double f_x = DIST_FUNC(x);
+
+            double alpha = min(1.0, exp(f_z - f_x + g_z_x - g_x_z));
             double val = dis(gen);
             x = val < alpha ? z : x; 
         }
