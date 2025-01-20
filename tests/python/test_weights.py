@@ -34,11 +34,14 @@ birk_A[(2, 2)] = 1
 
 birk_b = np.array([1,1,1])
 
+def unif_dist(x):
+    return 1
+
 class TestWeights(unittest.TestCase):
     def test_weights(self):
-        sparse_vaidya = SparseVaidyaWalk(r = 0.9, thin = 1)
-        sparse_john = SparseJohnWalk(r = 0.9, thin = 1)
-        sparse_dikinls = SparseDikinLSWalk(r = 0.9, thin = 1)
+        sparse_vaidya = SparseVaidyaWalk(r = 0.8,lambda_ = 0, dist_func = unif_dist, thin = 2)
+        sparse_john = SparseJohnWalk(r = 0.8,lambda_ = 0, dist_func = unif_dist, thin = 2)
+        sparse_dikinls = SparseDikinLSWalk(r = 0.9,lambda_ = 0, dist_func = unif_dist, thin = 2)
 
         simplex_start = np.array([0.33, 0.34, 0.33])
         w = sparse_dikinls.generateWeight(simplex_start, simplex_A, 3)

@@ -33,14 +33,14 @@ birk_A[(2, 2)] = 1
 
 birk_b = np.array([1,1,1])
 
-
+def unif_dist(x):
+    return 1
 
 class TestSparseWalk(unittest.TestCase):
     def test_run(self):
-        dikin = SparseDikinWalk(r = 0.8, thin = 2)
-        vaidya = SparseVaidyaWalk(r = 0.8, thin = 2)
-        john = SparseJohnWalk(r = 0.8, thin = 2)
-
+        dikin = SparseDikinWalk(r = 0.8, lambda_ = 0, dist_func = unif_dist, thin = 2)
+        vaidya = SparseVaidyaWalk(r = 0.8, lambda_ = 0, dist_func = unif_dist, thin = 2)
+        john = SparseJohnWalk(r = 0.8, lambda_ = 0, dist_func = unif_dist, thin = 2)
         fr = FacialReduction()
         sc = SparseCenter()
         fr_res_simplex = fr.reduce(simplex_A, simplex_b, simplex_A.shape[1], True)

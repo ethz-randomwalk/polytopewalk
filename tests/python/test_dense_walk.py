@@ -33,13 +33,15 @@ birk_A[(2, 2)] = 1
 
 birk_b = np.array([1,1,1])
 
+def unif_dist(x):
+    return 1
 
 
 class TestDenseWalk(unittest.TestCase):
     def test_run(self):
-        dikin = DikinWalk(r = 0.8, thin = 2)
-        vaidya = VaidyaWalk(r = 0.8, thin = 2)
-        john = JohnWalk(r = 0.8, thin = 2)
+        dikin = DikinWalk(r = 0.8, lambda_ = 0, dist_func = unif_dist, thin = 2)
+        vaidya = VaidyaWalk(r = 0.8, lambda_ = 0, dist_func = unif_dist, thin = 2)
+        john = JohnWalk(r = 0.8, lambda_ = 0, dist_func = unif_dist, thin = 2)
 
         fr = FacialReduction()
         dc = DenseCenter()
