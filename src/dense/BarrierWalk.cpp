@@ -73,7 +73,7 @@ void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const Vec
     double f_x = DIST_FUNC(x);
 
     // accept reject step
-    double alpha = min(1.0, exp(f_z-f_x+g_z_x-g_x_z));
+    double alpha = min(1.0, exp(f_x-f_z+g_z_x-g_x_z));
     double val = dis(gen);
     prop = val < alpha ? prop : x;
 }
