@@ -291,7 +291,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("r") = 0.3, py::arg("thin") = 1);
     
     py::class_<HitAndRun, RandomWalk>(m_dense, "HitAndRun", "Hit-Run Implementation.")
-        .def(py::init<double, double, int>(),  
+        .def(py::init<double, int, double>(),  
             R"doc(
             Initialization for Hit and Run Class.
 
@@ -299,13 +299,32 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for starting distance (default is 0.1).
-            err : double, optional
-                Constant for closeness to edge of polytope (default is 0.01).
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
+            err : double, optional
+                Constant for closeness to edge of polytope (default is 1e-3).
 
             )doc",
-            py::arg("r") = 0.1, py::arg("err") = 0.01, py::arg("thin") = 1);
+            py::arg("r") = 0.1, py::arg("thin") = 1, py::arg("err") = 1e-3);
+        
+    py::class_<GeneralHitAndRun, RandomWalk>(m_dense, "GeneralHitAndRun", "General Hit-Run Implementation.")
+        .def(py::init<double, function<double(const VectorXd&)>, int, double>(),  
+            R"doc(
+            Initialization for General Hit and Run Class.
+
+            Parameters
+            -----------
+            r : double
+                Radius for starting distance.
+            dist_func: function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
+            thin : int, optional
+                Constant for how often to keep samples (default is 1).
+            err : double, optional
+                Constant for closeness to edge of polytope (default is 1e-3).
+
+            )doc",
+            py::arg("r"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("err") = 1e-3);
 
     py::class_<BarrierWalk, RandomWalk, PyBarrierWalk<>>(m_dense, "BarrierWalk", "Barrier Walk Implementation.")
         .def(py::init<double, double, function<double(const VectorXd&)>, int>(), 
@@ -551,7 +570,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("r") = 0.9 , py::arg("thin") = 1);
     
-    py::class_<SparseHitAndRun, SparseRandomWalk>(m_sparse, "SparseHitAndRun", "Sparse Hit and Run Implementation.")
+    py::class_<SparseHitAndRun, SparseRandomWalk>(m_sparse, "SparseHitAndRun", "Sparse Hit-Run Implementation.")
         .def(py::init<double, int, double>(),  
             R"doc(
             Initialization for Sparse Hit and Run Class.
@@ -563,10 +582,29 @@ PYBIND11_MODULE(polytopewalk, m) {
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             err : double, optional
-                Constant for closeness to edge of polytope (default is 0.01).
+                Constant for closeness to edge of polytope (default is 1e-3).
 
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 0.01);
+            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 1e-3);
+        
+    py::class_<SparseGeneralHitAndRun, SparseRandomWalk>(m_sparse, "SparseGeneralHitAndRun", "Sparse General Hit-Run Implementation.")
+        .def(py::init<double, function<double(const VectorXd&)>, int, double>(),  
+            R"doc(
+            Initialization for Sparse General Hit and Run Class.
+
+            Parameters
+            -----------
+            r : double
+                Radius for starting distance.
+            dist_func: function
+                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
+            thin : int, optional
+                Constant for how often to keep samples (default is 1).
+            err : double, optional
+                Constant for closeness to edge of polytope (default is 1e-3).
+
+            )doc",
+            py::arg("r"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("err") = 1e-3);
 
     py::class_<SparseBarrierWalk, SparseRandomWalk, PySparseBarrierWalk<>>(m_sparse, "SparseBarrierWalk", "Sparse Barrier Walk Implementation.")
         .def(py::init<double, double, function<double(const VectorXd&)>, int, double>(), 

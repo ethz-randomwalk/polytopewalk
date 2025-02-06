@@ -1,21 +1,21 @@
 
-#ifndef HITRUN_HPP
-#define HITRUN_HPP
+#ifndef GENHITRUN_HPP
+#define GENHITRUN_HPP
 
 #include "RandomWalk.hpp"
 
-class HitAndRun: public RandomWalk{
+class GeneralHitAndRun: public RandomWalk{
 
     public:
         /**
-         * @brief initialization of Hit and Run class
-         * @param r spread hyperparamter
+         * @brief initialization of General Hit and Run class
+         * @param r spread hyperparameter
+         * @param dist_func distribution
          * @param thin thin parameter (record every ith value)
          * @param err error hyperparameter
          */
-        HitAndRun(double r, int thin = 1, double err = 1e-6) : ERR(err), R(r), RandomWalk(thin) {
-
-        }
+        GeneralHitAndRun(double r, function<double(const VectorXd&)> dist_func, int thin = 1,
+        double err = 1e-6) : R(r), DIST_FUNC(dist_func), ERR(err), RandomWalk(thin) {}
 
         /**
          * @brief Generate values from the walk
@@ -40,6 +40,11 @@ class HitAndRun: public RandomWalk{
         const double ERR;
 
         /**
+         * @brief distribution type {uniform, normal, log-concave}
+         */
+        const function<double(const VectorXd&)> DIST_FUNC;
+
+        /**
          * @brief initial starting value
          */
         const double R;
@@ -51,6 +56,16 @@ class HitAndRun: public RandomWalk{
          * @return double
          */
         double distance(VectorXd& x, VectorXd&y);
+
+        /**
+         * @brief get min f(x) in direction v through point x
+         * @param v direction vector
+         * @param x starting point
+         * @param l lower bound
+         * @param u upper bound
+         * @return double
+         */
+        double minF(VectorXd& v, VectorXd&x, double l, double u);
 
         /**
          * @brief runs binary search to find a suitable chord intersection with the polytope

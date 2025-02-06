@@ -7,12 +7,14 @@
 #include "dense/VaidyaWalk.hpp"
 #include "dense/HitRun.hpp"
 #include "dense/BallWalk.hpp"
+#include "dense/GeneralHitRun.hpp"
 #include "sparse/SparseDikinWalk.hpp"
 #include "sparse/SparseDikinLSWalk.hpp"
 #include "sparse/SparseJohnWalk.hpp"
 #include "sparse/SparseVaidyaWalk.hpp"
 #include "sparse/SparseBallWalk.hpp"
 #include "sparse/SparseHitRun.hpp"
+#include "sparse/SparseGeneralHitRun.hpp"
 
 
 /**

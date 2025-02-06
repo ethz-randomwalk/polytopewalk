@@ -76,7 +76,7 @@ TEST_CASE( "Test All Dense Combinations", "[require]" ){
     VaidyaWalk vaidya(0.5, 0, uniform_dist);
     DikinWalk dikin(0.5, 0, uniform_dist);
     BallWalk ball(0.5);
-    HitAndRun hitrun(0.5, 0.001);
+    HitAndRun hitrun(0.5, 1, 0.001);
     DenseCenter dc;
     FacialReduction fr; 
 
