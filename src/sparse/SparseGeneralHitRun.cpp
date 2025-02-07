@@ -1,4 +1,4 @@
-#include "SparseHitRun.hpp"
+#include "SparseGeneralHitRun.hpp"
 
 double SparseGeneralHitAndRun::binarySearch(
     VectorXd direction, 
@@ -39,7 +39,7 @@ double SparseGeneralHitAndRun::binarySearch(
 }
 
 
-double GeneralHitAndRun::minF(VectorXd& v, VectorXd& x, double l, double u){
+double SparseGeneralHitAndRun::minF(VectorXd& v, VectorXd& x, double l, double u){
     while (abs(u - l) < ERR){
         double m = (u + l)/2.0;
         double dev1 = DIST_FUNC(x + ((m - ERR) * v));
@@ -87,8 +87,8 @@ MatrixXd SparseGeneralHitAndRun::generateCompleteWalk(
         double val = dis(gen);
         double random_point = val * (pos_side - neg_side) + neg_side; 
         
-        VextorXd z = random_point * new_direct_proj + x; 
-        double r = dis(gen); 
+        VectorXd z = random_point * new_direct_proj + x; 
+        double rand = dis(gen); 
 
         double density1 = DIST_FUNC(z);
         double density2 = minF(new_direct_proj, x, neg_side, pos_side);

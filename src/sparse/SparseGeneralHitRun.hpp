@@ -68,6 +68,8 @@ class SparseGeneralHitAndRun : public SparseRandomWalk{
             VectorXd direction, 
             VectorXd& x,
             int k);
+
+
 };
 
 #endif
