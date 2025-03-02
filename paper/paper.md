@@ -86,14 +86,15 @@ The mixing times refer to the required number of steps to converge to stationary
 
 | Feature                  | ``PolytopeWalk`` | `Volesti` | `WalkR` | `Polyrun` |
 |--------------------------|:-------------:|:--------:|:------:|:--------:|
-| Constrained Formulation  | <font color="green">Y</font> | <font color="red">N</font> | <font color="green">Y</font> | <font color="green">Y</font> |
-| Sparse Friendly          | <font color="green">Y</font> | <font color="red">N</font> | <font color="red">N</font> | <font color="red">N</font> |
-| C++ Implementation       | <font color="green">Y</font> | <font color="green">Y</font> | <font color="red">N</font> | <font color="red">N</font> |
-| Facial Reduction         | <font color="green">Y</font> | <font color="red">N</font> | <font color="red">N</font> | <font color="red">N</font> |
-| Dikin Walk               | <font color="green">Y</font> | <font color="green">Y</font> | <font color="green">Y</font> | <font color="red">N</font> |
-| Vaidya Walk              | <font color="green">Y</font> | <font color="green">Y</font> | <font color="red">N</font> | <font color="red">N</font> |
-| John Walk                | <font color="green">Y</font> | <font color="green">Y</font> | <font color="red">N</font> | <font color="red">N</font> |
-| Lee-Sidford Walk         | <font color="green">Y</font> | <font color="red">N</font> | <font color="red">N</font> | <font color="red">N</font> |
+| Constrained Formulation  | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{green}Y}$$ | $${\color{green}Y}$$ |
+| Sparse Friendly          | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
+| C++ Implementation       | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
+| Facial Reduction         | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
+| Dikin Walk               | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ |
+| Vaidya Walk              | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
+| John Walk                | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
+| Lee-Sidford Walk         | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
+
 
 Table II contrasts the features of ``PolytopeWalk`` with `Volesti` (@Chalkis_2021), `WalkR` (@Yao2017), and `Polyrun` (@CIOMEK2021100659). ``PolytopeWalk`` is the first open-source package that enables users to leverage sparsity and use constrained formulations of the polytopes to generate points uniformly with fast MCMC algorithms. We are also one of the first to primarily focus on barrier walk MCMC samplers. ``PolytopeWalk`` includes a C++ implementation with corresponding Python wrapper code. Conversely, `Volesti` is implemented in C++ with some of its code represented in the Python library `Dingo`. `Polyrun` only works on Java and `WalkR` on R. Notably, `WalkR` was removed from the CRAN repository, motivating further open source MCMC sampling development. 
 
