@@ -41,7 +41,7 @@ In the constrained formulation with sparse matrix A ($n$ x $d$ matrix) and vecto
 
 where the polytope is specified with $n$ equality constraints and $k$ coordinate-wise inequality constraints. 
 
-In ``PolytopeWalk``, we implement the MCMC algorithms in both the dense, full-dimensional and the sparse, constrainted polytope formulation. 
+In ``PolytopeWalk``, we implement the MCMC algorithms in both the dense, full-dimensional and the sparse, constrained polytope formulation. 
 
 
 ## Installation
