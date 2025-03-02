@@ -7,8 +7,8 @@
 ![ciwheels](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
 
 # PolytopeWalk
-**PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes facial reduction and initialization algorithms for pre-processing as well. Example code that samples from both real polytopes from a data set and artificial polytopes are shown in the Examples folder. Finally, for documentation, please visit our webpage: https://polytopewalk.readthedocs.io/en/latest/ and read our paper on arXiv here: https://arxiv.org/abs/2412.06629. 
- 
+**PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes Facial Reduction and initialization algorithms for pre-processing as well. For documentation on all functions/methods, please visit our webpage: https://polytopewalk.readthedocs.io/en/latest/ and read our paper on arXiv here: https://arxiv.org/abs/2412.06629. Finally, for example inputs and outputs, please visit the examples folder, which includes code to uniformly sample from both real-world polytopes from the `Netlib` dataset and structured polytopes.
+
 ## Code Structure
 
 <p align="center">
@@ -39,8 +39,9 @@ In the constrained formulation with sparse matrix A ($n$ x $d$ matrix) and vecto
 
 ![equation](https://latex.codecogs.com/svg.image?\large&space;\mathcal{K}_2=\[x\in\mathbb{R}^d|Ax=b,x\succeq_k&space;0\])
 
-where the polytope is specified with $n$ equality constraints and $k$ coordinate-wise inequality constraints.
+where the polytope is specified with $n$ equality constraints and $k$ coordinate-wise inequality constraints. 
 
+In ``PolytopeWalk``, we implement the MCMC algorithms in both the dense, full-dimensional and the sparse, constrainted polytope formulation. 
 
 
 ## Installation
@@ -93,7 +94,7 @@ sudo make install
 ```
 
 ## Examples
-The `examples` folder provides examples of sampling from both sparse (constrained) and dense (full-dimensional) formulations of the MCMC sampling algorithms. We test our random walk algorithms on family of 3 structured polytopes and 3 real life polytopes from `netlib`. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
+The `examples` folder provides examples of sampling from both sparse (constrained) and dense (full-dimensional) formulations of the MCMC sampling algorithms. We test our random walk algorithms on family of 3 structured polytopes and 3 polytopes from `netlib` for real-world analysis. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
 ```python
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix, csr_array
@@ -130,7 +131,7 @@ dikin_res = dikin.generateCompleteWalk(1_000, init, dense_A, dense_b, burn = 100
 ```
 
 ## Testing
-The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. The user can run each of the files separately to make sure the package passes all of the test suites.
+The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. Our Github package page comes with an automated test suite hooked up to continuous integration after push requests to the main branch. 
 
 ## Community Guidelines
 
