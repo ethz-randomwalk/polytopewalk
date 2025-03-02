@@ -107,7 +107,7 @@ x, A, b, k, name = generate_simplex(5)
 sparse_dikin = SparseDikinWalk(r = 0.9, thin = 1)
 dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burn = 100)
 ```
-We can also provide a corollary using the dense formulation.
+We also demonstrate how to sample from a polytope in a dense, full-dimensional formulation. We additionally introduce the Facial Reduction algorithm, used to simplify the constrained polytope into the full-dimensional form. 
 ```python
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix, csr_array
