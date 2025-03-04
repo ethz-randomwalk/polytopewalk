@@ -1,5 +1,10 @@
 name: Draft PDF
-on: [push]
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'paper/**'
 
 jobs:
   paper:
