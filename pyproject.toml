@@ -7,7 +7,7 @@ build-backend = 'scikit_build_core.build'
 
 [project]
 name = 'polytopewalk'
-version = '1.0.17'
+version = '1.0.18'
 description='Open Source Implementation of MCMC Polytope Walks'
 readme = "README.md"
 keywords = ["MCMC", "Dikin Walk", "Vaidya Walk", "John Walk", "Lee Sidford Walk", "Sparse", "Sampling"]
@@ -15,6 +15,7 @@ authors = [
   { name = 'Benny Sun', email = 'benny.sun@duke.edu' },
   { name = 'Yuansi Chen', email = 'yuansi.chen@stat.math.ethz.ch' },
 ]
+
 requires-python = '>=3.9'
 classifiers = [
     'Intended Audience :: Science/Research',
