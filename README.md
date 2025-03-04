@@ -7,7 +7,7 @@
 ![ciwheels](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
 
 # PolytopeWalk
-**PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. Code includes Facial Reduction and initialization algorithms for pre-processing as well. For documentation on all functions/methods, please visit our webpage: https://polytopewalk.readthedocs.io/en/latest/ and read our paper on arXiv here: https://arxiv.org/abs/2412.06629. Finally, for example inputs and outputs, please visit the examples folder, which includes code to uniformly sample from both real-world polytopes from the `Netlib` dataset and structured polytopes.
+**PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope (Facial Reduction algorithm) and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. For documentation on all functions/methods, please visit our webpage: https://polytopewalk.readthedocs.io/en/latest/ and read our paper on arXiv here: https://arxiv.org/abs/2412.06629. Finally, for example inputs and outputs, please visit the examples folder, which includes code to uniformly sample from both real-world polytopes from the `Netlib` dataset and structured polytopes.
 
 ## Code Structure
 
@@ -41,7 +41,7 @@ In the constrained formulation with sparse matrix A ($n$ x $d$ matrix) and vecto
 
 where the polytope is specified with $n$ equality constraints and $k$ coordinate-wise inequality constraints. 
 
-In ``PolytopeWalk``, we implement the MCMC algorithms in both the dense, full-dimensional and the sparse, constrainted polytope formulation. 
+In ``PolytopeWalk``, we implement the MCMC algorithms in both the dense, full-dimensional and the sparse, constrained polytope formulation. 
 
 
 ## Installation
@@ -107,7 +107,7 @@ x, A, b, k, name = generate_simplex(5)
 sparse_dikin = SparseDikinWalk(r = 0.9, thin = 1)
 dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burn = 100)
 ```
-We can also provide a corollary using the dense formulation.
+We also demonstrate how to sample from a polytope in a dense, full-dimensional formulation. We additionally introduce the Facial Reduction algorithm, used to simplify the constrained polytope into the full-dimensional form. 
 ```python
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix, csr_array
