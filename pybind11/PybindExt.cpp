@@ -307,24 +307,26 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("r") = 0.1, py::arg("thin") = 1, py::arg("err") = 1e-3);
         
-    py::class_<GeneralHitAndRun, RandomWalk>(m_dense, "GeneralHitAndRun", "General Hit-Run Implementation.")
-        .def(py::init<double, function<double(const VectorXd&)>, int, double>(),  
+    py::class_<GaussianHitAndRun, RandomWalk>(m_dense, "GaussianHitAndRun", "Gaussian Hit-Run Implementation.")
+        .def(py::init<double, VectorXd, MatrixXd, int, double>(),  
             R"doc(
-            Initialization for General Hit and Run Class.
+            Initialization for Gaussian Hit and Run Class.
 
             Parameters
             -----------
             r : double
                 Radius for starting distance.
-            dist_func: function
-                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
+            mu : numpy.ndarray
+                mean vector from Gaussian distribution.
+            cov : numpy.matrix
+                covariance matrix from Gaussian distribution.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for closeness to edge of polytope (default is 1e-3).
 
             )doc",
-            py::arg("r"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("err") = 1e-3);
+            py::arg("r"), py::arg("mu"), py::arg("cov"), py::arg("thin") = 1, py::arg("err") = 1e-3);
 
     py::class_<BarrierWalk, RandomWalk, PyBarrierWalk<>>(m_dense, "BarrierWalk", "Barrier Walk Implementation.")
         .def(py::init<double, double, function<double(const VectorXd&)>, int>(), 
@@ -587,24 +589,26 @@ PYBIND11_MODULE(polytopewalk, m) {
             )doc",
             py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 1e-3);
         
-    py::class_<SparseGeneralHitAndRun, SparseRandomWalk>(m_sparse, "SparseGeneralHitAndRun", "Sparse General Hit-Run Implementation.")
-        .def(py::init<double, function<double(const VectorXd&)>, int, double>(),  
+    py::class_<SparseGaussianHitAndRun, SparseRandomWalk>(m_sparse, "SparseGaussianHitAndRun", "Sparse Gaussian Hit-Run Implementation.")
+        .def(py::init<double, VectorXd, SparseMatrixXd, int, double>(),  
             R"doc(
-            Initialization for Sparse General Hit and Run Class.
+            Initialization for Sparse Gaussian Hit and Run Class.
 
             Parameters
             -----------
             r : double
                 Radius for starting distance.
-            dist_func: function
-                Distribution sampling type {'uniform', 'normal', 'log-concave'}.
+            mu : numpy.ndarray
+                mean vector from Gaussian distribution.
+            cov : numpy.matrix
+                covariance matrix from Gaussian distribution.
             thin : int, optional
                 Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for closeness to edge of polytope (default is 1e-3).
 
             )doc",
-            py::arg("r"), py::arg("dist_func"), py::arg("thin") = 1, py::arg("err") = 1e-3);
+            py::arg("r"), py::arg("mu"), py::arg("cov"), py::arg("thin") = 1, py::arg("err") = 1e-3);
 
     py::class_<SparseBarrierWalk, SparseRandomWalk, PySparseBarrierWalk<>>(m_sparse, "SparseBarrierWalk", "Sparse Barrier Walk Implementation.")
         .def(py::init<double, double, function<double(const VectorXd&)>, int, double>(), 

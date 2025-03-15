@@ -1,6 +1,6 @@
-#include "SparseGeneralHitRun.hpp"
+#include "SparseGaussianHitRun.hpp"
 
-double SparseGeneralHitAndRun::binarySearch(
+double SparseGaussianHitAndRun::binarySearch(
     VectorXd direction, 
     VectorXd& x, 
     int k
@@ -38,29 +38,22 @@ double SparseGeneralHitAndRun::binarySearch(
     return (mid - x).norm();
 }
 
-
-double SparseGeneralHitAndRun::minF(VectorXd& v, VectorXd& x, double l, double u){
-    while (abs(u - l) < ERR){
-        double m = (u + l)/2.0;
-        double dev1 = DIST_FUNC(x + ((m - ERR) * v));
-        double dev2 = DIST_FUNC(x + ((m + ERR) * v));
-        double dev = (dev2-dev1)/(2 * ERR);
-
-        if (abs(dev) < ERR) {
-            return DIST_FUNC(x + m * v);
-        }
-        else if (dev > 0){
-            u = m;
-        }
-        else{
-            l = m;
-        }
-    }
-    return DIST_FUNC(x + l * v);
-
+double SparseGaussianHitAndRun::gaussianLogPDF(VectorXd x){
+    return -0.5 * (x-MU).transpose() *  chol.solve(x - MU);
 }
 
-MatrixXd SparseGeneralHitAndRun::generateCompleteWalk(
+
+double SparseGaussianHitAndRun::minF(VectorXd& v, VectorXd& x, double l, double u){
+    double t_star = - v.transpose() * chol.solve(x - MU);
+    t_star /= (v.transpose() * chol.solve(v));
+
+    if (t_star < l) t_star = l;
+    if (t_star > u) t_star = u;
+
+    return gaussianLogPDF(x + v * t_star);
+}
+
+MatrixXd SparseGaussianHitAndRun::generateCompleteWalk(
     const int num_steps, 
     const VectorXd& init, 
     const SparseMatrixXd& A, 
@@ -79,8 +72,8 @@ MatrixXd SparseGeneralHitAndRun::generateCompleteWalk(
     int total = (burn + num_steps) * THIN; 
     for (int i = 1; i <= total; i++){
         VectorXd new_direct = generateGaussianRV(A.cols());
-        VectorXd new_direct_proj = A * generateGaussianRV(A.cols()); 
-        new_direct_proj = new_direct - A.transpose() * A_solver.solve(new_direct);
+        VectorXd new_direct_proj = A*new_direct; 
+        new_direct_proj = new_direct - A.transpose() * A_solver.solve(new_direct_proj);
         new_direct_proj /= new_direct_proj.norm(); 
         double pos_side = binarySearch(new_direct_proj, x, k);
         double neg_side = -binarySearch(-new_direct_proj, x, k);
@@ -90,10 +83,10 @@ MatrixXd SparseGeneralHitAndRun::generateCompleteWalk(
         VectorXd z = random_point * new_direct_proj + x; 
         double rand = dis(gen); 
 
-        double density1 = DIST_FUNC(z);
-        double density2 = minF(new_direct_proj, x, neg_side, pos_side);
+        double density1 = gaussianLogPDF(z);
+        double density2 = minF(new_direct, x, neg_side, pos_side);
 
-        if (exp(-density1) > rand *  exp(-density2)){
+        if (exp(density1) > rand *  exp(density2)){
             x = z;
         }
 

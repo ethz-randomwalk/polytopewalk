@@ -1,10 +1,10 @@
-#include "GeneralHitRun.hpp"
+#include "GaussianHitRun.hpp"
 
-double GeneralHitAndRun::distance(VectorXd& x, VectorXd&y){
+double GaussianHitAndRun::distance(VectorXd& x, VectorXd&y){
     return (x - y).norm();
 }
 
-double GeneralHitAndRun::binarySearch(VectorXd direction, VectorXd& x, const MatrixXd& A, const VectorXd& b){
+double GaussianHitAndRun::binarySearch(VectorXd direction, VectorXd& x, const MatrixXd& A, const VectorXd& b){
 
     VectorXd farth = x + R * direction;
     double dist = 0; 
@@ -34,30 +34,27 @@ double GeneralHitAndRun::binarySearch(VectorXd direction, VectorXd& x, const Mat
 }
 
 
-double GeneralHitAndRun::minF(VectorXd& v, VectorXd& x, double l, double u){
-    while (abs(u - l) < ERR){
-        double m = (u + l)/2.0;
-        double dev1 = DIST_FUNC(x + ((m - ERR) * v));
-        double dev2 = DIST_FUNC(x + ((m + ERR) * v));
-        double dev = (dev2-dev1)/(2 * ERR);
+double GaussianHitAndRun::gaussianLogPDF(VectorXd x){
 
-        if (abs(dev) < ERR) {
-            return DIST_FUNC(x + m * v);
-        }
-        else if (dev > 0){
-            u = m;
-        }
-        else{
-            l = m;
-        }
-    }
+    return -0.5 * (x - MU).transpose() * cov_inv * (x - MU);
+}
 
-    return DIST_FUNC(x + l * v);
+
+double GaussianHitAndRun::minF(const VectorXd& v, const VectorXd& x, double l, double u){
+
+    double t_star = - v.transpose() * cov_inv * (x - MU);
+    t_star /= (v.transpose() * cov_inv * v);
+
+    if (t_star < l) t_star = l;
+    if (t_star > u) t_star = u;
+
+    return gaussianLogPDF(x + v * t_star);
 
 }
 
-MatrixXd GeneralHitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0){
+MatrixXd GaussianHitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0){
     int n = x.rows(); 
+
     MatrixXd results = MatrixXd::Zero(num_steps, n);
     random_device rd;
     mt19937 gen(rd());
@@ -74,10 +71,10 @@ MatrixXd GeneralHitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x
         VectorXd z = random_point * new_direct + x; 
         double rand = dis(gen); 
 
-        double density1 = DIST_FUNC(z);
+        double density1 = gaussianLogPDF(z);
         double density2 = minF(new_direct, x, neg_side, pos_side);
 
-        if (exp(-density1) > rand *  exp(-density2)){
+        if (exp(density1) > rand * exp(density2)){
             x = z;
         }
         
@@ -88,6 +85,6 @@ MatrixXd GeneralHitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x
     return results;
 }
 
-void GeneralHitAndRun::printType(){
-    cout << "GeneralHitAndRunWalk" << endl;
+void GaussianHitAndRun::printType(){
+    cout << "GaussianHitAndRun" << endl;
 }

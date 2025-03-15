@@ -4,18 +4,22 @@
 
 #include "RandomWalk.hpp"
 
-class GeneralHitAndRun: public RandomWalk{
+class GaussianHitAndRun: public RandomWalk{
 
     public:
         /**
          * @brief initialization of General Hit and Run class
          * @param r spread hyperparameter
+         * @param mu mean vector in Gaussian Distribution
+         * @param cov covariance matrix in Gaussian Distribution
          * @param dist_func distribution
          * @param thin thin parameter (record every ith value)
          * @param err error hyperparameter
          */
-        GeneralHitAndRun(double r, function<double(const VectorXd&)> dist_func, int thin = 1,
-        double err = 1e-6) : R(r), DIST_FUNC(dist_func), ERR(err), RandomWalk(thin) {}
+        GaussianHitAndRun(double r, VectorXd mu, MatrixXd cov, int thin = 1,
+        double err = 1e-6) : R(r), MU(mu), COV(cov), ERR(err), RandomWalk(thin) {
+            cov_inv = cov.inverse();
+        }
 
         /**
          * @brief Generate values from the walk
@@ -40,9 +44,20 @@ class GeneralHitAndRun: public RandomWalk{
         const double ERR;
 
         /**
-         * @brief distribution type {uniform, normal, log-concave}
+         * @brief mean of Gaussian Distribution
          */
-        const function<double(const VectorXd&)> DIST_FUNC;
+        const VectorXd MU; 
+
+        /**
+         * @brief Covariance matrix of Gaussian Distribution
+         */
+         const MatrixXd COV; 
+
+
+         /**
+         * @brief Inverse Covariance matrix of Gaussian Distribution
+         */
+         MatrixXd cov_inv; 
 
         /**
          * @brief initial starting value
@@ -58,6 +73,14 @@ class GeneralHitAndRun: public RandomWalk{
         double distance(VectorXd& x, VectorXd&y);
 
         /**
+         * @brief get the gaussian log PDF 
+         * @param x vector
+         * @return double
+         */
+        double gaussianLogPDF(VectorXd x);
+        
+        
+        /**
          * @brief get min f(x) in direction v through point x
          * @param v direction vector
          * @param x starting point
@@ -65,7 +88,7 @@ class GeneralHitAndRun: public RandomWalk{
          * @param u upper bound
          * @return double
          */
-        double minF(VectorXd& v, VectorXd&x, double l, double u);
+        double minF(const VectorXd& v, const VectorXd&x, double l, double u);
 
         /**
          * @brief runs binary search to find a suitable chord intersection with the polytope

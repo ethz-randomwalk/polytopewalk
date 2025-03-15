@@ -3,17 +3,24 @@
 
 #include "SparseRandomWalk.hpp"
 
-class SparseGeneralHitAndRun : public SparseRandomWalk{
+class SparseGaussianHitAndRun : public SparseRandomWalk{
     public:
         /**
          * @brief initialization of Sparse Hit and Run class
          * @param r spread parameter
-         * @param dist_func distribution function
+         * @param mu mean vector in Gaussian Distribution
+         * @param cov covariance matrix in Gaussian Distribution
          * @param thin thin parameter
          * @param err error constant
          */
-        SparseGeneralHitAndRun(double r, function<double(const VectorXd&)> dist_func, 
-                int thin = 1, double err = 1e-6) : R(r), DIST_FUNC(dist_func), SparseRandomWalk(thin, err) {}
+        SparseGaussianHitAndRun(double r, VectorXd mu, SparseMatrixXd cov, 
+            int thin = 1, double err = 1e-6) : R(r), MU(mu), COV(cov), 
+            SparseRandomWalk(thin, err) {
+            
+            chol.analyzePattern(COV);
+            chol.factorize(COV);
+
+        }
 
          /**
          * @brief generate values from the Hit and Run
@@ -42,10 +49,26 @@ class SparseGeneralHitAndRun : public SparseRandomWalk{
         const double R;
 
         /**
-         * @brief distribution type {uniform, normal, log-concave}
+         * @brief mean of Gaussian Distribution
          */
-        const function<double(const VectorXd&)> DIST_FUNC;
+        const VectorXd MU; 
 
+        /**
+         * @brief Covariance matrix of Gaussian Distribution
+         */
+        const SparseMatrixXd COV; 
+
+        /**
+         * @brief solve systems of equations with covariance matrix
+         */
+        SimplicialLLT<SparseMatrixXd> chol;
+
+        /**
+         * @brief get the gaussian log PDF 
+         * @param x vector
+         * @return double
+         */
+        double gaussianLogPDF(VectorXd x);
 
          /**
          * @brief get min f(x) in direction v through point x
