@@ -51,19 +51,19 @@ jobs:
   
           # MacOS macos-12 x86_64 is deprecated
           # MacOS macos-14 arm64
-          - os: macos-14
+          - os: macos-latest
             python: 39
             platform_id: macosx_arm64
             deployment_target: "14"
-          - os: macos-14
+          - os: macos-latest
             python: 310
             platform_id: macosx_arm64
             deployment_target: "14"
-          - os: macos-14
+          - os: macos-latest
             python: 311
             platform_id: macosx_arm64
             deployment_target: "14"
-          - os: macos-14
+          - os: macos-latest
             python: 312
             platform_id: macosx_arm64
             deployment_target: "14"
