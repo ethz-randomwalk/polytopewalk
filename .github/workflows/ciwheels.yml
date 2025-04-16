@@ -78,10 +78,6 @@ jobs:
             python: 312
             platform_id: macosx_arm64
             deployment_target: "14"
-          - os: macos-latest
-            python: 313
-            platform_id: macosx_arm64
-            deployment_target: "14"
        
     steps:
       - name: Checkout code
