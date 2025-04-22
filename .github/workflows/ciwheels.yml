@@ -90,7 +90,7 @@ jobs:
           curl -owinglpk-4.65.zip -L --insecure https://jaist.dl.sourceforge.net/project/winglpk/winglpk/GLPK-4.65/winglpk-4.65.zip
           7z x winglpk-4.65.zip
           cp glpk-4.65/w64/glpk_4_65.lib glpk-4.65/w64/glpk.lib
-          cp glpk-4.65/w64/glpk_4_65.dll glpk-4.65/w64/glpk.dll
+          mkdir lib
           cp glpk-4.65/w64/glpk_4_65.dll lib/glpk_4_65.dll
           echo GLPK_LIB_DIR=${GITHUB_WORKSPACE}\\glpk-4.65\\w64 >> $GITHUB_ENV
           echo GLPK_INCLUDE_DIR=${GITHUB_WORKSPACE}\\glpk-4.65\\src >> $GITHUB_ENV
