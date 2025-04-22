@@ -7,7 +7,7 @@ build-backend = 'scikit_build_core.build'
 
 [project]
 name = 'polytopewalk'
-version = '1.0.21'
+version = '1.0.23'
 description='Open Source Implementation of MCMC Polytope Walks'
 readme = "README.md"
 keywords = ["MCMC", "Dikin Walk", "Vaidya Walk", "John Walk", "Lee Sidford Walk", "Sparse", "Sampling"]
