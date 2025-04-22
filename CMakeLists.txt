@@ -40,7 +40,13 @@ add_subdirectory("src")
 pybind11_add_module(${PROJECT_NAME} MODULE pybind11/PybindExt.cpp)
 target_link_libraries(${PROJECT_NAME} PUBLIC utils dense sparse pybind11::module Eigen3::Eigen ${GLPK_LIBRARY})
 target_include_directories(${PROJECT_NAME} PRIVATE ${Eigen3_INCLUDE_DIRS} ${GLPK_INCLUDE_DIR})
-install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION .)
+install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION ${PROJECT_NAME})
+
+# Windows-specific DLL installation
+if(WIN32)
+    file(GLOB DLL_FILES "${CMAKE_CURRENT_SOURCE_DIR}/lib/*.dll")
+    install(FILES ${DLL_FILES} DESTINATION ${PROJECT_NAME})
+endif()
 
 # if (BUILD_TESTS)
 add_subdirectory("tests")
