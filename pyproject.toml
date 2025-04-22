@@ -53,6 +53,10 @@ build.verbose = true
 # "Release", "RelWithDebInfo", "MinSizeRel", "", etc.
 cmake.build-type = "Release"
 
+# Include DLL in the wheel
+[tool.scikit-build.include]
+"polytopewalk/*.dll" = "polytopewalk/"
+
 [tool.scikit-build-core.env]
 # Allow overriding CMake options via environment variables
 BUILD_DOCS = { default = "OFF" }
