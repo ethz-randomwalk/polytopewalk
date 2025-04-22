@@ -53,6 +53,14 @@ build.verbose = true
 # "Release", "RelWithDebInfo", "MinSizeRel", "", etc.
 cmake.build-type = "Release"
 
+include-package-data = true
+
+[tool.scikit-build.resources]
+platform = "windows"
+path = "**/*.dll"
+src = "glpk-4.65/w64"
+
+
 [tool.scikit-build-core.env]
 # Allow overriding CMake options via environment variables
 BUILD_DOCS = { default = "OFF" }
