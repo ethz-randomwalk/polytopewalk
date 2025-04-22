@@ -109,6 +109,8 @@ jobs:
           CIBW_BEFORE_ALL_WINDOWS: >
             echo "OK starts Windows build" &&
             choco install eigen -y
+          CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel"
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel repair -w {dest_dir} {wheel}"
         with:
           package-dir: .
           output-dir: wheelhouse
