@@ -108,7 +108,6 @@ jobs:
           CIBW_BEFORE_ALL_WINDOWS: >
             echo "OK starts Windows build" &&
             choco install eigen -y
-            # choco install glpk --version=4.65.20210830
         with:
           package-dir: .
           output-dir: wheelhouse
