@@ -34,7 +34,7 @@ jobs:
           choco install eigen -y
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install .
+          pip install polytopewalk
 
       - name: Run tests
         run: python -m unittest discover -s tests/python -p "*.py"
