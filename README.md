@@ -144,13 +144,13 @@ git clone https://github.com/ethz-randomwalk/polytopewalk.git
 cd polytopewalk
 ```
 
-# Python Testing
+### Python Testing
 We can simply run the command:
 ```bash
 python -m unittest discover -s tests/python -p "*.py"
 ```
 
-# C++ Testing
+### C++ Testing
 First, we must compile the C++ code :
 ```bash
 cmake -B build -S . && cd build 
