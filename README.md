@@ -92,7 +92,7 @@ Only do this, if there is need to run and test C++ code directly. For normal use
 Build with cmake
 ```bash
 git clone https://github.com/ethz-randomwalk/polytopewalk.git && cd polytopewalk
-cmake -B build -S .
+cmake -B build -S . & cd build
 make
 sudo make install
 ```
