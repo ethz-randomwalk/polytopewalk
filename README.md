@@ -137,6 +137,34 @@ dikin_res = dikin.generateCompleteWalk(1_000, init, dense_A, dense_b, burn = 100
 ## Testing
 The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. Our Github package page comes with an automated test suite hooked up to continuous integration after push requests to the main branch. 
 
+We provide instructions for locally testing ``PolytopeWalk`` in both Python and C++. For both, we must locally clone the repository (assuming we have installed the package already):
+
+```bash
+git clone https://github.com/ethz-randomwalk/polytopewalk.git
+cd polytopewalk
+```
+
+# Python Testing
+We can simply run the command:
+```bash
+python -m unittest discover -s tests/python -p "*.py"
+```
+
+# C++ Testing
+First, we must compile the C++ code :
+```bash
+cmake -B build -S . && cd build 
+make
+```
+Then, we can individually run the test files:
+```bash
+./tests/test_weights
+./tests/test_fr
+./tests/test_dense_walk
+./tests/test_sparse_walk
+./tests/test_init
+```
+
 ## Community Guidelines
 
 For those wishing to contribute to the software, please feel free to use the pull-request feature on our Github page, alongside a brief description of the improvements to the code. For those who have any issues with our software, please let us know in the issues section of our Github page. Finally, if you have any questions, feel free to contact the authors of this page at this email address: bys7@duke.edu.
