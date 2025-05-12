@@ -16,6 +16,11 @@ authors = [
   { name = 'Yuansi Chen', email = 'yuansi.chen@stat.math.ethz.ch' },
 ]
 
+dependencies = [
+  "numpy>=1.20",
+  "scipy>=1.6.0",
+]
+
 requires-python = '>=3.9'
 classifiers = [
     'Intended Audience :: Science/Research',
