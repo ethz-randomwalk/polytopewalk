@@ -20,11 +20,11 @@ Let `d` be the dimension of the polytope, `n` be the number of boundaries, and `
 
 | Name      | Mixing Time | Author |
 | ------------ | ----------------- | ------------------- |
-| `Ball Walk`   | $\tau(d^2R^2/r^2)$        | [Vempala (2005)](https://faculty.cc.gatech.edu/~vempala/papers/survey.pdf)       |
-| `Hit and Run`   | $\tau(d^2R^2/r^2)$         | [Lovasz (1999)](https://link.springer.com/content/pdf/10.1007/s101070050099.pdf)         |
-| `Dikin Walk`   | $\tau(nd)$         | [Sachdeva and Vishnoi (2015)](https://arxiv.org/pdf/1508.01977)     |
-| `Vaidya Walk`   | $\tau(n^{1/2}d^{3/2})$        |   [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)       |
-| `John Walk`   | $\tau(d^{2.5})$        | [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)           |
+| `Ball Walk`   | $O(d^2R^2/r^2)$        | [Vempala (2005)](https://faculty.cc.gatech.edu/~vempala/papers/survey.pdf)       |
+| `Hit and Run`   | $O(d^2R^2/r^2)$         | [Lovasz (1999)](https://link.springer.com/content/pdf/10.1007/s101070050099.pdf)         |
+| `Dikin Walk`   | $O(nd)$         | [Sachdeva and Vishnoi (2015)](https://arxiv.org/pdf/1508.01977)     |
+| `Vaidya Walk`   | $O(n^{1/2}d^{3/2})$        |   [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)       |
+| `John Walk`   | $O(d^{2.5})$        | [Chen et al. (2018)](https://jmlr.org/papers/v19/18-158.html)           |
 | `Lee Sidford Walk`   | $\tau(d^{2})$         | [Laddha et al. (2019)](https://arxiv.org/abs/1911.05656)  (conjectured, proof incomplete)         |
 
 For each implemented algorithm, we provide the full-dimensional formulation and the sparse constrained formulation. Each polytope can be expressed from 1 formulation to the other. The main benefit of utilizing the constrained formulation is that it maintains sparse operations in A, ensuring scalability in higher dimensions. Many of the `netlib` dataset sparse polytopes are represented in this formulation. The formulations are specified below. 
@@ -45,19 +45,19 @@ In the constrained formulation with sparse matrix A ($n$ x $d$ matrix) and vecto
 
 where the polytope is specified with $n$ equality constraints and $k$ coordinate-wise inequality constraints. 
 
-In ``PolytopeWalk``, we implement the MCMC algorithms in both the dense, full-dimensional and the sparse, constrained polytope formulation. 
+In **PolytopeWalk**, we implement the MCMC algorithms in both the dense, full-dimensional and the sparse, constrained polytope formulation. 
 
 
 ## Installation
 
 ### Dependencies
-polytopewalk requires:
+**PolytopeWalk** requires:
 - Python (>= 3.9)
 - NumPy (>= 1.20)
 - SciPy (>= 1.6.0)
 
 ### User installation
-If you already have a working installation of NumPy and SciPy, the easiest way to install polytopewalk is using `pip`:
+If you already have a working installation of NumPy and SciPy, the easiest way to install **PolytopeWalk** is using `pip`:
 ```bash
 pip install -U polytopewalk
 ```
@@ -137,7 +137,7 @@ dikin_res = dikin.generateCompleteWalk(1_000, init, dense_A, dense_b, burn = 100
 ## Testing
 The `tests` folder includes comprehensives tests of the Facial Reduction algorithm, Initialization, Weights from MCMC algorithms, and Sparse/Dense Random Walk algorithms in both Python and C++. Our Github package page comes with an automated test suite hooked up to continuous integration after push requests to the main branch. 
 
-We provide instructions for locally testing ``PolytopeWalk`` in both Python and C++. For both, we must locally clone the repository (assuming we have installed the package already):
+We provide instructions for locally testing **PolytopeWalk** in both Python and C++. For both, we must locally clone the repository (assuming we have installed the package already):
 
 ```bash
 git clone https://github.com/ethz-randomwalk/polytopewalk.git
