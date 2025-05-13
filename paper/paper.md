@@ -24,7 +24,7 @@ bibliography: paper.bib
 
 # Summary
 
-High dimensional sampling is an important computational tool in statistics, with applications in metabolic modeling in biology, volume computation, and fast randomized algorithms. We present ``PolytopeWalk``, a scalable library designed for sampling from a uniform distribution over polytopes, defined as bounded geometric objects formed by linear inequalities. To solve this problem, we use Markov chain Monte Carlo (MCMC) methods, which are a family of algorithms for generating approximate samples from a target probability distribution. This library provides an end-to-end solution, that includes novel implementation of preprocessing algorithms such as facial reduction and initialization. Six state-of-the-art MCMC algorithms are implemented, including the Dikin, Vaidya, and John Walk. Additionally, we introduce novel sparse constrained formulations of these algorithms, enabling efficient sampling from sparse polytopes of the form $\mathcal{K}_2 = \{x \in \mathbb{R}^d \ | \ Ax = b, x \succeq_k 0\}$. This implementation maintains sparsity in $A$, ensuring scalability to high dimensional settings $(d > 10^4)$.
+High dimensional sampling is an important computational tool in statistics, with applications in stochastic simulation, volume computation, and fast randomized algorithms. We present ``PolytopeWalk``, a scalable library designed for sampling from a uniform distribution over polytopes, which are bounded geometric objects formed by linear inequalities. For sampling, we use Markov chain Monte Carlo (MCMC) methods, defined as a family of algorithms for generating approximate samples from a target probability distribution. Six state-of-the-art MCMC algorithms are implemented, including the Dikin, Vaidya, and John Walk. Additionally, we introduce novel sparse constrained formulations of these algorithms, enabling efficient sampling from sparse polytopes of the form $\mathcal{K}_2 = \{x \in \mathbb{R}^d \ | \ Ax = b, x \succeq_k 0\}$. This implementation maintains sparsity in $A$, ensuring scalability to high dimensional settings $(d > 10^4)$. Finally, ``PolytopeWalk`` includes novel implementations of preprocessing algorithms such as facial reduction and initialization, thus providing an end-to-end solution.
 
 # Statement of Need
 
@@ -55,13 +55,13 @@ In ``PolytopeWalk``, we implement 4 interior-point-method-based MCMC sampling al
 
 # Package Overview
 
-``PolytopeWalk`` is an open-source library written in C++ with Python wrapper code, providing accelerated MCMC sampling algorithms in both the $\mathcal{K}_1$ and $\mathcal{K}_2$ formulation. The source code is written in low-level C++ with `Eigen` for linear algebra [@eigenweb], `glpk` for linear programming [@glpk], and `pybind` for Python binding [@pybind11]. For numerical computing in Python, ``PolytopeWalk`` relies on both NumPy [@harris2020array] and SciPy [@2020SciPy-NMeth].
+``PolytopeWalk`` is an open-source library written in C++ with Python wrapper code, providing accelerated MCMC sampling algorithms in both $\mathcal{K}_1$ and $\mathcal{K}_2$ formulation. The source code is written in C++ with `Eigen` for linear algebra [@eigenweb], `glpk` for linear programming [@glpk], and `pybind` for Python binding [@pybind11]. In Python, ``PolytopeWalk`` relies on both NumPy [@harris2020array] and SciPy [@2020SciPy-NMeth].
 
 ![Code Structure of Package](images/Code_Design.pdf){ width=80% }
 
 ## Random Walk Algorithms
 
-The mixing times refer to the required number of steps to converge to stationary distribution. In each, $d$ refers to the dimension of the polytope and $n$ refers to the number of boundaries ($\mathcal{K}_1$ dimensions). In the first 2 walks, $R^2/r^2$ means where the convex body contains a ball of radius $r$ and is mostly contained in a ball of radius $R$.
+Mixing times refer to the required number of steps to converge to stationary distribution. In each, $d$ refers to the dimension of the polytope and $n$ refers to the number of boundaries ($\mathcal{K}_1$ dimensions). In the first 2 walks, $R^2/r^2$ means where the convex body contains a ball of radius $r$ and is mostly contained in a ball of radius $R$.
 
 | Name              | Mixing Time             | Author              |
 |:----------------:|:---------------------:|:-------------------:|
@@ -98,6 +98,6 @@ Table II contrasts the features of ``PolytopeWalk`` with `Volesti` [@Chalkis_202
 
 # Acknowledgements
 
-Much of the work was done while Yuansi Chen was an assistant professor in the Department of Statistical Science at Duke University. Both authors are partially supported by NSF CAREER Award DMS-2237322, Sloan Research Fellowship and Ralph E. Powe Junior Faculty Enhancement Awards. 
+Much work was done while Yuansi Chen was an assistant professor in the Department of Statistical Science at Duke University. Both authors are partially supported by NSF CAREER Award DMS-2237322, Sloan Research Fellowship and Ralph E. Powe Junior Faculty Enhancement Awards. 
 
 # References
