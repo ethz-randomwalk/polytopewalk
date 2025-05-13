@@ -78,7 +78,7 @@ Mixing times refer to the required number of steps to converge to stationary dis
 
 **Initialization:** If the user cannot specify a point inside of the polytope to start, ``PolytopeWalk`` provides a class to compute an initial point well within the polytope for both the full-dimensional formulation and constrained formulation.
 
-**Facial Reduction:** We adopt the facial reduction algorithm implementation from Drusvyatskiy's research [@drusvyatskiy2017many)][@im2023revisiting]. In the constrained formulation $\mathcal{K}_2 = \{x \in \mathbb{R}^d \ | \ Ax = b, x \succeq_k 0\}$, degeneracy occurs when there is a lack of strict feasibility in the polytope: there does not exist an $x \in \mathbb{R}^d$ such that $Ax = b$ and $x \succ_k 0$. Thus, degeneracy exists in polytopes when the lower-dimensional polytope is embedded in a higher dimension. The facial reduction algorithm eliminates variables in the last k dimensions fixed at $0$, thus ensuring numerical stability for sampling. 
+**Facial Reduction:** We adopt the facial reduction algorithm implementation from Drusvyatskiy's research [@drusvyatskiy2017many][@im2023revisiting]. In the constrained formulation $\mathcal{K}_2 = \{x \in \mathbb{R}^d \ | \ Ax = b, x \succeq_k 0\}$, degeneracy occurs when there is a lack of strict feasibility in the polytope: there does not exist an $x \in \mathbb{R}^d$ such that $Ax = b$ and $x \succ_k 0$. Thus, degeneracy exists in polytopes when the lower-dimensional polytope is embedded in a higher dimension. The facial reduction algorithm eliminates variables in the last k dimensions fixed at $0$, thus ensuring numerical stability for sampling. 
 
 ## Package Comparison
 
