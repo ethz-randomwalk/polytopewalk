@@ -145,12 +145,16 @@ cd polytopewalk
 ```
 
 ### Python Testing
-We can simply run the command:
+In addition to the requirements from the Developer Installation section, running this code requires a working version of Pandas. 
+
+We can run the command:
 ```bash
 python -m unittest discover -s tests/python -p "*.py"
 ```
 
 ### C++ Testing
+As mentioned in the Developer Installation section, running this code requires a working version of Eigen and Glpk. 
+
 First, we must compile the C++ code :
 ```bash
 cmake -B build -S . && cd build 
