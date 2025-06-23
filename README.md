@@ -115,7 +115,7 @@ We also demonstrate how to sample from a polytope in a dense, full-dimensional f
 ```python
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix, csr_array
-from polytopewalk.dense import DikinWalk
+from polytopewalk.dense import DikinWalk, DenseCenter
 from polytopewalk import FacialReduction
 
 def generate_simplex(d):
