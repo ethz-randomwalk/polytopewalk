@@ -46,7 +46,9 @@ MatrixXd SparseHitAndRun::generateCompleteWalk(
     int k,
     int burn = 0
 ){
-
+    if (k < 0 || k > A.cols()) {
+        throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
+    }
     MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
     random_device rd;
     mt19937 gen(rd());

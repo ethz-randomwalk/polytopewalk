@@ -134,18 +134,18 @@ PYBIND11_MODULE(polytopewalk, m) {
 
     m.def("denseFullWalkRun", &denseFullWalkRun, 
     R"doc(
-    Dense Central Function. Run a dense full walk.
+    Dense Central Function. Starts with polytope in sparse, constrained formulation. Computes facial reduction to preprocess polytope and uses the dense, full-dimensional polytope to run MCMC sampler before converting it back into original formulation. 
 
     Parameters
     ----------
+    num_sim : int
+        Number of simulations.
     A : numpy.ndarray
         Constraint matrix.
     b : numpy.ndarray
         Constraint vector.
     k : int
         Dimensionality of the polytope.
-    num_sim : int
-        Number of simulations.
     walk : RandomWalk
         Random walk instance.
     fr : FacialReduction
@@ -160,22 +160,22 @@ PYBIND11_MODULE(polytopewalk, m) {
     numpy.ndarray
         List of sampled points.
     )doc",
-    py::arg("A"), py::arg("b"), py::arg("k"), py::arg("num_sim"), py::arg("walk"), py::arg("fr"), py::arg("dc"), py::arg("burn") = 0);
+    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("dc"), py::arg("burn") = 0);
 
     m.def("sparseFullWalkRun", &sparseFullWalkRun, 
     R"doc(
-    Sparse Central Function. Run a sparse full walk.
+    Sparse Central Function. Starts with polytope in sparse, constrained formulation. Computes facial reduction to preprocess polytope and uses the reduced constrained polytope to run MCMC sampler before converting it back into original formulation.
 
     Parameters
     ----------
+    num_sim : int
+        Number of simulations.
     A : numpy.ndarray
         Constraint matrix.
     b : numpy.ndarray
         Constraint vector.
     k : int
         Dimensionality of the polytope.
-    num_sim : int
-        Number of simulations.
     walk : RandomWalk
         Random walk instance.
     fr : FacialReduction
@@ -190,7 +190,7 @@ PYBIND11_MODULE(polytopewalk, m) {
     numpy.ndarray
         List of sampled points.
     )doc", 
-    py::arg("A"), py::arg("b"), py::arg("k"), py::arg("num_sim"), py::arg("walk"), py::arg("fr"), py::arg("sc"), py::arg("burn") = 0);
+    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("sc"), py::arg("burn") = 0);
 
     auto m_dense = m.def_submodule("dense", "Dense Module");
     auto m_sparse = m.def_submodule("sparse", "Sparse Module");
