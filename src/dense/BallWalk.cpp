@@ -1,14 +1,15 @@
 #include "BallWalk.hpp"
 
 
-MatrixXd BallWalk::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0){
+MatrixXd BallWalk::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
     int n = x.rows(); 
     int d = A.cols();
+    std::mt19937 gen = initializeRNG(seed);
     MatrixXd results = MatrixXd::Zero(num_steps, n);
     int total = (burn + num_steps) * THIN;
     for (int i = 1; i <= total; i++){
         // proposal x_new = x + R /sqrt(d) * Gaussian 
-        VectorXd new_x = generateGaussianRVNorm(n) * R/sqrt(d) + x;
+        VectorXd new_x = generateGaussianRVNorm(n, gen) * R/sqrt(d) + x;
         // accept if the proposal is in the polytope
         if (inPolytope(new_x, A, b)){
             x = new_x;

@@ -25,9 +25,10 @@ class BallWalk: public RandomWalk{
          * @param A polytope matrixd (Ax <= b)
          * @param b polytope vector (Ax <= b)
          * @param burn number of initial steps to cut
+         * @param seed seed for reproducibility
          * @return num_steps by d (dimension of x) matrix
          */
-        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn) override;
+        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn, int seed) override;
         
         /**
          * @brief print general type 

@@ -4,10 +4,8 @@ void BarrierWalk::setDistTerm(int d, int n){
     DIST_TERM = R*R/n;
 }
 
-VectorXd BarrierWalk::generateGaussianRV(int d){
+VectorXd BarrierWalk::generateGaussianRV(int d, std::mt19937& gen){
     VectorXd v(d);
-    random_device rd;
-    mt19937 gen(rd());
     normal_distribution<double> dis(0.0, 1.0);
     for(int i = 0; i < d; i++){
         v(i) = dis(gen);
@@ -35,9 +33,7 @@ void BarrierWalk::generateHessian(const VectorXd& x, const MatrixXd& A, const Ve
     hess = A.transpose() * middle * A;
 }
 
-void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
-    random_device rd;
-    mt19937 gen(rd());
+void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b, std::mt19937& gen){
     uniform_real_distribution<> dis(0.0, 1.0);
 
     generateHessian(x, A, b); // sets global hess
@@ -45,7 +41,7 @@ void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const Vec
     LLT<MatrixXd> cholesky1(hess);
     MatrixXd L = cholesky1.matrixL();
     FullPivLU<MatrixXd> lu(L);
-    VectorXd direction = generateGaussianRV(x.rows());
+    VectorXd direction = generateGaussianRV(x.rows(), gen);
     prop = x + sqrt(DIST_TERM) * (lu.solve(direction));
 
     if(!inPolytope(prop, A, b)){
@@ -69,13 +65,14 @@ void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const Vec
     prop = val < alpha ? prop : x;
 }
 
-MatrixXd BarrierWalk::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0){
+MatrixXd BarrierWalk::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
     MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
+    std::mt19937 gen = initializeRNG(seed);
 
     setDistTerm(A.cols(), A.rows());
     int total = (burn + num_steps) * THIN; 
     for(int i = 1; i <= total; i++){
-        generateSample(x, A, b);
+        generateSample(x, A, b, gen);
         x = prop; 
 
         if (i % THIN == 0 && i/THIN > burn){

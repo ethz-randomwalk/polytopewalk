@@ -77,42 +77,42 @@ TEST_CASE( "Test All Sparse Combinations", "[require]" ){
     SparseCenter sc;
     FacialReduction fr; 
 
-    MatrixXd walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &john, &fr, &sc, 1);
+    MatrixXd walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &john, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikinls, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikinls, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &vaidya, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &vaidya, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikin, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikin, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &ball, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &ball, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &hitrun, &fr, &sc, 1);
-    REQUIRE(walk_res.rows() == 100);
-
-    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &john, &fr, &sc, 1);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &dikinls, &fr, &sc, 1);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &vaidya, &fr, &sc, 1);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &dikin, &fr, &sc, 1);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &ball, &fr, &sc, 1);;
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &hitrun, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &hitrun, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
 
-    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &john, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &john, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &dikinls, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &dikinls, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &vaidya, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &vaidya, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &dikin, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &dikin, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &ball, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &ball, &fr, &sc, 0, 1220);;
     REQUIRE(walk_res.rows() == 100);
-    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &hitrun, &fr, &sc, 1);
+    walk_res = sparseFullWalkRun(100, hc.A, hc.b, hc.k, &hitrun, &fr, &sc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+
+    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &john, &fr, &sc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &dikinls, &fr, &sc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &vaidya, &fr, &sc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &dikin, &fr, &sc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &ball, &fr, &sc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = sparseFullWalkRun(100, birk.A, birk.b, birk.k, &hitrun, &fr, &sc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
 }

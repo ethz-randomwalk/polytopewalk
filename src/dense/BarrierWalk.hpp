@@ -35,9 +35,10 @@ class BarrierWalk : public RandomWalk{
          * @param A polytope matrix
          * @param b polytope vector
          * @param burn number of initial steps to cut
+         * @param seed seed for reproducibility
          * @return num_steps by d (dimension of x) matrix
          */
-        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn) override;
+        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn, int seed) override;
 
          /**
          * @brief set distribution constant
@@ -77,9 +78,10 @@ class BarrierWalk : public RandomWalk{
         /**
          * @brief generates a gaussian random vector with d dimension
          * @param d dimension
+         * @param gen random number generator
          * @return Vector
          */
-        VectorXd generateGaussianRV(int d);
+        VectorXd generateGaussianRV(int d, std::mt19937& gen);
 
         /**
          * @brief generates b - Ax (called slack) and 
@@ -111,8 +113,9 @@ class BarrierWalk : public RandomWalk{
          * @param x centered point in the polytope
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
+         * @param gen random number generator
          */
-        void generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
+        void generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b, std::mt19937& gen);
 };
 
 #endif

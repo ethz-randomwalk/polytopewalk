@@ -17,6 +17,7 @@ typedef Eigen::Triplet<double> T;
 #include <vector>
 #include <cstring>
 #include <stdexcept>
+#include <optional>
 
 using namespace Eigen;
 using namespace std;

@@ -25,16 +25,17 @@
  * @param fr facial reduction algorithm
  * @param init initialization algorithm 
  * @param burn how many to exclude
+ * @param seed seed for reproducibility
  * @return Matrix
  */
-MatrixXd denseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, RandomWalk* walk, FacialReduction* fr, DenseCenter* init, int burn = 0){
+MatrixXd denseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, RandomWalk* walk, FacialReduction* fr, DenseCenter* init, int burn = 0, int seed = -1){
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
     }
     
     FROutput fr_result = fr->reduce(A, b, k, false);
     VectorXd x = init->getInitialPoint(fr_result.dense_A, fr_result.dense_b);
-    MatrixXd steps = walk->generateCompleteWalk(num_sim, x, fr_result.dense_A, fr_result.dense_b, burn);
+    MatrixXd steps = walk->generateCompleteWalk(num_sim, x, fr_result.dense_A, fr_result.dense_b, burn, seed);
     MatrixXd res(num_sim, A.cols());
     for(int i = 0; i < num_sim; i++){
         VectorXd val (steps.cols() + fr_result.z1.rows());
@@ -55,9 +56,10 @@ MatrixXd denseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, Rand
  * @param fr facial reduction algorithm
  * @param init initialization algorithm 
  * @param burn how many to exclude
+ * @param seed seed for reproducibility
  * @return Matrix
  */
-MatrixXd sparseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, SparseRandomWalk* walk, FacialReduction* fr, SparseCenter* init, int burn = 0){
+MatrixXd sparseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, SparseRandomWalk* walk, FacialReduction* fr, SparseCenter* init, int burn = 0, int seed = -1){
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
     }
@@ -65,7 +67,7 @@ MatrixXd sparseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, Spa
     FROutput fr_result = fr->reduce(A, b, k, true);
     int new_k = fr_result.sparse_A.rows() - (A.rows() - k);
     VectorXd x = init->getInitialPoint(fr_result.sparse_A, fr_result.sparse_b, new_k);
-    MatrixXd steps = walk->generateCompleteWalk(num_sim, x, fr_result.sparse_A, fr_result.sparse_b, new_k, burn);
+    MatrixXd steps = walk->generateCompleteWalk(num_sim, x, fr_result.sparse_A, fr_result.sparse_b, new_k, burn, seed);
     MatrixXd res(num_sim, A.cols());
     for(int i = 0; i < num_sim; i++){
         res.row(i) = fr_result.saved_V * steps.row(i).transpose();

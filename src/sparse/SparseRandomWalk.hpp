@@ -20,6 +20,7 @@ class SparseRandomWalk{
          * @param b polytope vector
          * @param k k values >= 0 constraint
          * @param burn number of steps to burn
+         * @param seed seed for reproducibility
          * @return Matrix
          */
         virtual MatrixXd generateCompleteWalk(
@@ -28,7 +29,8 @@ class SparseRandomWalk{
             const SparseMatrixXd& A, 
             const VectorXd& b, 
             int k, 
-            int burn
+            int burn,
+            int seed
             );
         
     protected:
@@ -43,9 +45,18 @@ class SparseRandomWalk{
         /**
          * @brief returns Gaussian vector of dimension d
          * @param d
+         * @param gen random number generator
          * @return vector 
          */
-        VectorXd generateGaussianRV(const int d);
+        VectorXd generateGaussianRV(const int d, std::mt19937& gen);
+
+
+        /**
+         * @brief initialize random number generator
+         * @param seed seed number for reproducible results
+         * @return mt19937 random number generator
+         */
+        std::mt19937 initializeRNG(int seed);
 
         /**
          * @brief error constant 

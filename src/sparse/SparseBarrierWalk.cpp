@@ -22,7 +22,8 @@ SparseMatrixXd SparseBarrierWalk::generateSlackInverse(const VectorXd& x, int k)
 VectorXd SparseBarrierWalk::generateSample(
     const VectorXd& x, 
     const SparseMatrixXd& A, 
-    int k
+    int k,
+    std::mt19937& gen
 ){
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
@@ -36,7 +37,7 @@ VectorXd SparseBarrierWalk::generateSample(
     
     SparseMatrixXd AG_inv_sqrt = A * G_inv_sqrt;
 
-    VectorXd rand = generateGaussianRV(A.cols());
+    VectorXd rand = generateGaussianRV(A.cols(), gen);
     SparseMatrixXd res = AG_inv_sqrt * AG_inv_sqrt.transpose();
     SimplicialLLT<SparseMatrixXd> chol;
     chol.analyzePattern(res);
@@ -96,18 +97,24 @@ MatrixXd SparseBarrierWalk::generateCompleteWalk(
     const SparseMatrixXd& A, 
     const VectorXd& b, 
     int k,
-    int burn = 0
+    int burn = 0,
+    int seed = -1
 ){
+    if (k < 0 || k > A.cols()) {
+        throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
+    }
+
     MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
-    random_device rd;
-    mt19937 gen(rd());
+    std::mt19937 gen = initializeRNG(seed);
     uniform_real_distribution<> dis(0.0, 1.0);
+
+
     setDistTerm(A.cols() - A.rows(), k);
     VectorXd x = init;
     A_solver.compute(A * A.transpose());
     int total = (burn + num_steps) * THIN; 
     for(int i = 1; i <= total; i++){
-        VectorXd z = generateSample(x, A, k);
+        VectorXd z = generateSample(x, A, k, gen);
         if (inPolytope(z, k)){
             double g_x_z = generateProposalDensity(x, z, A, k);
             double g_z_x = generateProposalDensity(z, x, A, k);

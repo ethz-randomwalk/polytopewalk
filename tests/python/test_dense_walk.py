@@ -51,26 +51,26 @@ class TestDenseWalk(unittest.TestCase):
         init_hc = dc.getInitialPoint(fr_res_hc.dense_A, fr_res_hc.dense_b)
         init_birk = dc.getInitialPoint(fr_res_birk.dense_A, fr_res_birk.dense_b)
 
-        res1 = dikin.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b)
+        res1 = dikin.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, seed = 5)
         self.assertTrue(res1.shape == (100, 2))
-        res2 = vaidya.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b)
+        res2 = vaidya.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, seed = 5)
         self.assertTrue(res2.shape == (100, 2))
-        res3 = john.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b)
+        res3 = john.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, seed = 5)
         self.assertTrue(res3.shape == (100, 2))
 
 
-        res1 = dikin.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b)
+        res1 = dikin.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, seed = 5)
         self.assertTrue(res1.shape[0] == 100)
-        res2 = vaidya.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b)
+        res2 = vaidya.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, seed = 5)
         self.assertTrue(res2.shape[0] == 100)
-        res3 = john.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b)
+        res3 = john.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, seed = 5)
         self.assertTrue(res3.shape[0] == 100)
 
-        res1 = dikin.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b)
+        res1 = dikin.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, seed = 5)
         self.assertTrue(res1.shape[0] == 100)
-        res2 = vaidya.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b)
+        res2 = vaidya.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, seed = 5)
         self.assertTrue(res2.shape[0] == 100)
-        res3 = john.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b)
+        res3 = john.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, seed = 5)
         self.assertTrue(res3.shape[0] == 100)
  
 if __name__ == '__main__':

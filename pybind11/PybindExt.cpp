@@ -6,7 +6,7 @@ namespace py = pybind11;
 template <class RandomWalkBase = RandomWalk> class PyRandomWalk : public RandomWalkBase {
 public:
     using RandomWalkBase::RandomWalkBase; // Inherit constructors
-    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn) override{
+    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
             PYBIND11_OVERRIDE_PURE(
                 MatrixXd,
                 RandomWalkBase,
@@ -15,7 +15,8 @@ public:
                 x,
                 A,
                 b,
-                burn
+                burn,
+                seed
             );
     }
 };
@@ -23,7 +24,7 @@ public:
 template <class BarrierWalkBase = BarrierWalk> class PyBarrierWalk: public PyRandomWalk<BarrierWalkBase> {
 public:
     using PyRandomWalk<BarrierWalkBase>::PyRandomWalk;
-    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn) override{
+    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
             PYBIND11_OVERRIDE(
                 MatrixXd,
                 BarrierWalkBase,
@@ -32,7 +33,8 @@ public:
                 x,
                 A,
                 b,
-                burn
+                burn,
+                seed
             );
     }
     void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override{
@@ -66,7 +68,8 @@ public:
         const SparseMatrixXd& A, 
         const VectorXd& b, 
         int k, 
-        int burn
+        int burn,
+        int seed
         ) override
     {
             PYBIND11_OVERRIDE_PURE(
@@ -78,7 +81,8 @@ public:
                 A,
                 b,
                 k,
-                burn
+                burn,
+                seed
             );
     }
 };
@@ -91,7 +95,8 @@ public:
         const SparseMatrixXd& A, 
         const VectorXd& b,
         int k,
-        int burn
+        int burn,
+        int seed
         ) override
         {
             PYBIND11_OVERRIDE(
@@ -103,7 +108,8 @@ public:
                 A,
                 b,
                 k,
-                burn
+                burn,
+                seed
             );
     }
 
@@ -154,13 +160,15 @@ PYBIND11_MODULE(polytopewalk, m) {
         Dense center object.
     burn : int, optional
         Number of burn-in steps (default is 0).
+    seed : int, optional
+        Seed number for reproducibility (default is -1 meaning no fixed setting).
 
     Returns
     --------
     numpy.ndarray
         List of sampled points.
     )doc",
-    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("dc"), py::arg("burn") = 0);
+    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("dc"), py::arg("burn") = 0, py::arg("seed") = -1);
 
     m.def("sparseFullWalkRun", &sparseFullWalkRun, 
     R"doc(
@@ -184,13 +192,15 @@ PYBIND11_MODULE(polytopewalk, m) {
         Sparse center object.
     burn : int, optional
         Number of burn-in steps (default is 0).
+    seed : int, optional
+        Seed number for reproducibility (default is -1 meaning no fixed setting).
 
     Returns
     --------
     numpy.ndarray
         List of sampled points.
     )doc", 
-    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("sc"), py::arg("burn") = 0);
+    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("sc"), py::arg("burn") = 0, py::arg("seed") = -1);
 
     auto m_dense = m.def_submodule("dense", "Dense Module");
     auto m_sparse = m.def_submodule("sparse", "Sparse Module");
@@ -265,13 +275,15 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Constraint vector.
             burn : int, optional
                 Constant for how many to exclude initially (default is 0).
+            seed : int, optional
+                Seed number for reproducibility (default is -1 meaning no fixed setting).
 
             Returns
             --------
             numpy.ndarray
                 List of sampled points.
             )doc", 
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0
+            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0, py::arg("seed") = -1
         );
     
     py::class_<BallWalk, RandomWalk>(m_dense, "BallWalk", "Ball Walk Implementation.")
@@ -358,13 +370,15 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Constraint vector.
             burn : int, optional
                 Constant for how many to exclude initially (default is 0).
+            seed : int, optional
+                Seed number for reproducibility (default is -1 meaning no fixed setting).
 
             Returns
             --------
             numpy.ndarray
                 List of sampled points.
             )doc", 
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0
+            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0, py::arg("seed") = -1
         );
     
     py::class_<DikinWalk, BarrierWalk, PyBarrierWalk<DikinWalk>>(m_dense, "DikinWalk", "Dikin Walk Implementation.")
@@ -512,13 +526,15 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Dimensionality of polytope.
             burn : int, optional
                 Constant for how many to exclude initially (default is 0).
+            seed : int, optional
+                Seed number for reproducibility (default is -1 meaning no fixed setting).
 
             Returns
             --------
             numpy.ndarray
                 List of sampled points.
             )doc",
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burn") = 0
+            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burn") = 0, py::arg("seed") = -1
             );
     
     py::class_<SparseBallWalk, SparseRandomWalk>(m_sparse, "SparseBallWalk", "Sparse Ball Walk Implementation.")
@@ -609,13 +625,15 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Dimensionality of polytope.
             burn : int, optional
                 Constant for how many to exclude initially (default is 0).
+            seed : int, optional
+                Seed number for reproducibility (default is -1 meaning no fixed setting).
 
             Returns
             --------
             numpy.ndarray
                 List of sampled points.
             )doc",  
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burn") = 0
+            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burn") = 0, py::arg("seed") = -1
         );
     
     py::class_<SparseDikinWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseDikinWalk>>(m_sparse, "SparseDikinWalk", "Sparse Dikin Walk Implementation.")

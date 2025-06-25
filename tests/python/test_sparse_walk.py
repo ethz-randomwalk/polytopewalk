@@ -51,26 +51,26 @@ class TestSparseWalk(unittest.TestCase):
         init_hc = sc.getInitialPoint(fr_res_hc.sparse_A, fr_res_hc.sparse_b, 4)
         init_birk = sc.getInitialPoint(fr_res_birk.sparse_A, fr_res_birk.sparse_b, 4)
 
-        res1 = dikin.generateCompleteWalk(100, init_simplex, fr_res_simplex.sparse_A, fr_res_simplex.sparse_b, 3)
+        res1 = dikin.generateCompleteWalk(100, init_simplex, fr_res_simplex.sparse_A, fr_res_simplex.sparse_b, 3, seed = 5)
         self.assertTrue(res1.shape == (100, 3))
-        res2 = vaidya.generateCompleteWalk(100, init_simplex, fr_res_simplex.sparse_A, fr_res_simplex.sparse_b, 3)
+        res2 = vaidya.generateCompleteWalk(100, init_simplex, fr_res_simplex.sparse_A, fr_res_simplex.sparse_b, 3, seed = 5)
         self.assertTrue(res2.shape == (100, 3))
-        res3 = john.generateCompleteWalk(100, init_simplex, fr_res_simplex.sparse_A, fr_res_simplex.sparse_b, 3)
+        res3 = john.generateCompleteWalk(100, init_simplex, fr_res_simplex.sparse_A, fr_res_simplex.sparse_b, 3, seed = 5)
         self.assertTrue(res3.shape == (100, 3))
 
 
-        res1 = dikin.generateCompleteWalk(100, init_hc, fr_res_hc.sparse_A, fr_res_hc.sparse_b, 4)
+        res1 = dikin.generateCompleteWalk(100, init_hc, fr_res_hc.sparse_A, fr_res_hc.sparse_b, 4, seed = 5)
         self.assertTrue(res1.shape[0] == 100)
-        res2 = vaidya.generateCompleteWalk(100, init_hc, fr_res_hc.sparse_A, fr_res_hc.sparse_b, 4)
+        res2 = vaidya.generateCompleteWalk(100, init_hc, fr_res_hc.sparse_A, fr_res_hc.sparse_b, 4, seed = 5)
         self.assertTrue(res2.shape[0] == 100)
-        res3 = john.generateCompleteWalk(100, init_hc, fr_res_hc.sparse_A, fr_res_hc.sparse_b, 4)
+        res3 = john.generateCompleteWalk(100, init_hc, fr_res_hc.sparse_A, fr_res_hc.sparse_b, 4, seed = 5)
         self.assertTrue(res3.shape[0] == 100)
 
-        res1 = dikin.generateCompleteWalk(100, init_birk, fr_res_birk.sparse_A, fr_res_birk.sparse_b, 4)
+        res1 = dikin.generateCompleteWalk(100, init_birk, fr_res_birk.sparse_A, fr_res_birk.sparse_b, 4, seed = 5)
         self.assertTrue(res1.shape[0] == 100)
-        res2 = vaidya.generateCompleteWalk(100, init_birk, fr_res_birk.sparse_A, fr_res_birk.sparse_b, 4)
+        res2 = vaidya.generateCompleteWalk(100, init_birk, fr_res_birk.sparse_A, fr_res_birk.sparse_b, 4, seed = 5)
         self.assertTrue(res2.shape[0] == 100)
-        res3 = john.generateCompleteWalk(100, init_birk, fr_res_birk.sparse_A, fr_res_birk.sparse_b, 4)
+        res3 = john.generateCompleteWalk(100, init_birk, fr_res_birk.sparse_A, fr_res_birk.sparse_b, 4, seed = 5)
         self.assertTrue(res3.shape[0] == 100)
  
 if __name__ == '__main__':

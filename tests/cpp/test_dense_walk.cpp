@@ -77,41 +77,41 @@ TEST_CASE( "Test All Dense Combinations", "[require]" ){
     DenseCenter dc;
     FacialReduction fr; 
 
-    MatrixXd walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &john, &fr, &dc);
-    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikinls, &fr, &dc);
+    MatrixXd walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &john, &fr, &dc, 0, 1220);
+    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikinls, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &vaidya, &fr, &dc);
+    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &vaidya, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikin, &fr, &dc);
+    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &dikin, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &ball, &fr, &dc);
+    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &ball, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &hitrun, &fr, &dc);
-    REQUIRE(walk_res.rows() == 100);
-
-    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &john, &fr, &dc);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &dikinls, &fr, &dc);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &vaidya, &fr, &dc);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &dikin, &fr, &dc);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &ball, &fr, &dc);
-    REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &hitrun, &fr, &dc);
+    walk_res = denseFullWalkRun(100, simplex.A, simplex.b, simplex.k, &hitrun, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
 
-    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &john, &fr, &dc);
+    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &john, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &dikinls, &fr, &dc);
+    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &dikinls, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &vaidya, &fr, &dc);
+    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &vaidya, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &dikin, &fr, &dc);
+    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &dikin, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &ball, &fr, &dc);
+    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &ball, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
-    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &hitrun, &fr, &dc);
+    walk_res = denseFullWalkRun(100, hc.A, hc.b, hc.k, &hitrun, &fr, &dc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+
+    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &john, &fr, &dc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &dikinls, &fr, &dc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &vaidya, &fr, &dc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &dikin, &fr, &dc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &ball, &fr, &dc, 0, 1220);
+    REQUIRE(walk_res.rows() == 100);
+    walk_res = denseFullWalkRun(100, birk.A, birk.b, birk.k, &hitrun, &fr, &dc, 0, 1220);
     REQUIRE(walk_res.rows() == 100);
 }

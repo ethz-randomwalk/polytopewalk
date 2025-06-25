@@ -44,21 +44,21 @@ MatrixXd SparseHitAndRun::generateCompleteWalk(
     const SparseMatrixXd& A, 
     const VectorXd& b, 
     int k,
-    int burn = 0
+    int burn = 0,
+    int seed = -1
 ){
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
     }
     MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
-    random_device rd;
-    mt19937 gen(rd());
+    std::mt19937 gen = initializeRNG(seed);
     uniform_real_distribution<> dis(0.0, 1.0);
 
     SparseLU <SparseMatrixXd> A_solver (A * A.transpose());
     VectorXd x = init; 
     int total = (burn + num_steps) * THIN; 
     for (int i = 1; i <= total; i++){
-        VectorXd rand = generateGaussianRV(A.cols());
+        VectorXd rand = generateGaussianRV(A.cols(), gen);
         VectorXd z = A * rand; 
         z = rand - A.transpose() * A_solver.solve(z);
         z /= z.norm(); 

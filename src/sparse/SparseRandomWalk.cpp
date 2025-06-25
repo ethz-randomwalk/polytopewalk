@@ -1,10 +1,8 @@
 #include "SparseRandomWalk.hpp"
 
-VectorXd SparseRandomWalk::generateGaussianRV(int d){
-    VectorXd v(d);
-    random_device rd;
-    mt19937 gen(rd());
+VectorXd SparseRandomWalk::generateGaussianRV(int d, std::mt19937& gen){
     normal_distribution<double> dis(0.0, 1.0);
+    VectorXd v(d);
     for(int i = 0; i < d; i++){
         v(i) = dis(gen);
     }
@@ -17,7 +15,8 @@ MatrixXd SparseRandomWalk::generateCompleteWalk(
     const SparseMatrixXd& A,
     const VectorXd& b, 
     int k,
-    int burn = 0
+    int burn = 0,
+    int seed = -1
 ){
     cout << "Oops" << endl;
     return MatrixXd::Zero(1,1);
@@ -30,3 +29,14 @@ bool SparseRandomWalk::inPolytope(
 ){
     return z.tail(k).minCoeff() >= 0; 
 }
+
+
+std::mt19937 SparseRandomWalk::initializeRNG(int seed) {
+    if (seed != -1) {
+        return std::mt19937(seed);
+    } else {
+        std::random_device rd;
+        return std::mt19937(rd());
+    }
+}
+

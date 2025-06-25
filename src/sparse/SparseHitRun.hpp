@@ -21,6 +21,7 @@ class SparseHitAndRun : public SparseRandomWalk{
          * @param b polytope vector
          * @param k k values >= 0 constraint
          * @param burn number of initial steps to cut
+         * @param seed seed for reproducibility
          * @return Matrix
          */
         MatrixXd generateCompleteWalk(
@@ -29,7 +30,8 @@ class SparseHitAndRun : public SparseRandomWalk{
             const SparseMatrixXd& A, 
             const VectorXd& b, 
             int k, 
-            int burn
+            int burn,
+            int seed
             ) override;
         
     

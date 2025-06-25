@@ -33,15 +33,14 @@ double HitAndRun::binarySearch(VectorXd direction, VectorXd& x, const MatrixXd& 
     return distance(mid, x);
 }
 
-MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0){
+MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
     int n = x.rows(); 
     MatrixXd results = MatrixXd::Zero(num_steps, n);
-    random_device rd;
-    mt19937 gen(rd());
+    std::mt19937 gen = initializeRNG(seed);
     uniform_real_distribution<> dis(0.0, 1.0);
     int total = (burn + num_steps) * THIN; 
     for (int i = 1; i <= total; i++){
-        VectorXd new_direct = generateGaussianRVNorm(n);
+        VectorXd new_direct = generateGaussianRVNorm(n, gen);
         double pos_side = binarySearch(new_direct, x, A, b);
         double neg_side = binarySearch(new_direct * -1, x, A, b) * -1;
         double val = dis(gen);
