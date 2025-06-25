@@ -1,11 +1,11 @@
 #include "SparseBarrierWalk.hpp"
 
-SparseMatrixXd SparseBarrierWalk::generateWeight(
+VectorXd SparseBarrierWalk::generateWeight(
     const VectorXd& x, 
     const SparseMatrixXd& A,
     int k
 ){
-    return SparseMatrixXd(VectorXd::Ones(A.cols()).asDiagonal());
+    return VectorXd::Ones(A.cols());
 }
 
 void SparseBarrierWalk::setDistTerm(int d, int n){
@@ -29,7 +29,7 @@ VectorXd SparseBarrierWalk::generateSample(
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
     }
     SparseMatrixXd slack_inv = generateSlackInverse(x, k);
-    SparseMatrixXd W = generateWeight(x, A, k);
+    SparseMatrixXd W = SparseMatrixXd(generateWeight(x, A, k).asDiagonal());
     SparseMatrixXd G = slack_inv * W * slack_inv;
     for(int i = 0; i < x.rows() - k; i++) G.coeffRef(i, i) = ERR; 
 
@@ -59,7 +59,7 @@ double SparseBarrierWalk::generateProposalDensity(
     int k
 ){
     SparseMatrixXd slack_inv = generateSlackInverse(x, k);
-    SparseMatrixXd W = generateWeight(x, A, k);
+    SparseMatrixXd W = SparseMatrixXd(generateWeight(x, A, k).asDiagonal());
     SparseMatrixXd G = slack_inv * W * slack_inv;
     for(int i = 0; i < x.rows() - k; i++) G.coeffRef(i, i) = ERR; 
 
@@ -102,6 +102,10 @@ MatrixXd SparseBarrierWalk::generateCompleteWalk(
 ){
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
+    }
+
+    if (init.rows() != A.cols() || A.rows() != b.rows() ) {
+        throw std::invalid_argument("A, b, and init do not match in dimension.");
     }
 
     MatrixXd results = MatrixXd::Zero(num_steps, A.cols());

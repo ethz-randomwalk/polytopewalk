@@ -24,8 +24,9 @@ class VaidyaWalk: public BarrierWalk{
          * @param x center vector
          * @param A polytope matrix
          * @param b polytope vector
+         * @returns Vectorr
          */
-        void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override;
+        VectorXd generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override;
     
     protected:
 

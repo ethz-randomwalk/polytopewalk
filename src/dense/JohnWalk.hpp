@@ -28,8 +28,9 @@ class JohnWalk: public BarrierWalk{
          * @param x point in polytope to generate DikinLS weight
          * @param A polytope matrix
          * @param b polytope matrix
+         * @returns Vector
          */
-        void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override;
+        VectorXd generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override;
 
     
     protected:

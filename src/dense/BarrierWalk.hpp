@@ -16,29 +16,25 @@ class BarrierWalk : public RandomWalk{
         }
 
         /**
-         * @brief weights generated from generateWeights function
-         */
-        DiagonalMatrix<double, Dynamic> weights{};
-
-        /**
          * @brief generate weights when calculating Hessian matrix
          * @param x point in polytope to generate weight
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
+         * @return Vector
          */
-        virtual void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
+        virtual VectorXd generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 
         /**
          * @brief generate values from the walk
          * @param num_steps number of steps wanted to take
-         * @param x initial starting point
+         * @param init initial starting point
          * @param A polytope matrix
          * @param b polytope vector
          * @param burn number of initial steps to cut
          * @param seed seed for reproducibility
          * @return num_steps by d (dimension of x) matrix
          */
-        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn, int seed) override;
+        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override;
 
          /**
          * @brief set distribution constant
@@ -61,21 +57,6 @@ class BarrierWalk : public RandomWalk{
         double DIST_TERM;
 
         /**
-         * @brief represents global variable b - Ax
-         */
-        VectorXd slack{}; 
-
-        /**
-         * @brief hessian matrix from global variable from generateHessian
-         */
-        MatrixXd hess{};
-
-        /**
-         * @brief new proposal point generated from generateSample function
-         */
-        VectorXd prop{};
-
-        /**
          * @brief generates a gaussian random vector with d dimension
          * @param d dimension
          * @param gen random number generator
@@ -89,8 +70,9 @@ class BarrierWalk : public RandomWalk{
          * @param x point
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
+         * @return vector
          */
-        void generateSlack(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
+        VectorXd generateSlack(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 
         /**
          * @brief calculates Mahalanobis distance weighted by Hessian matrix m
@@ -105,8 +87,9 @@ class BarrierWalk : public RandomWalk{
          * @param x centered at x
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
+         * @return Matrix
          */
-        void generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
+        MatrixXd generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b);
 
         /**
          * @brief generates a point drawn from a Multivariate Gaussian N(x, f(Hessian(x)))
@@ -114,8 +97,9 @@ class BarrierWalk : public RandomWalk{
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
          * @param gen random number generator
+         * @returns Vector
          */
-        void generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b, std::mt19937& gen);
+        VectorXd generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b, std::mt19937& gen);
 };
 
 #endif

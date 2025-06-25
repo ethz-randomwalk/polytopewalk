@@ -21,9 +21,9 @@ class SparseJohnWalk : public SparseBarrierWalk{
          * @param x slack variable
          * @param A polytope constraint
          * @param k k values >= 0 constraint
-         * @return SparseMatrixXd
+         * @return Vector
          */
-        SparseMatrixXd generateWeight(
+        VectorXd generateWeight(
             const VectorXd& x, 
             const SparseMatrixXd& A,
             int k

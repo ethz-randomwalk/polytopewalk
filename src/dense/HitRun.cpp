@@ -33,7 +33,13 @@ double HitAndRun::binarySearch(VectorXd direction, VectorXd& x, const MatrixXd& 
     return distance(mid, x);
 }
 
-MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+    if (init.rows() != A.cols() || A.rows() != b.rows() ) {
+        throw std::invalid_argument("A, b, and init do not match in dimension.");
+    }
+
+    VectorXd x = init; 
+    
     int n = x.rows(); 
     MatrixXd results = MatrixXd::Zero(num_steps, n);
     std::mt19937 gen = initializeRNG(seed);

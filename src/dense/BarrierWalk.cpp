@@ -13,46 +13,48 @@ VectorXd BarrierWalk::generateGaussianRV(int d, std::mt19937& gen){
     return v;
 }
 
-void BarrierWalk::generateSlack(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
-    slack = (b - (A * x));
+VectorXd BarrierWalk::generateSlack(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
+    return (b - (A * x));
 }
 
 double BarrierWalk::localNorm(VectorXd v, const MatrixXd& m){
     return ((v.transpose() * m) * v)(0);
 }
 
-void BarrierWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
+VectorXd BarrierWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
     // always overwrite
+    return VectorXd::Ones(1); 
 }
 
-void BarrierWalk::generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
-    generateWeight(x, A, b);
-    generateSlack(x, A, b);
+MatrixXd BarrierWalk::generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
+    DiagonalMatrix<double, Dynamic> weights = (generateWeight(x, A, b)).asDiagonal();
+    VectorXd slack = generateSlack(x, A, b);
     VectorXd slack_inv = slack.cwiseInverse();
     DiagonalMatrix<double, Dynamic> middle = slack_inv.cwiseProduct(weights.diagonal()).cwiseProduct(slack_inv).asDiagonal();
-    hess = A.transpose() * middle * A;
+    MatrixXd hess = A.transpose() * middle * A;
+    return hess;
 }
 
-void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b, std::mt19937& gen){
+VectorXd BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const VectorXd& b, std::mt19937& gen){
     uniform_real_distribution<> dis(0.0, 1.0);
 
-    generateHessian(x, A, b); // sets global hess
+    MatrixXd hess = generateHessian(x, A, b);
     // cholesky decomposition to compute inverse of hess
     LLT<MatrixXd> cholesky1(hess);
     MatrixXd L = cholesky1.matrixL();
     FullPivLU<MatrixXd> lu(L);
     VectorXd direction = generateGaussianRV(x.rows(), gen);
-    prop = x + sqrt(DIST_TERM) * (lu.solve(direction));
+    VectorXd prop = x + sqrt(DIST_TERM) * (lu.solve(direction));
 
     if(!inPolytope(prop, A, b)){
-        prop = x;
-        return; 
+        return x; 
     }
+    
     double det = L.diagonal().array().log().sum(); 
     double dist = -(0.5/DIST_TERM) * localNorm(x - prop, hess);
     double g_x_z = det + dist; 
 
-    generateHessian(prop, A, b);
+    hess = generateHessian(prop, A, b);
     LLT<MatrixXd> cholesky2(hess);
     L = cholesky2.matrixL();
     det = L.diagonal().array().log().sum(); 
@@ -63,16 +65,23 @@ void BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const Vec
     double alpha = min(1.0, exp(g_z_x-g_x_z));
     double val = dis(gen);
     prop = val < alpha ? prop : x;
+    return prop; 
 }
 
-MatrixXd BarrierWalk::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+MatrixXd BarrierWalk::generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+    if (init.rows() != A.cols() || A.rows() != b.rows() ) {
+        throw std::invalid_argument("A, b, and init do not match in dimension.");
+    }
+    
     MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
     std::mt19937 gen = initializeRNG(seed);
+
+    VectorXd x = init; 
 
     setDistTerm(A.cols(), A.rows());
     int total = (burn + num_steps) * THIN; 
     for(int i = 1; i <= total; i++){
-        generateSample(x, A, b, gen);
+        VectorXd prop = generateSample(x, A, b, gen);
         x = prop; 
 
         if (i % THIN == 0 && i/THIN > burn){

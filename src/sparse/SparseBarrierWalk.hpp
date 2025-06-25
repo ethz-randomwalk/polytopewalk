@@ -18,9 +18,9 @@ class SparseBarrierWalk : public SparseRandomWalk{
          * @param x slack variable
          * @param A polytope constraint
          * @param k k values >= 0 constraint
-         * @return SparseMatrixXd
+         * @return Vector
          */
-        virtual SparseMatrixXd generateWeight(
+        virtual VectorXd generateWeight(
             const VectorXd& x, 
             const SparseMatrixXd& A,
             int k

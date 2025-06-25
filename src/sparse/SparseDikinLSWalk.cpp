@@ -1,5 +1,5 @@
 #include "SparseDikinLSWalk.hpp"
-SparseMatrixXd SparseDikinLSWalk::generateWeight(
+VectorXd SparseDikinLSWalk::generateWeight(
     const VectorXd& x, 
     const SparseMatrixXd& A,
     int k
@@ -47,7 +47,7 @@ SparseMatrixXd SparseDikinLSWalk::generateWeight(
             w_i(j) = max(w_i(j), ERR);
         }
     }
-    return SparseMatrixXd(w_i.asDiagonal());
+    return w_i;
 
 }
 

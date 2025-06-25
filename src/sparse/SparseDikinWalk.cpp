@@ -1,12 +1,12 @@
 #include "SparseDikinWalk.hpp"
 
-SparseMatrixXd SparseDikinWalk::generateWeight(
+VectorXd SparseDikinWalk::generateWeight(
     const VectorXd& x, 
     const SparseMatrixXd& A,
     int k
 ){
 
-    return SparseMatrixXd(VectorXd::Ones(A.cols()).asDiagonal());
+    return VectorXd::Ones(A.cols());
 }
 
 void SparseDikinWalk::setDistTerm(int d, int n){

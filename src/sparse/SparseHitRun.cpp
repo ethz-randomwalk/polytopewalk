@@ -50,6 +50,10 @@ MatrixXd SparseHitAndRun::generateCompleteWalk(
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
     }
+    if (init.rows() != A.cols() || A.rows() != b.rows() ) {
+        throw std::invalid_argument("A, b, and init do not match in dimension.");
+    }
+    
     MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
     std::mt19937 gen = initializeRNG(seed);
     uniform_real_distribution<> dis(0.0, 1.0);

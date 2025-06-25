@@ -76,30 +76,30 @@ TEST_CASE( "Check Weight Properties", "[require]" ){
 
     VectorXd simplex_start (3);
     simplex_start << 0.33, 0.34, 0.33;
-    SparseMatrixXd w = dikinls_sparse.generateWeight(simplex_start, simplex.A, simplex.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(2, 0.01));
+    VectorXd w = dikinls_sparse.generateWeight(simplex_start, simplex.A, simplex.k);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(2, 0.01));
     w = john_sparse.generateWeight(simplex_start, simplex.A, simplex.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(3, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(3, 0.01));
     w = vaidya_sparse.generateWeight(simplex_start, simplex.A, simplex.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(4, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(4, 0.01));
 
     VectorXd hc_start (6);
     hc_start << 0, 0, 1, 1, 1, 1;
     w = dikinls_sparse.generateWeight(hc_start, hc.A, hc.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(2, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(2, 0.01));
     w = john_sparse.generateWeight(hc_start, hc.A, hc.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(3, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(3, 0.01));
     w = vaidya_sparse.generateWeight(hc_start, hc.A, hc.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(4, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(4, 0.01));
 
     VectorXd birk_start (4);
     birk_start << 0.5, 0.5, 0.5, 0.5;
     w = dikinls_sparse.generateWeight(birk_start, birk.A, birk.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(1, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(1, 0.01));
     w = john_sparse.generateWeight(birk_start, birk.A, birk.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(1.5, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(1.5, 0.01));
     w = vaidya_sparse.generateWeight(birk_start, birk.A, birk.k);
-    REQUIRE_THAT(w.diagonal().sum(), Catch::Matchers::WithinAbs(2, 0.01));
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(2, 0.01));
 
     FacialReduction fr;
     DenseCenter dc;
@@ -114,38 +114,26 @@ TEST_CASE( "Check Weight Properties", "[require]" ){
     DikinLSWalk dikinls(0.5, 1, 0.001, 0.01, 10000);
     VaidyaWalk vaidya(0.5);
 
-    john.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
-    dikinls.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
-    vaidya.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
-    double dw, jw, vw;
-    dw = dikinls.weights.diagonal().sum();
-    jw = john.weights.diagonal().sum();
-    vw = vaidya.weights.diagonal().sum();
 
-    REQUIRE_THAT(dw, Catch::Matchers::WithinAbs(2, 0.01));
-    REQUIRE_THAT(jw, Catch::Matchers::WithinAbs(3, 0.01));
-    REQUIRE_THAT(vw, Catch::Matchers::WithinAbs(4, 0.01));
+    w = dikinls.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(2, 0.01));
+    w = john.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(3, 0.01));
+    w = vaidya.generateWeight(sd_x, simplex_dense.dense_A, simplex_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(4, 0.01));
 
-    john.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
-    dikinls.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
-    vaidya.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
-    dw = dikinls.weights.diagonal().sum();
-    jw = john.weights.diagonal().sum();
-    vw = vaidya.weights.diagonal().sum();
+    w = dikinls.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(2, 0.01));
+    w = john.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(3, 0.01));
+    w = vaidya.generateWeight(hc_x, hc_dense.dense_A, hc_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(4, 0.01));
 
-    REQUIRE_THAT(dw, Catch::Matchers::WithinAbs(2, 0.01));
-    REQUIRE_THAT(jw, Catch::Matchers::WithinAbs(3, 0.01));
-    REQUIRE_THAT(vw, Catch::Matchers::WithinAbs(4, 0.01));
-
-    john.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
-    dikinls.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
-    vaidya.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
-    dw = dikinls.weights.diagonal().sum();
-    jw = john.weights.diagonal().sum();
-    vw = vaidya.weights.diagonal().sum();
-
-    REQUIRE_THAT(dw, Catch::Matchers::WithinAbs(1, 0.01));
-    REQUIRE_THAT(jw, Catch::Matchers::WithinAbs(1.5, 0.01));
-    REQUIRE_THAT(vw, Catch::Matchers::WithinAbs(2, 0.01));
+    w = dikinls.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(1, 0.01));
+    w = john.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(1.5, 0.01));
+    w = vaidya.generateWeight(birk_x, birk_dense.dense_A, birk_dense.dense_b);
+    REQUIRE_THAT(w.sum(), Catch::Matchers::WithinAbs(2, 0.01));
 
 }

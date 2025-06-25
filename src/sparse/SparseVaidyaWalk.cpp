@@ -1,7 +1,7 @@
 #include "SparseVaidyaWalk.hpp"
 #include "LeverageScore.hpp"
 
-SparseMatrixXd SparseVaidyaWalk::generateWeight(
+VectorXd SparseVaidyaWalk::generateWeight(
     const VectorXd& x, 
     const SparseMatrixXd& A,
     int k
@@ -18,7 +18,7 @@ SparseMatrixXd SparseVaidyaWalk::generateWeight(
         // # variables = k
         weights(i) += ((double)(A.cols() - A.rows())/k);
     }
-    return SparseMatrixXd(weights.asDiagonal());
+    return weights;
 }
 
 void SparseVaidyaWalk::setDistTerm(int d, int n){

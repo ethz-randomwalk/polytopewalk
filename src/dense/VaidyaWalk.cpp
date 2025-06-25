@@ -4,8 +4,8 @@ void VaidyaWalk::setDistTerm(int d, int n){
     DIST_TERM = R*R/(sqrt(d * n));
 }
 
-void VaidyaWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
-    generateSlack(x, A, b); // sets global slack
+VectorXd VaidyaWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
+    VectorXd slack = generateSlack(x, A, b); // sets global slack
     DiagonalMatrix<double, Dynamic> slack_inv = slack.cwiseInverse().asDiagonal();
     MatrixXd half_hess = slack_inv * A; 
 
@@ -14,7 +14,7 @@ void VaidyaWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const Vect
 
     // leverage score + constants
     wi = wi.array() + (double)A.cols()/A.rows();
-    weights = wi.asDiagonal();
+    return wi;
 }
 
 void VaidyaWalk::printType(){

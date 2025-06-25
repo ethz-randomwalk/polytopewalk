@@ -6,13 +6,13 @@ namespace py = pybind11;
 template <class RandomWalkBase = RandomWalk> class PyRandomWalk : public RandomWalkBase {
 public:
     using RandomWalkBase::RandomWalkBase; // Inherit constructors
-    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
+    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
             PYBIND11_OVERRIDE_PURE(
                 MatrixXd,
                 RandomWalkBase,
                 generateCompleteWalk,
                 num_steps,
-                x,
+                init,
                 A,
                 b,
                 burn,
@@ -24,22 +24,22 @@ public:
 template <class BarrierWalkBase = BarrierWalk> class PyBarrierWalk: public PyRandomWalk<BarrierWalkBase> {
 public:
     using PyRandomWalk<BarrierWalkBase>::PyRandomWalk;
-    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
+    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
             PYBIND11_OVERRIDE(
                 MatrixXd,
                 BarrierWalkBase,
                 generateCompleteWalk,
                 num_steps,
-                x,
+                init,
                 A,
                 b,
                 burn,
                 seed
             );
     }
-    void generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override{
+    VectorXd generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b) override{
             PYBIND11_OVERRIDE(
-                void,
+                VectorXd,
                 BarrierWalkBase,
                 generateWeight,
                 x,
@@ -113,9 +113,9 @@ public:
             );
     }
 
-    SparseMatrixXd generateWeight(const VectorXd& x, const SparseMatrixXd& A, int k) override{
+    VectorXd generateWeight(const VectorXd& x, const SparseMatrixXd& A, int k) override{
             PYBIND11_OVERRIDE(
-                SparseMatrixXd,
+                VectorXd,
                 SparseBarrierWalkBase,
                 generateWeight,
                 x,

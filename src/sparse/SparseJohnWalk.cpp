@@ -1,7 +1,7 @@
 #include "SparseJohnWalk.hpp"
 #include "LeverageScore.hpp"
 
-SparseMatrixXd SparseJohnWalk::generateWeight(
+VectorXd SparseJohnWalk::generateWeight(
     const VectorXd& x, 
     const SparseMatrixXd& A,
     int k
@@ -39,7 +39,7 @@ SparseMatrixXd SparseJohnWalk::generateWeight(
         }
     }
 
-    return SparseMatrixXd(w_i.asDiagonal());
+    return w_i;
 
 }
 

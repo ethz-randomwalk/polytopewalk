@@ -1,7 +1,11 @@
 #include "BallWalk.hpp"
 
 
-MatrixXd BallWalk::generateCompleteWalk(const int num_steps, VectorXd& x, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+MatrixXd BallWalk::generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+    if (init.rows() != A.cols() || A.rows() != b.rows() ) {
+        throw std::invalid_argument("A, b, and init do not match in dimension.");
+    }
+    VectorXd x = init; 
     int n = x.rows(); 
     int d = A.cols();
     std::mt19937 gen = initializeRNG(seed);

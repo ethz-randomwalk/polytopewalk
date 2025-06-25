@@ -5,11 +5,11 @@ void JohnWalk::setDistTerm(int d, int n){
     DIST_TERM = R*R/(pow(d, 1.5));
 }
 
-void JohnWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b ){
+VectorXd JohnWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const VectorXd& b ){
     double alpha = 1 - 1/(log2(2 * A.rows() / A.cols()));
     double beta = (double)A.cols() / (2 * A.rows());
 
-    generateSlack(x, A, b);
+    VectorXd slack = generateSlack(x, A, b);
     DiagonalMatrix<double, Dynamic> slack_inv = slack.cwiseInverse().asDiagonal();
 
     if (w_i.coeffRef(0) == -1 || w_i.rows() != A.rows()){
@@ -39,7 +39,7 @@ void JohnWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const Vector
         }
     }
 
-    weights = w_i.asDiagonal();
+    return w_i;
 
 }
 
