@@ -27,10 +27,10 @@ VectorXd BarrierWalk::generateWeight(const VectorXd& x, const MatrixXd& A, const
 }
 
 MatrixXd BarrierWalk::generateHessian(const VectorXd& x, const MatrixXd& A, const VectorXd& b){
-    DiagonalMatrix<double, Dynamic> weights = (generateWeight(x, A, b)).asDiagonal();
+    VectorXd weights = generateWeight(x, A, b);
     VectorXd slack = generateSlack(x, A, b);
     VectorXd slack_inv = slack.cwiseInverse();
-    DiagonalMatrix<double, Dynamic> middle = slack_inv.cwiseProduct(weights.diagonal()).cwiseProduct(slack_inv).asDiagonal();
+    DiagonalMatrix<double, Dynamic> middle = slack_inv.cwiseProduct(weights).cwiseProduct(slack_inv).asDiagonal();
     MatrixXd hess = A.transpose() * middle * A;
     return hess;
 }
