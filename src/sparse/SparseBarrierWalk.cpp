@@ -92,12 +92,13 @@ double SparseBarrierWalk::generateProposalDensity(
 }
 
 MatrixXd SparseBarrierWalk::generateCompleteWalk(
-    const int num_steps, 
+    const int niter, 
     const VectorXd& init, 
     const SparseMatrixXd& A, 
     const VectorXd& b, 
     int k,
-    int burn = 0,
+    int burnin = 0,
+    int thin = 1,
     int seed = -1
 ){
     if (k < 0 || k > A.cols()) {
@@ -107,17 +108,15 @@ MatrixXd SparseBarrierWalk::generateCompleteWalk(
     if (init.rows() != A.cols() || A.rows() != b.rows() ) {
         throw std::invalid_argument("A, b, and init do not match in dimension.");
     }
-
-    MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
+    int total_samples = (niter - burnin)/thin;
+    MatrixXd results = MatrixXd::Zero(total_samples, A.cols());
     std::mt19937 gen = initializeRNG(seed);
     uniform_real_distribution<> dis(0.0, 1.0);
-
 
     setDistTerm(A.cols() - A.rows(), k);
     VectorXd x = init;
     A_solver.compute(A * A.transpose());
-    int total = (burn + num_steps) * THIN; 
-    for(int i = 1; i <= total; i++){
+    for(int i = 1; i <= niter; i++){
         VectorXd z = generateSample(x, A, k, gen);
         if (inPolytope(z, k)){
             double g_x_z = generateProposalDensity(x, z, A, k);
@@ -126,8 +125,8 @@ MatrixXd SparseBarrierWalk::generateCompleteWalk(
             double val = dis(gen);
             x = val < alpha ? z : x; 
         }
-        if (i % THIN == 0 && i/THIN > burn){
-            results.row((int)i/THIN - burn - 1) = x.transpose(); 
+        if (i > burnin && (i - burnin) % thin == 0){
+            results.row((int)((i - burnin)/thin - 1)) = x; 
         }
     }
 

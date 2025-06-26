@@ -9,12 +9,11 @@ class SparseJohnWalk : public SparseBarrierWalk{
         /**
          * @brief initialization of Sparse John Walk class
          * @param r spread parameter
-         * @param thin thin parameter
          * @param lim limit in l-infinity norm
          * @param max_iter maximum number of iterations in fixed iteration
          * @param err error constant
          */
-        SparseJohnWalk(double r, int thin = 1, double lim = 1e-5, int max_iter = 1000, double err = 1e-5) : LIM(lim), MAX_ITER(max_iter), SparseBarrierWalk(r, thin, err) {}
+        SparseJohnWalk(double r, double lim = 1e-5, int max_iter = 1000, double err = 1e-5) : LIM(lim), MAX_ITER(max_iter), SparseBarrierWalk(r, err) {}
 
         /**
          * @brief generate weight by solving fixed point iteration

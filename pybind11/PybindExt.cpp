@@ -6,16 +6,17 @@ namespace py = pybind11;
 template <class RandomWalkBase = RandomWalk> class PyRandomWalk : public RandomWalkBase {
 public:
     using RandomWalkBase::RandomWalkBase; // Inherit constructors
-    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
+    MatrixXd generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin, int thin, int seed) override{
             PYBIND11_OVERRIDE_PURE(
                 MatrixXd,
                 RandomWalkBase,
                 generateCompleteWalk,
-                num_steps,
+                niter,
                 init,
                 A,
                 b,
-                burn,
+                burnin,
+                thin, 
                 seed
             );
     }
@@ -24,16 +25,17 @@ public:
 template <class BarrierWalkBase = BarrierWalk> class PyBarrierWalk: public PyRandomWalk<BarrierWalkBase> {
 public:
     using PyRandomWalk<BarrierWalkBase>::PyRandomWalk;
-    MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override{
+    MatrixXd generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin, int thin, int seed) override{
             PYBIND11_OVERRIDE(
                 MatrixXd,
                 BarrierWalkBase,
                 generateCompleteWalk,
-                num_steps,
+                niter,
                 init,
                 A,
                 b,
-                burn,
+                burnin,
+                thin, 
                 seed
             );
     }
@@ -63,12 +65,13 @@ template <class SparseRandomWalkBase = SparseRandomWalk> class PySparseRandomWal
 public:
     using SparseRandomWalkBase::SparseRandomWalkBase; // Inherit constructors
     MatrixXd generateCompleteWalk(
-        const int num_steps, 
+        const int niter, 
         const VectorXd& init, 
         const SparseMatrixXd& A, 
         const VectorXd& b, 
         int k, 
-        int burn,
+        int burnin,
+        int thin, 
         int seed
         ) override
     {
@@ -76,12 +79,13 @@ public:
                 MatrixXd,
                 SparseRandomWalkBase,
                 generateCompleteWalk,
-                num_steps,
+                niter,
                 init,
                 A,
                 b,
                 k,
-                burn,
+                burnin,
+                thin, 
                 seed
             );
     }
@@ -90,12 +94,13 @@ template <class SparseBarrierWalkBase = SparseBarrierWalk> class PySparseBarrier
 public:
     using PySparseRandomWalk<SparseBarrierWalkBase>::PySparseRandomWalk; 
     MatrixXd generateCompleteWalk(
-        const int num_steps, 
+        const int niter, 
         const VectorXd& init, 
         const SparseMatrixXd& A, 
         const VectorXd& b,
         int k,
-        int burn,
+        int burnin,
+        int thin, 
         int seed
         ) override
         {
@@ -103,12 +108,13 @@ public:
                 MatrixXd,
                 SparseBarrierWalkBase,
                 generateCompleteWalk,
-                num_steps,
+                niter,
                 init,
                 A,
                 b,
                 k,
-                burn,
+                burnin,
+                thin, 
                 seed
             );
     }
@@ -144,8 +150,8 @@ PYBIND11_MODULE(polytopewalk, m) {
 
     Parameters
     ----------
-    num_sim : int
-        Number of simulations.
+    niter : int
+        Number of iterations.
     A : numpy.ndarray
         Constraint matrix.
     b : numpy.ndarray
@@ -158,8 +164,10 @@ PYBIND11_MODULE(polytopewalk, m) {
         Facial reduction object.
     dc : DenseCenter
         Dense center object.
-    burn : int, optional
+    burnin : int, optional
         Number of burn-in steps (default is 0).
+    thin : int, optional
+        Number of samples to thin (default is 1).
     seed : int, optional
         Seed number for reproducibility (default is -1 meaning no fixed setting).
 
@@ -168,7 +176,7 @@ PYBIND11_MODULE(polytopewalk, m) {
     numpy.ndarray
         List of sampled points.
     )doc",
-    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("dc"), py::arg("burn") = 0, py::arg("seed") = -1);
+    py::arg("niter"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("dc"), py::arg("burnin") = 0, py::arg("thin") = 1, py::arg("seed") = -1);
 
     m.def("sparseFullWalkRun", &sparseFullWalkRun, 
     R"doc(
@@ -176,8 +184,8 @@ PYBIND11_MODULE(polytopewalk, m) {
 
     Parameters
     ----------
-    num_sim : int
-        Number of simulations.
+    niter : int
+        Number of iterations.
     A : numpy.ndarray
         Constraint matrix.
     b : numpy.ndarray
@@ -190,8 +198,10 @@ PYBIND11_MODULE(polytopewalk, m) {
         Facial reduction object.
     sc : SparseCenter
         Sparse center object.
-    burn : int, optional
+    burnin : int, optional
         Number of burn-in steps (default is 0).
+    thin : int, optional
+        Number of samples to thin (default is 1).
     seed : int, optional
         Seed number for reproducibility (default is -1 meaning no fixed setting).
 
@@ -200,7 +210,7 @@ PYBIND11_MODULE(polytopewalk, m) {
     numpy.ndarray
         List of sampled points.
     )doc", 
-    py::arg("num_sim"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("sc"), py::arg("burn") = 0, py::arg("seed") = -1);
+    py::arg("niter"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("walk"), py::arg("fr"), py::arg("sc"), py::arg("burnin") = 0, py::arg("thin") = 1, py::arg("seed") = -1);
 
     auto m_dense = m.def_submodule("dense", "Dense Module");
     auto m_sparse = m.def_submodule("sparse", "Sparse Module");
@@ -248,33 +258,30 @@ PYBIND11_MODULE(polytopewalk, m) {
             py::arg("A"), py::arg("b"), py::arg("k"));
     
     py::class_<RandomWalk, PyRandomWalk<>>(m_dense, "RandomWalk", "Random Walk Superclass Implementation.")
-        .def(py::init<int>(), 
+        .def(py::init<>(), 
             R"doc(
             Initialization for Random Walk Super Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
-
-            Parameters
-            -----------
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             
-            )doc", py::arg("thin") = 1)
+            )doc")
         .def("generateCompleteWalk", &RandomWalk::generateCompleteWalk, 
             R"doc(
             Generate values from Random Walk (virtual function).
 
             Parameters
             -----------
-            num_steps : int
-                Number of steps to sample from.
+            niter : int
+                Number of iterations.
             init : numpy.ndarray
                 Initial point to start sampling from.
             A : numpy.ndarray
                 Constraint matrix.
             b : numpy.ndarray
                 Constraint vector.
-            burn : int, optional
+            burnin : int, optional
                 Constant for how many to exclude initially (default is 0).
+            thin : int, optional
+                Number of samples to thin (default is 1).
             seed : int, optional
                 Seed number for reproducibility (default is -1 meaning no fixed setting).
 
@@ -283,11 +290,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             numpy.ndarray
                 List of sampled points.
             )doc", 
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0, py::arg("seed") = -1
+            py::arg("niter"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burnin") = 0, py::arg("thin") = 1, py::arg("seed") = -1
         );
     
     py::class_<BallWalk, RandomWalk>(m_dense, "BallWalk", "Ball Walk Implementation.")
-        .def(py::init<double, int>(), 
+        .def(py::init<double>(), 
             R"doc(
             Initialization for Ball Walk Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
@@ -300,10 +307,10 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Constant for how often to keep samples (default is 1).
 
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1);
+            py::arg("r") = 0.5);
     
     py::class_<HitAndRun, RandomWalk>(m_dense, "HitAndRun", "Hit-Run Implementation.")
-        .def(py::init<double, double, int>(),  
+        .def(py::init<double, double>(),  
             R"doc(
             Initialization for Hit and Run Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
@@ -314,14 +321,12 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Radius for starting distance (default is 0.5).
             err : double, optional
                 Constant for closeness to edge of polytope (default is 0.01).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
 
             )doc",
-            py::arg("r") = 0.5, py::arg("err") = 0.01, py::arg("thin") = 1);
+            py::arg("r") = 0.5, py::arg("err") = 0.01);
 
     py::class_<BarrierWalk, RandomWalk, PyBarrierWalk<>>(m_dense, "BarrierWalk", "Barrier Walk Implementation.")
-        .def(py::init<double, int>(), 
+        .def(py::init<double>(), 
             R"doc(
             Initialization for Barrier Walk Super Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
@@ -330,11 +335,9 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for starting distance (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
 
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1)
+            py::arg("r") = 0.5)
         .def("generateWeight", &BarrierWalk::generateWeight, 
             R"doc(
             Generate weight from Barrier Walk (virtual function).
@@ -360,7 +363,7 @@ PYBIND11_MODULE(polytopewalk, m) {
 
             Parameters
             -----------
-            num_steps : int
+            niter : int
                 Number of steps to sample from.
             init : numpy.ndarray
                 Initial point to start sampling from.
@@ -368,8 +371,10 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Constraint matrix.
             b : numpy.ndarray
                 Constraint vector.
-            burn : int, optional
+            burnin : int, optional
                 Constant for how many to exclude initially (default is 0).
+            thin : int, optional
+                Number of samples to thin (default is 1).
             seed : int, optional
                 Seed number for reproducibility (default is -1 meaning no fixed setting).
 
@@ -378,11 +383,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             numpy.ndarray
                 List of sampled points.
             )doc", 
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burn") = 0, py::arg("seed") = -1
+            py::arg("niter"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("burnin") = 0, py::arg("thin") = 1, py::arg("seed") = -1
         );
     
     py::class_<DikinWalk, BarrierWalk, PyBarrierWalk<DikinWalk>>(m_dense, "DikinWalk", "Dikin Walk Implementation.")
-        .def(py::init<double, int>(), 
+        .def(py::init<double>(), 
             R"doc(
             Initialization for Dikin Walk Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
@@ -391,13 +396,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for Dikin Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1);
+            py::arg("r") = 0.5);
     
     py::class_<VaidyaWalk, BarrierWalk, PyBarrierWalk<VaidyaWalk>>(m_dense, "VaidyaWalk", "Vaidya Walk Implementation.")
-       .def(py::init<double, int>(), 
+       .def(py::init<double>(), 
             R"doc(
             Initialization for Vaidya Walk Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
@@ -406,13 +409,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for Vaidya Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1);
+            py::arg("r") = 0.5);
     
     py::class_<DikinLSWalk, BarrierWalk, PyBarrierWalk<DikinLSWalk>>(m_dense, "DikinLSWalk", "Lee Sidford Walk Implementation.")
-        .def(py::init<double, int, double, double, int>(), 
+        .def(py::init<double, double, double, int>(), 
             R"doc(
             Initialization for Lee Sidford Walk Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
@@ -421,8 +422,6 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for Lee-Sidford Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             g_lim : double, optional
                 Constant for stopping gradient norm in gradient descent (default is 0.01).
             step_size : double, optional
@@ -430,11 +429,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             max_iter : int, optional
                 Constant for maximum number of gradient descent iterations (default is 1000).
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("g_lim") = 0.01, py::arg("step_size") = 0.1, 
+            py::arg("r") = 0.5, py::arg("g_lim") = 0.01, py::arg("step_size") = 0.1, 
             py::arg("max_iter") = 1000);
     
     py::class_<JohnWalk, BarrierWalk, PyBarrierWalk<JohnWalk>>(m_dense, "JohnWalk", "John Walk Implementation.")
-        .def(py::init<double, int, double, int>(), 
+        .def(py::init<double, double, int>(), 
             R"doc(
             Initialization for John Walk Class.
             Runs on Full-Dimensional Polytope Form: Ax <= b.
@@ -443,14 +442,12 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for John Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             lim : double, optional
                 Constant for stopping limit in fixed-point iteration (default is 1e-5).
             max_iter : int, optional
                 Constant for maximum number of fixed point iterations (default is 1000).
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("lim") = 1e-5, py::arg("max_iter") = 1000);
+            py::arg("r") = 0.5, py::arg("lim") = 1e-5, py::arg("max_iter") = 1000);
     
     py::class_<FacialReduction>(m, "FacialReduction", "Facial Reduction Implementation.")
         .def(py::init<double>(), 
@@ -495,26 +492,24 @@ PYBIND11_MODULE(polytopewalk, m) {
         .def_readwrite("z1", &FROutput::z1, "Vector used to go between forms.");
     
     py::class_<SparseRandomWalk, PySparseRandomWalk<>>(m_sparse, "SparseRandomWalk", "Sparse Random Walk Super Class Implementation.")
-        .def(py::init<int, double>(), 
+        .def(py::init<double>(), 
             R"doc(
             Initialization for Sparse Random Walk Super Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
 
             Parameters
             -----------
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for error term term (default is 1e-6).
             )doc",
-            py::arg("thin") = 1, py::arg("err") = 1e-6)
+            py::arg("err") = 1e-6)
             .def("generateCompleteWalk", &SparseRandomWalk::generateCompleteWalk, 
             R"doc(
             Generate values from Sparse Random Walk (virtual function).
 
             Parameters
             -----------
-            num_steps : int
+            niter : int
                 Number of steps to sample from.
             init : numpy.ndarray
                 Initial point to start sampling from.
@@ -524,8 +519,10 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Constraint vector.
             k : int
                 Dimensionality of polytope.
-            burn : int, optional
+            burnin : int, optional
                 Constant for how many to exclude initially (default is 0).
+            thin : int, optional
+                Number of samples to thin (default is 1).
             seed : int, optional
                 Seed number for reproducibility (default is -1 meaning no fixed setting).
 
@@ -534,11 +531,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             numpy.ndarray
                 List of sampled points.
             )doc",
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burn") = 0, py::arg("seed") = -1
+            py::arg("niter"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burnin") = 0, py::arg("thin") = 1, py::arg("seed") = -1
             );
     
     py::class_<SparseBallWalk, SparseRandomWalk>(m_sparse, "SparseBallWalk", "Sparse Ball Walk Implementation.")
-        .def(py::init<double, int>(), 
+        .def(py::init<double>(), 
             R"doc(
             Initialization for Sparse Ball Walk Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
@@ -547,14 +544,12 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for ball (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
 
             )doc",
-            py::arg("r") = 0.5 , py::arg("thin") = 1);
+            py::arg("r") = 0.5);
     
     py::class_<SparseHitAndRun, SparseRandomWalk>(m_sparse, "SparseHitAndRun", "Sparse Hit and Run Implementation.")
-        .def(py::init<double, int, double>(),  
+        .def(py::init<double, double>(),  
             R"doc(
             Initialization for Sparse Hit and Run Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
@@ -563,16 +558,14 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for starting distance (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for closeness to edge of polytope (default is 0.01).
 
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 0.01);
+            py::arg("r") = 0.5, py::arg("err") = 0.01);
 
     py::class_<SparseBarrierWalk, SparseRandomWalk, PySparseBarrierWalk<>>(m_sparse, "SparseBarrierWalk", "Sparse Barrier Walk Implementation.")
-        .def(py::init<double, int, double>(), 
+        .def(py::init<double, double>(), 
             R"doc(
             Initialization for Sparse Barrier Walk Super Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
@@ -581,13 +574,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for starting distance (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
 
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 1e-6)
+            py::arg("r") = 0.5, py::arg("err") = 1e-6)
         .def("generateWeight", &SparseBarrierWalk::generateWeight, 
             R"doc(
             Generate weight from Sparse Barrier Walk (virtual function).
@@ -613,7 +604,7 @@ PYBIND11_MODULE(polytopewalk, m) {
 
             Parameters
             -----------
-            num_steps : int
+            niter : int
                 Number of steps to sample from.
             init : numpy.ndarray
                 Initial point to start sampling from.
@@ -623,8 +614,10 @@ PYBIND11_MODULE(polytopewalk, m) {
                 Constraint vector.
             k : int
                 Dimensionality of polytope.
-            burn : int, optional
+            burnin : int, optional
                 Constant for how many to exclude initially (default is 0).
+            thin : int, optional
+                Number of samples to thin (default is 1).
             seed : int, optional
                 Seed number for reproducibility (default is -1 meaning no fixed setting).
 
@@ -633,11 +626,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             numpy.ndarray
                 List of sampled points.
             )doc",  
-            py::arg("num_steps"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burn") = 0, py::arg("seed") = -1
+            py::arg("niter"), py::arg("init"), py::arg("A"), py::arg("b"), py::arg("k"), py::arg("burnin") = 0, py::arg("thin") = 1, py::arg("seed") = -1
         );
     
     py::class_<SparseDikinWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseDikinWalk>>(m_sparse, "SparseDikinWalk", "Sparse Dikin Walk Implementation.")
-        .def(py::init<double, int, double>(), 
+        .def(py::init<double, double>(), 
             R"doc(
             Initialization for Sparse Dikin Walk Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
@@ -646,15 +639,13 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for Dikin Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 1e-6);
+            py::arg("r") = 0.5, py::arg("err") = 1e-6);
     
     py::class_<SparseVaidyaWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseVaidyaWalk>>(m_sparse, "SparseVaidyaWalk", "Sparse Vaidya Walk Implementation.")
-        .def(py::init<double, int, double>(), 
+        .def(py::init<double, double>(), 
             R"doc(
             Initialization for Sparse Vaidya Walk Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
@@ -663,15 +654,13 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for Vaidya Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc",
-             py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("err") = 1e-6);
+             py::arg("r") = 0.5, py::arg("err") = 1e-6);
     
     py::class_<SparseJohnWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseJohnWalk>>(m_sparse, "SparseJohnWalk", "Sparse John Walk Implementation.")
-        .def(py::init<double, int, double, int, double>(), 
+        .def(py::init<double, double, int, double>(), 
             R"doc(
             Initialization for Sparse John Walk Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
@@ -680,8 +669,6 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for John Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             lim : double, optional
                 Constant for stopping limit in fixed-point iteration (default is 1e-5).
             max_iter : int, optional
@@ -689,11 +676,11 @@ PYBIND11_MODULE(polytopewalk, m) {
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc", 
-            py::arg("r") = 0.5, py::arg("thin") = 1, py::arg("lim") = 1e-5, 
+            py::arg("r") = 0.5, py::arg("lim") = 1e-5, 
             py::arg("max_iter") = 1000, py::arg("err") = 1e-6);
     
     py::class_<SparseDikinLSWalk, SparseBarrierWalk, PySparseBarrierWalk<SparseDikinLSWalk>>(m_sparse, "SparseDikinLSWalk", "Sparse Lee Sidford Walk Implementation.")
-        .def(py::init<double, int, double, double, int, double>(), 
+        .def(py::init<double, double, double, int, double>(), 
             R"doc(
             Initialization for Sparse Lee Sidford Walk Class.
             Runs on Constrained Polytope Form: Ax = b, x >=_k 0.
@@ -702,8 +689,6 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for Lee-Sidford Ellipsoid (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
             g_lim : double, optional
                 Constant for stopping gradient norm in gradient descent (default is 0.01).
             step_size : double, optional
@@ -713,7 +698,7 @@ PYBIND11_MODULE(polytopewalk, m) {
             err : double, optional
                 Constant for error term in g^{-1}(x) (default is 1e-6).
             )doc",
-            py::arg("r") = 0.5, py::arg("thin") = 1,py::arg("g_lim") = 0.01, 
+            py::arg("r") = 0.5, py::arg("g_lim") = 0.01, 
             py::arg("step_size") = 0.1, py::arg("max_iter") = 1000, py::arg("err") = 1e-6);
 
 }

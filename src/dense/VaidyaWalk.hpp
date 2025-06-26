@@ -10,9 +10,8 @@ class VaidyaWalk: public BarrierWalk{
         /**
          * @brief initialization of Sparse Vaidya Walk class
          * @param r spread parameter
-         * @param thin thin constant
          */
-        VaidyaWalk(double r, int thin = 1) : BarrierWalk(r, thin){}  
+        VaidyaWalk(double r) : BarrierWalk(r){}  
 
         /**
          * @brief print general type 

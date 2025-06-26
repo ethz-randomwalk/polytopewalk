@@ -33,7 +33,7 @@ double HitAndRun::binarySearch(VectorXd direction, VectorXd& x, const MatrixXd& 
     return distance(mid, x);
 }
 
-MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+MatrixXd HitAndRun::generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin = 0, int thin = 1, int seed = -1){
     if (init.rows() != A.cols() || A.rows() != b.rows() ) {
         throw std::invalid_argument("A, b, and init do not match in dimension.");
     }
@@ -41,11 +41,11 @@ MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& init, co
     VectorXd x = init; 
     
     int n = x.rows(); 
-    MatrixXd results = MatrixXd::Zero(num_steps, n);
+    int total_samples = (niter - burnin)/thin;
+    MatrixXd results = MatrixXd::Zero(total_samples, n);
     std::mt19937 gen = initializeRNG(seed);
     uniform_real_distribution<> dis(0.0, 1.0);
-    int total = (burn + num_steps) * THIN; 
-    for (int i = 1; i <= total; i++){
+    for (int i = 1; i <= niter; i++){
         VectorXd new_direct = generateGaussianRVNorm(n, gen);
         double pos_side = binarySearch(new_direct, x, A, b);
         double neg_side = binarySearch(new_direct * -1, x, A, b) * -1;
@@ -54,8 +54,8 @@ MatrixXd HitAndRun::generateCompleteWalk(const int num_steps, VectorXd& init, co
         // the next iterate is uniform on the segment passing x
         x = random_point * new_direct + x; 
         
-        if (i % THIN == 0 && i/THIN > burn){
-            results.row((int)i/THIN - burn - 1) = x; 
+        if (i > burnin && (i - burnin) % thin == 0){
+            results.row((int)((i - burnin)/thin - 1)) = x; 
         }
     }
     return results;

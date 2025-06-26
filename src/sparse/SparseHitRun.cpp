@@ -39,12 +39,13 @@ double SparseHitAndRun::binarySearch(
 }
 
 MatrixXd SparseHitAndRun::generateCompleteWalk(
-    const int num_steps, 
+    const int niter, 
     const VectorXd& init, 
     const SparseMatrixXd& A, 
     const VectorXd& b, 
     int k,
-    int burn = 0,
+    int burnin = 0,
+    int thin = 1,
     int seed = -1
 ){
     if (k < 0 || k > A.cols()) {
@@ -54,14 +55,15 @@ MatrixXd SparseHitAndRun::generateCompleteWalk(
         throw std::invalid_argument("A, b, and init do not match in dimension.");
     }
     
-    MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
+    int total_samples = (niter - burnin)/thin;
+    MatrixXd results = MatrixXd::Zero(total_samples, A.cols());
+
     std::mt19937 gen = initializeRNG(seed);
     uniform_real_distribution<> dis(0.0, 1.0);
 
     SparseLU <SparseMatrixXd> A_solver (A * A.transpose());
     VectorXd x = init; 
-    int total = (burn + num_steps) * THIN; 
-    for (int i = 1; i <= total; i++){
+    for (int i = 1; i <= niter; i++){
         VectorXd rand = generateGaussianRV(A.cols(), gen);
         VectorXd z = A * rand; 
         z = rand - A.transpose() * A_solver.solve(z);
@@ -72,8 +74,8 @@ MatrixXd SparseHitAndRun::generateCompleteWalk(
         double random_point = val * (pos_side - neg_side) + neg_side; 
         x = random_point * z + x; 
 
-        if (i % THIN == 0 && i/THIN > burn){
-            results.row((int)i/THIN - burn - 1) = x; 
+        if (i > burnin && (i - burnin) % thin == 0){
+            results.row((int)((i - burnin)/thin - 1)) = x; 
         }
     }
     return results; 

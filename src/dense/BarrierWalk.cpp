@@ -68,24 +68,23 @@ VectorXd BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const
     return prop; 
 }
 
-MatrixXd BarrierWalk::generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+MatrixXd BarrierWalk::generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin = 0, int thin = 1, int seed = -1){
     if (init.rows() != A.cols() || A.rows() != b.rows() ) {
         throw std::invalid_argument("A, b, and init do not match in dimension.");
     }
-    
-    MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
+    int total_samples = (niter - burnin)/thin;
+    MatrixXd results = MatrixXd::Zero(total_samples, A.cols());
     std::mt19937 gen = initializeRNG(seed);
 
     VectorXd x = init; 
 
     setDistTerm(A.cols(), A.rows());
-    int total = (burn + num_steps) * THIN; 
-    for(int i = 1; i <= total; i++){
+    for(int i = 1; i <= niter; i++){
         VectorXd prop = generateSample(x, A, b, gen);
         x = prop; 
 
-        if (i % THIN == 0 && i/THIN > burn){
-            results.row((int)i/THIN - burn - 1) = x.transpose(); 
+       if (i > burnin && (i - burnin) % thin == 0){
+            results.row((int)((i - burnin)/thin - 1)) = x; 
         }
     }
     return results;

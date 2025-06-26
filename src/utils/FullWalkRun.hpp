@@ -17,27 +17,27 @@
 
 /**
  * @brief runs full preprocessing, walk, and post-processing steps in dense formulation
- * @param num_sim number of steps
+ * @param niter number of steps
  * @param A polytope matrix (Ax = b)
  * @param b polytope vector (Ax = b)
  * @param k values >= 0 constraint
  * @param walk dense random walk implementation
  * @param fr facial reduction algorithm
  * @param init initialization algorithm 
- * @param burn how many to exclude
- * @param seed seed for reproducibility
- * @return Matrix
+ * @param burnin how many to exclude
+ * @param thin thinning parameter
+ * @return (niter - burnin)//thin by d (dimension of x) matrix
  */
-MatrixXd denseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, RandomWalk* walk, FacialReduction* fr, DenseCenter* init, int burn = 0, int seed = -1){
+MatrixXd denseFullWalkRun(int niter, SparseMatrixXd A, VectorXd b, int k, RandomWalk* walk, FacialReduction* fr, DenseCenter* init, int burnin = 0, int thin = 1, int seed = -1){
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
     }
     
     FROutput fr_result = fr->reduce(A, b, k, false);
     VectorXd x = init->getInitialPoint(fr_result.dense_A, fr_result.dense_b);
-    MatrixXd steps = walk->generateCompleteWalk(num_sim, x, fr_result.dense_A, fr_result.dense_b, burn, seed);
-    MatrixXd res(num_sim, A.cols());
-    for(int i = 0; i < num_sim; i++){
+    MatrixXd steps = walk->generateCompleteWalk(niter, x, fr_result.dense_A, fr_result.dense_b, burnin, thin, seed);
+    MatrixXd res(steps.rows(), A.cols());
+    for(int i = 0; i < steps.rows(); i++){
         VectorXd val (steps.cols() + fr_result.z1.rows());
         VectorXd row = steps.row(i);
         val << fr_result.z1, row;
@@ -48,18 +48,18 @@ MatrixXd denseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, Rand
 
 /**
  * @brief runs full preprocessing, walk, and post-processing steps in sparse formulation
- * @param num_sim number of steps
+ * @param niter number of steps
  * @param A polytope matrix (Ax <= b)
  * @param b polytope vector (Ax <= b)
  * @param k last k coordinates >= 0
  * @param walk sparse random walk implementation
  * @param fr facial reduction algorithm
  * @param init initialization algorithm 
- * @param burn how many to exclude
+ * @param burnin how many to exclude
  * @param seed seed for reproducibility
- * @return Matrix
+ * @return (niter - burnin)//thin by d (dimension of x) matrix
  */
-MatrixXd sparseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, SparseRandomWalk* walk, FacialReduction* fr, SparseCenter* init, int burn = 0, int seed = -1){
+MatrixXd sparseFullWalkRun(int niter, SparseMatrixXd A, VectorXd b, int k, SparseRandomWalk* walk, FacialReduction* fr, SparseCenter* init, int burnin = 0, int thin = 1, int seed = -1){
     if (k < 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
     }
@@ -67,9 +67,9 @@ MatrixXd sparseFullWalkRun(int num_sim, SparseMatrixXd A, VectorXd b, int k, Spa
     FROutput fr_result = fr->reduce(A, b, k, true);
     int new_k = fr_result.sparse_A.rows() - (A.rows() - k);
     VectorXd x = init->getInitialPoint(fr_result.sparse_A, fr_result.sparse_b, new_k);
-    MatrixXd steps = walk->generateCompleteWalk(num_sim, x, fr_result.sparse_A, fr_result.sparse_b, new_k, burn, seed);
-    MatrixXd res(num_sim, A.cols());
-    for(int i = 0; i < num_sim; i++){
+    MatrixXd steps = walk->generateCompleteWalk(niter, x, fr_result.sparse_A, fr_result.sparse_b, new_k, burnin, thin, seed);
+    MatrixXd res(steps.rows(), A.cols());
+    for(int i = 0; i < steps.rows(); i++){
         res.row(i) = fr_result.saved_V * steps.row(i).transpose();
     }
     return res; 

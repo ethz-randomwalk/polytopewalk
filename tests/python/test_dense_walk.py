@@ -37,9 +37,9 @@ birk_b = np.array([1,1,1])
 
 class TestDenseWalk(unittest.TestCase):
     def test_run(self):
-        dikin = DikinWalk(r = 0.8, thin = 2)
-        vaidya = VaidyaWalk(r = 0.8, thin = 2)
-        john = JohnWalk(r = 0.8, thin = 2)
+        dikin = DikinWalk(r = 0.5)
+        vaidya = VaidyaWalk(r = 0.5)
+        john = JohnWalk(r = 0.5)
 
         fr = FacialReduction()
         dc = DenseCenter()
@@ -51,27 +51,27 @@ class TestDenseWalk(unittest.TestCase):
         init_hc = dc.getInitialPoint(fr_res_hc.dense_A, fr_res_hc.dense_b)
         init_birk = dc.getInitialPoint(fr_res_birk.dense_A, fr_res_birk.dense_b)
 
-        res1 = dikin.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, seed = 5)
-        self.assertTrue(res1.shape == (100, 2))
-        res2 = vaidya.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, seed = 5)
-        self.assertTrue(res2.shape == (100, 2))
-        res3 = john.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, seed = 5)
-        self.assertTrue(res3.shape == (100, 2))
+        res1 = dikin.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res1.shape == (9, 2))
+        res2 = vaidya.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res2.shape == (9, 2))
+        res3 = john.generateCompleteWalk(100, init_simplex, fr_res_simplex.dense_A, fr_res_simplex.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res3.shape == (9, 2))
 
 
-        res1 = dikin.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, seed = 5)
-        self.assertTrue(res1.shape[0] == 100)
-        res2 = vaidya.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, seed = 5)
-        self.assertTrue(res2.shape[0] == 100)
-        res3 = john.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, seed = 5)
-        self.assertTrue(res3.shape[0] == 100)
+        res1 = dikin.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res1.shape[0] == 9)
+        res2 = vaidya.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res2.shape[0] == 9)
+        res3 = john.generateCompleteWalk(100, init_hc, fr_res_hc.dense_A, fr_res_hc.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res3.shape[0] == 9)
 
-        res1 = dikin.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, seed = 5)
-        self.assertTrue(res1.shape[0] == 100)
-        res2 = vaidya.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, seed = 5)
-        self.assertTrue(res2.shape[0] == 100)
-        res3 = john.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, seed = 5)
-        self.assertTrue(res3.shape[0] == 100)
+        res1 = dikin.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res1.shape[0] == 9)
+        res2 = vaidya.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res2.shape[0] == 9)
+        res3 = john.generateCompleteWalk(100, init_birk, fr_res_birk.dense_A, fr_res_birk.dense_b, 10, 10, seed = 5)
+        self.assertTrue(res3.shape[0] == 9)
  
 if __name__ == '__main__':
     unittest.main()

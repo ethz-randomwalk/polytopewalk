@@ -7,10 +7,9 @@ class SparseRandomWalk{
     public:
         /**
          * @brief initialization of Sparse Random Walk class
-         * @param thin thin constant
          * @param err error constant
          */
-        SparseRandomWalk(int thin = 1, double err = 1e-6) : ERR(err), THIN(thin) {}
+        SparseRandomWalk(double err = 1e-6) : ERR(err){}
     
         /**
          * @brief Generate values from the RandomWalk
@@ -19,9 +18,10 @@ class SparseRandomWalk{
          * @param A polytope matrix 
          * @param b polytope vector
          * @param k k values >= 0 constraint
-         * @param burn number of steps to burn
+         * @param burnin number of steps to burn
+         * @param thin thinning parameter
          * @param seed seed for reproducibility
-         * @return Matrix
+         * @return (niter - burnin)//thin by d (dimension of x) matrix
          */
         virtual MatrixXd generateCompleteWalk(
             const int num_steps, 
@@ -29,7 +29,8 @@ class SparseRandomWalk{
             const SparseMatrixXd& A, 
             const VectorXd& b, 
             int k, 
-            int burn,
+            int burnin,
+            int thin,
             int seed
             );
         
@@ -62,11 +63,6 @@ class SparseRandomWalk{
          * @brief error constant 
          */
         const double ERR; 
-
-        /**
-         * @brief include every ___ sample
-         */
-        const int THIN; 
 };
 
 #endif

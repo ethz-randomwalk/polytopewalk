@@ -71,8 +71,8 @@ sparse_polytope birk = generate_birkhoff();
 TEST_CASE( "Check Weight Properties", "[require]" ){
     //Vaidya, John, DikinLS
     SparseVaidyaWalk vaidya_sparse(0.5);
-    SparseDikinLSWalk dikinls_sparse(1.0, 1, 0.001, 0.01, 20000);
-    SparseJohnWalk john_sparse(0.5, 1, 1e-5, 10000);
+    SparseDikinLSWalk dikinls_sparse(1.0, 0.001, 0.01, 20000);
+    SparseJohnWalk john_sparse(0.5, 1e-5, 10000);
 
     VectorXd simplex_start (3);
     simplex_start << 0.33, 0.34, 0.33;
@@ -110,8 +110,8 @@ TEST_CASE( "Check Weight Properties", "[require]" ){
     VectorXd hc_x = dc.getInitialPoint(hc_dense.dense_A, hc_dense.dense_b);
     VectorXd birk_x = dc.getInitialPoint(birk_dense.dense_A, birk_dense.dense_b);
 
-    JohnWalk john(0.5, 1, 0.001, 10000);
-    DikinLSWalk dikinls(0.5, 1, 0.001, 0.01, 10000);
+    JohnWalk john(0.5, 0.001, 10000);
+    DikinLSWalk dikinls(0.5, 0.001, 0.01, 10000);
     VaidyaWalk vaidya(0.5);
 
 

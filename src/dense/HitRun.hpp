@@ -11,23 +11,23 @@ class HitAndRun: public RandomWalk{
          * @brief initialization of Hit and Run class
          * @param r spread hyperparamter
          * @param err error hyperparameter
-         * @param thin thin parameter (record every ith value)
          */
-        HitAndRun(double r, double err = 1e-6, int thin = 1) : ERR(err), R(r), RandomWalk(thin) {
+        HitAndRun(double r, double err = 1e-6) : ERR(err), R(r), RandomWalk() {
 
         }
 
         /**
          * @brief Generate values from the walk
-         * @param num_steps number of steps wanted to take
+         * @param niter number of steps wanted to take
          * @param init initial starting point
          * @param A polytope matrix
          * @param b polytope matrix
-         * @param burn number of steps to burn
+         * @param burnin number of steps to burn
+         * @param thin thinning parameter
          * @param seed seed for reproducibility
-         * @return num_steps by d (dimension of x) matrix
+         * @return (niter - burnin)//thin by d (dimension of x) matrix
          */
-        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override;
+        MatrixXd generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin, int thin, int seed) override;
 
          /**
          * @brief print general type 

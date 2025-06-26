@@ -9,11 +9,8 @@ class BarrierWalk : public RandomWalk{
         /**
          * @brief initialization of BarrierWalk class
          * @param r spread parameter
-         * @param thin thin constant
          */
-        BarrierWalk(double r, int thin = 1) : R(r), RandomWalk(thin){
-
-        }
+        BarrierWalk(double r) : R(r){}
 
         /**
          * @brief generate weights when calculating Hessian matrix
@@ -26,15 +23,16 @@ class BarrierWalk : public RandomWalk{
 
         /**
          * @brief generate values from the walk
-         * @param num_steps number of steps wanted to take
+         * @param niter number of steps wanted to take
          * @param init initial starting point
          * @param A polytope matrix
          * @param b polytope vector
-         * @param burn number of initial steps to cut
+         * @param burnin number of initial steps to cut
+         * @param thin thinning parameter
          * @param seed seed for reproducibility
-         * @return num_steps by d (dimension of x) matrix
+         * @return (niter - burnin)//thin by d (dimension of x) matrix
          */
-        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override;
+        MatrixXd generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin, int thin, int seed) override;
 
          /**
          * @brief set distribution constant

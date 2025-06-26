@@ -10,9 +10,8 @@ class DikinWalk: public BarrierWalk{
         /**
          * @brief initialization of Dikin Walk class
          * @param r spread parameter
-         * @param thin thin parameter
          */
-        DikinWalk(double r, int thin = 1) : BarrierWalk(r, thin){}
+        DikinWalk(double r) : BarrierWalk(r){}
 
         /**
          * @brief print dikin

@@ -12,23 +12,21 @@ class BallWalk: public RandomWalk{
         /**
          * @brief initialization of Ball Walk class
          * @param r spread parameter
-         * @param thin thin constant
          */
-        BallWalk(double r, int thin = 1) : R(r), RandomWalk(thin) {
-            
-        }
+        BallWalk(double r) : R(r){}
 
         /**
          * @brief generate values from Ball Walk
-         * @param num_steps number of steps wanted to take
+         * @param niter number of steps wanted to take
          * @param init initial starting point
          * @param A polytope matrixd (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @param burn number of initial steps to cut
+         * @param burnin number of initial steps to cut
+         * @param thin thinning parameter
          * @param seed seed for reproducibility
-         * @return num_steps by d (dimension of x) matrix
+         * @return (niter - burnin)//thin by d (dimension of x) matrix
          */
-        MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed) override;
+        MatrixXd generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin, int thin, int seed) override;
         
         /**
          * @brief print general type 

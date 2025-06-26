@@ -10,12 +10,13 @@ VectorXd SparseRandomWalk::generateGaussianRV(int d, std::mt19937& gen){
 }
 
 MatrixXd SparseRandomWalk::generateCompleteWalk(
-    const int num_steps,
+    const int niter,
     const VectorXd& init, 
     const SparseMatrixXd& A,
     const VectorXd& b, 
     int k,
-    int burn = 0,
+    int burnin = 0,
+    int thin = 1,
     int seed = -1
 ){
     cout << "Oops" << endl;

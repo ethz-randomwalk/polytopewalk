@@ -10,11 +10,10 @@ class JohnWalk: public BarrierWalk{
          /**
          * @brief initialization of John Walk class
          * @param r spread parameter
-         * @param thin thin constant
          * @param lim norm limit for fixed point iteration
          * @param max_iter maximum number of iterations in gradient descent
          */
-        JohnWalk(double r, int thin = 1, double lim = 1e-5, int max_iter = 1000) : MAXITER(max_iter), LIM(lim), BarrierWalk(r, thin){
+        JohnWalk(double r, double lim = 1e-5, int max_iter = 1000) : MAXITER(max_iter), LIM(lim), BarrierWalk(r){
 
         }
 

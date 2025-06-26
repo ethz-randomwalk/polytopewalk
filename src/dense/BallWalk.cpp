@@ -1,7 +1,9 @@
 #include "BallWalk.hpp"
 
 
-MatrixXd BallWalk::generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+MatrixXd BallWalk::generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, 
+    int burnin = 0, int thin = 1, int seed = -1){
+
     if (init.rows() != A.cols() || A.rows() != b.rows() ) {
         throw std::invalid_argument("A, b, and init do not match in dimension.");
     }
@@ -9,18 +11,18 @@ MatrixXd BallWalk::generateCompleteWalk(const int num_steps, VectorXd& init, con
     int n = x.rows(); 
     int d = A.cols();
     std::mt19937 gen = initializeRNG(seed);
-    MatrixXd results = MatrixXd::Zero(num_steps, n);
-    int total = (burn + num_steps) * THIN;
-    for (int i = 1; i <= total; i++){
+    int total_samples = (niter - burnin)/thin;
+    MatrixXd results = MatrixXd::Zero(total_samples, n);
+    for (int i = 1; i <= niter; i++){
         // proposal x_new = x + R /sqrt(d) * Gaussian 
         VectorXd new_x = generateGaussianRVNorm(n, gen) * R/sqrt(d) + x;
         // accept if the proposal is in the polytope
         if (inPolytope(new_x, A, b)){
             x = new_x;
         }
-        // if THIN != 1, then record one for every THIN samples 
-        if (i % THIN == 0 && i/THIN > burn){
-            results.row((int)i/THIN - burn - 1) = x; 
+        // if thin != 1, then record one for every thin samples 
+        if (i > burnin && (i - burnin) % thin == 0){
+            results.row((int)((i - burnin)/thin - 1)) = x; 
         }
     }
     return results;

@@ -13,7 +13,8 @@ VectorXd RandomWalk::generateGaussianRVNorm(const int d, std::mt19937& gen){
     return v/v.norm();
 }
 
-MatrixXd RandomWalk::generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn = 0, int seed = -1){
+MatrixXd RandomWalk::generateCompleteWalk(const int niter, VectorXd& init, 
+    const MatrixXd& A, const VectorXd& b, int burnin = 0, int thin = 1, int seed = -1){
     cout << "oops" << endl;
     return MatrixXd::Zero(1,1);
 }

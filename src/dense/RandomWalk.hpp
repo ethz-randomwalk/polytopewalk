@@ -8,21 +8,22 @@ class RandomWalk{
     
         /**
          * @brief initialization of Random Walk super class
-         * @param thin thin constant
          */
-        RandomWalk(int thin = 1) : THIN(thin){}
+        RandomWalk(){}
 
         /**
          * @brief generate values from the walk
-         * @param num_steps number of steps wanted to take
+         * @param niter number of steps wanted to take
          * @param init initial starting point
          * @param A polytope matrix (Ax <= b)
          * @param b polytope vector (Ax <= b)
-         * @param burn number of initial steps to cut
+         * @param burnin number of initial steps to cut
+         * @param thin thinning parameter
          * @param seed seed for reproducibility
-         * @return num_steps by d (dimension of x) matrix
+         * @return (niter - burnin)//thin by d (dimension of x) matrix
          */
-        virtual MatrixXd generateCompleteWalk(const int num_steps, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burn, int seed);
+        virtual MatrixXd generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, 
+            int burnin, int thin, int seed);
 
     protected: 
 
@@ -47,12 +48,6 @@ class RandomWalk{
          * @brief prints unique identifier of the walk
          */
         virtual void printType();
-
-        /**
-         * @brief only include every __ sample
-         */
-        const int THIN;
-
 
         /**
          * @brief initialize random number generator

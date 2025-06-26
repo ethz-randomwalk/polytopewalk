@@ -1,12 +1,13 @@
 #include "SparseBallWalk.hpp"
 
 MatrixXd SparseBallWalk::generateCompleteWalk(
-    const int num_steps, 
+    const int niter, 
     const VectorXd& init, 
     const SparseMatrixXd& A, 
     const VectorXd& b, 
     int k, 
-    int burn = 0,
+    int burnin = 0,
+    int thin = 1,
     int seed = -1
 ){
     if (k < 0 || k > A.cols()) {
@@ -15,8 +16,8 @@ MatrixXd SparseBallWalk::generateCompleteWalk(
     if (init.rows() != A.cols() || A.rows() != b.rows() ) {
         throw std::invalid_argument("A, b, and init do not match in dimension.");
     }
-    
-    MatrixXd results = MatrixXd::Zero(num_steps, A.cols());
+    int total_samples = (niter - burnin)/thin;
+    MatrixXd results = MatrixXd::Zero(total_samples, A.cols());
 
     SparseLU<SparseMatrixXd> A_solver (A * A.transpose());
     SparseMatrixXd I = SparseMatrixXd(VectorXd::Ones(A.cols()).asDiagonal());
@@ -25,8 +26,7 @@ MatrixXd SparseBallWalk::generateCompleteWalk(
 
     VectorXd x = init;
     int d = A.cols() - A.rows();
-    int total = (burn + num_steps) * THIN;
-    for (int i = 1; i <= total; i++){
+    for (int i = 1; i <= niter; i++){
         VectorXd rand = generateGaussianRV(A.cols(), gen); 
         VectorXd z;
         z = A * rand; 
@@ -37,8 +37,8 @@ MatrixXd SparseBallWalk::generateCompleteWalk(
         if (inPolytope(z, k)){
             x = z;
         } 
-        if (i % THIN == 0 && i/THIN > burn){
-            results.row((int)i/THIN - burn - 1) = x; 
+        if (i > burnin && (i - burnin) % thin == 0){
+            results.row((int)((i - burnin)/thin - 1)) = x; 
         }
     }
     return results; 
