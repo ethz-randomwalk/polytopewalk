@@ -108,7 +108,7 @@ def generate_simplex(d):
     return np.array([1/d] * d), np.array([[1] * d]), np.array([1]), d, 'simplex'
 
 x, A, b, k, name = generate_simplex(5)
-sparse_dikin = SparseDikinWalk(r = 0.9, thin = 1)
+sparse_dikin = SparseDikinWalk(r = 0.9)
 dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burn = 100, seed = 100)
 ```
 We also demonstrate how to sample from a polytope in a dense, full-dimensional formulation. We additionally introduce the Facial Reduction algorithm, used to simplify the constrained polytope into the full-dimensional form. 
@@ -123,6 +123,7 @@ def generate_simplex(d):
 
 fr = FacialReduction()
 _, A, b, k, name = generate_simplex(5)
+dikin = DikinWalk(r = 0.9)
 
 polytope = fr.reduce(A, b, k, sparse = False)
 dense_A = polytope.dense_A
