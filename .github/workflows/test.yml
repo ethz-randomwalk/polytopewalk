@@ -10,7 +10,8 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        #excluding Python 3.9 for Arvix package (testing convergence)
+        python-version: ["3.10", "3.11", "3.12", "3.13"] 
 
     steps:
       - name: Checkout repository
