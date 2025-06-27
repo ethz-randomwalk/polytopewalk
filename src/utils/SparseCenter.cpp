@@ -6,8 +6,8 @@ VectorXd SparseCenter::getInitialPoint(SparseMatrixXd& A, VectorXd& b, int k){
     // max delta 
     // s.t. A x = b
     // and x>= delta, on the last k coordinates 
-    if (k < 0 || k > A.cols()) {
-        throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
+    if (k <= 0 || k > A.cols()) {
+        throw std::invalid_argument("Parameter k must be between 1 and the number of columns in A.");
     }
     SparseLP sparse_lp;
     int row_length = A.rows() + k;
