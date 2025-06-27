@@ -98,7 +98,7 @@ sudo make install
 ```
 
 ## Examples
-The `examples` folder provides examples of sampling from both sparse (constrained) and dense (full-dimensional) formulations of the MCMC sampling algorithms. We test our random walk algorithms on family of 3 structured polytopes and 3 polytopes from `netlib` for real-world analysis. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
+The `examples` folder provides examples of sampling from both sparse (constrained) and dense (full-dimensional) formulations of the MCMC sampling algorithms as well as testing convergence. We test our random walk algorithms on family of 3 structured polytopes and 3 polytopes from `netlib` for real-world analysis. The lines below show a quick demonstration of sampling from a polytope using a sparse MCMC algorithm. 
 ```python
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix, csr_array
@@ -109,7 +109,7 @@ def generate_simplex(d):
 
 x, A, b, k, name = generate_simplex(5)
 sparse_dikin = SparseDikinWalk(r = 0.9)
-dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burn = 100, seed = 100)
+dikin_res = sparse_dikin.generateCompleteWalk(10_000, x, A, b, k, burnin = 100, seed = 100)
 ```
 We also demonstrate how to sample from a polytope in a dense, full-dimensional formulation. We additionally introduce the Facial Reduction algorithm, used to simplify the constrained polytope into the full-dimensional form. 
 ```python
@@ -132,7 +132,7 @@ dense_b = polytope.dense_b
 dc = DenseCenter()
 init = dc.getInitialPoint(dense_A, dense_b)
 
-dikin_res = dikin.generateCompleteWalk(1_000, init, dense_A, dense_b, burn = 100, seed = 100)
+dikin_res = dikin.generateCompleteWalk(1_000, init, dense_A, dense_b, burnin = 100, seed = 100)
 ```
 
 ## Testing

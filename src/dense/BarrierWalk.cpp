@@ -69,6 +69,7 @@ VectorXd BarrierWalk::generateSample(const VectorXd& x, const MatrixXd& A, const
 }
 
 MatrixXd BarrierWalk::generateCompleteWalk(const int niter, VectorXd& init, const MatrixXd& A, const VectorXd& b, int burnin = 0, int thin = 1, int seed = -1){
+    
     if (init.rows() != A.cols() || A.rows() != b.rows() ) {
         throw std::invalid_argument("A, b, and init do not match in dimension.");
     }

@@ -303,8 +303,6 @@ PYBIND11_MODULE(polytopewalk, m) {
             -----------
             r : double, optional
                 Radius for ball (default is 0.5).
-            thin : int, optional
-                Constant for how often to keep samples (default is 1).
 
             )doc",
             py::arg("r") = 0.5);

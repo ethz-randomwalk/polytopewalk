@@ -26,11 +26,12 @@
  * @param init initialization algorithm 
  * @param burnin how many to exclude
  * @param thin thinning parameter
+ * @param seed seed for reproducibility
  * @return (niter - burnin)//thin by d (dimension of x) matrix
  */
 MatrixXd denseFullWalkRun(int niter, SparseMatrixXd A, VectorXd b, int k, RandomWalk* walk, FacialReduction* fr, DenseCenter* init, int burnin = 0, int thin = 1, int seed = -1){
-    if (k < 0 || k > A.cols()) {
-        throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
+    if (k <= 0 || k > A.cols()) {
+        throw std::invalid_argument("Parameter k must be between 1 and the number of columns in A.");
     }
     
     FROutput fr_result = fr->reduce(A, b, k, false);
@@ -56,12 +57,13 @@ MatrixXd denseFullWalkRun(int niter, SparseMatrixXd A, VectorXd b, int k, Random
  * @param fr facial reduction algorithm
  * @param init initialization algorithm 
  * @param burnin how many to exclude
+ * @param thin thinning parameter
  * @param seed seed for reproducibility
  * @return (niter - burnin)//thin by d (dimension of x) matrix
  */
 MatrixXd sparseFullWalkRun(int niter, SparseMatrixXd A, VectorXd b, int k, SparseRandomWalk* walk, FacialReduction* fr, SparseCenter* init, int burnin = 0, int thin = 1, int seed = -1){
-    if (k < 0 || k > A.cols()) {
-        throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
+    if (k <= 0 || k > A.cols()) {
+        throw std::invalid_argument("Parameter k must be between 1 and the number of columns in A.");
     }
     
     FROutput fr_result = fr->reduce(A, b, k, true);
