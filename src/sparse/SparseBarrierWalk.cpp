@@ -28,6 +28,7 @@ VectorXd SparseBarrierWalk::generateSample(
     if (k <= 0 || k > A.cols()) {
         throw std::invalid_argument("Parameter k must be between 1 and the number of columns in A.");
     }
+
     SparseMatrixXd slack_inv = generateSlackInverse(x, k);
     SparseMatrixXd W = SparseMatrixXd(generateWeight(x, A, k).asDiagonal());
     SparseMatrixXd G = slack_inv * W * slack_inv;
@@ -101,8 +102,8 @@ MatrixXd SparseBarrierWalk::generateCompleteWalk(
     int thin = 1,
     int seed = -1
 ){
-    if (k < 0 || k > A.cols()) {
-        throw std::invalid_argument("Parameter k must be between 0 and the number of columns in A.");
+    if (k <= 0 || k > A.cols()) {
+        throw std::invalid_argument("Parameter k must be between 1 and the number of columns in A.");
     }
 
     if (init.rows() != A.cols() || A.rows() != b.rows() ) {
