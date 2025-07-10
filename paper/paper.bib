@@ -1,14 +1,3 @@
-
-@Article{chow:68,
-  author = 	 {C. K. Chow and C. N. Liu},
-  title = 	 {Approximating discrete probability distributions with dependence trees},
-  journal = 	 {IEEE Transactions on Information Theory},
-  year = 	 {1968},
-  volume = 	 {IT-14},
-  number = 	 {3},
-  pages = 	 {462--467}}
-
-
 @article{10.1093/biomet/57.1.97,
     author = {Hastings, W. K.},
     title = {{Monte Carlo sampling methods using Markov chains and their applications}},
@@ -113,15 +102,6 @@
 }
 
 
-@Book{pearl:88,
-  author = 	 {Judea Pearl},
-  title = 	 {Probabilistic {R}easoning in {I}ntelligent {S}ystems: 
-		  {N}etworks of {P}lausible {I}nference},
-  publisher = 	 {Morgan Kaufman Publishers},
-  year = 	 {1988},
-  address = 	 {San Mateo, CA}
-}
-
 @article{DBLP:journals/corr/abs-1911-05656,
   author       = {Aditi Laddha and
                   Yin Tat Lee and
@@ -138,22 +118,20 @@
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
-@article{DBLP:journals/corr/abs-2202-01908,
-  author       = {Yunbum Kook and
-                  Yin Tat Lee and
-                  Ruoqi Shen and
-                  Santosh S. Vempala},
-  title        = {Sampling with Riemannian Hamiltonian Monte Carlo in a Constrained
-                  Space},
-  journal      = {CoRR},
-  volume       = {abs/2202.01908},
-  year         = {2022},
-  url          = {https://arxiv.org/abs/2202.01908},
-  eprinttype    = {arXiv},
-  eprint       = {2202.01908},
-  timestamp    = {Wed, 09 Feb 2022 15:43:34 +0100},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-2202-01908.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+@inproceedings{10.5555/3600270.3602567,
+author = {Kook, Yunbum and Lee, Yin Tat and Shen, Ruoqi and Vempala, Santosh S.},
+title = {Sampling with riemannian Hamiltonian Monte Carlo in a constrained space},
+year = {2022},
+isbn = {9781713871088},
+publisher = {Curran Associates Inc.},
+address = {Red Hook, NY, USA},
+abstract = {We demonstrate for the first time that ill-conditioned, non-smooth, constrained distributions in very high dimension, upwards of 100,000, can be sampled efficiently in practice. Our algorithm incorporates constraints into the Riemannian version of Hamiltonian Monte Carlo and maintains sparsity. This allows us to achieve a mixing rate independent of condition numbers.On benchmark data sets from systems biology and linear programming, our algorithm outperforms existing packages by orders of magnitude. In particular, we achieve a 1,000-fold speed-up for sampling from the largest published human metabolic network (RECON3D). Our package has been incorporated into the COBRA toolbox.},
+booktitle = {Proceedings of the 36th International Conference on Neural Information Processing Systems},
+articleno = {2297},
+numpages = {13},
+location = {New Orleans, LA, USA},
+series = {NIPS '22}
+doi = {10.5555/3600270.3602567}
 }
 
 @article{JMLR:v19:18-158,
@@ -164,25 +142,29 @@
   volume  = {19},
   number  = {55},
   pages   = {1--86},
-  url     = {http://jmlr.org/papers/v19/18-158.html}
+  url     = {http://jmlr.org/papers/v19/18-158.html},
+  doi     = {10.5555/3291125.3309617}
 }
 
-@article{drusvyatskiy2017many,
-	author = {Drusvyatskiy, Dmitriy and Wolkowicz, Henry and others},
-	date-added = {2022-11-20 21:00:56 -0500},
-	date-modified = {2022-11-20 21:00:56 -0500},
-	journal = {Foundations and Trends{\textregistered} in Optimization},
-	number = {2},
-	pages = {77--170},
-	publisher = {Now Publishers, Inc.},
-	title = {The many faces of degeneracy in conic optimization},
-	volume = {3},
-	year = {2017}}
+
+
+@article{OPT-011,
+url = {http://dx.doi.org/10.1561/2400000011},
+year = {2017},
+volume = {3},
+journal = {Foundations and Trends® in Optimization},
+title = {The Many Faces of Degeneracy in Conic Optimization},
+doi = {10.1561/2400000011},
+issn = {2167-3888},
+number = {2},
+pages = {77-170},
+author = {Dmitriy Drusvyatskiy and Henry Wolkowicz}
+}
 
 @article{DBLP:journals/corr/SachdevaV15,
   author       = {Sushant Sachdeva and
                   Nisheeth K. Vishnoi},
-  title        = {A Simple Analysis of the Dikin Walk},
+  title        = {The Mixing Time of the Dikin Walk in a Polytope - A Simple Proof},
   journal      = {CoRR},
   volume       = {abs/1508.01977},
   year         = {2015},
@@ -221,24 +203,6 @@
   url          = {https://link.springer.com/article/10.1007/s10107-003-0447-x}
 }
 
-@article{DBLP:journals/corr/abs-1803-05861,
-  author       = {Ludovic Cal{\`{e}}s and
-                  Apostolos Chalkis and
-                  Ioannis Z. Emiris and
-                  Vissarion Fisikopoulos},
-  title        = {Practical volume computation of structured convex bodies, and an application
-                  to modeling portfolio dependencies and financial crises},
-  journal      = {CoRR},
-  volume       = {abs/1803.05861},
-  year         = {2018},
-  url          = {http://arxiv.org/abs/1803.05861},
-  eprinttype    = {arXiv},
-  eprint       = {1803.05861},
-  timestamp    = {Mon, 13 Aug 2018 16:45:57 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-1803-05861.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
-}
-
 
 @misc{COBRA,
       title={Creation and analysis of biochemical constraint-based models: the COBRA Toolbox v3.0}, 
@@ -266,31 +230,63 @@
 }
 
 
-@article{im2023revisiting,
-	author = {Im, Haesol and Wolkowicz, Henry},
-	date-added = {2023-11-15 15:48:48 -0500},
-	date-modified = {2023-11-15 15:48:48 -0500},
-	journal = {European Journal of Operational Research},
-	number = {2},
-	pages = {495--510},
-	publisher = {Elsevier},
-	title = {Revisiting degeneracy, strict feasibility, stability, in linear programming},
-	volume = {310},
-	year = {2023}}
+@article{IM2023495,
+title = {Revisiting degeneracy, strict feasibility, stability, in linear programming},
+journal = {European Journal of Operational Research},
+volume = {310},
+number = {2},
+pages = {495-510},
+year = {2023},
+issn = {0377-2217},
+doi = {https://doi.org/10.1016/j.ejor.2023.03.021},
+url = {https://www.sciencedirect.com/science/article/pii/S037722172300228X},
+author = {Haesol Im and Henry Wolkowicz},
+keywords = {Linear programming, Facial reduction, Preprocessing, Degeneracy, Implicit problem singularity},
+abstract = {Currently, the simplex method and the interior point method are indisputably the most popular algorithms for solving linear programs, LPs. Unlike general conic programs, LPs with a finite optimal value do not require strict feasibility in order to establish strong duality. Hence strict feasibility is seldom a concern, even though strict feasibility is equivalent to stability and a compact dual optimal set. This lack of concern is also true for other types of degeneracy of basic feasible solutions in LP. In this paper we discuss that the specific degeneracy that arises from lack of strict feasibility necessarily causes difficulties in both simplex and interior point methods. In particular, we show that the lack of strict feasibility implies that every basic feasible solution, BFS, is degenerate; thus conversely, the existence of a nondegenerate BFS implies that strict feasibility (regularity) holds. We prove the results using facial reduction and simple linear algebra. In particular, the facially reduced system reveals the implicit non-surjectivity of the linear map of the equality constraint system. As a consequence, we emphasize that facial reduction involves two steps where, the first guarantees strict feasibility, and the second recovers full row rank of the constraint matrix. This illustrates the implicit singularity of problems where strict feasibility fails, and also helps in obtaining new efficient techniques for preproccessing. We include an efficient preprocessing method that can be performed as an extension of phase-I of the two-phase simplex method. We show that this can be used to avoid the loss of precision for many well known problem sets in the literature, e.g., the NETLIB problem set.}
+}
+
+@article{CALES2023101916,
+title = {Practical volume approximation of high-dimensional convex bodies, applied to modeling portfolio dependencies and financial crises},
+journal = {Computational Geometry},
+volume = {109},
+pages = {101916},
+year = {2023},
+issn = {0925-7721},
+doi = {https://doi.org/10.1016/j.comgeo.2022.101916},
+url = {https://www.sciencedirect.com/science/article/pii/S0925772122000591},
+author = {Ludovic Calès and Apostolos Chalkis and Ioannis Z. Emiris and Vissarion Fisikopoulos},
+keywords = {Polytope volume, Convex body, Simplex, Sampling, Empirical finance},
+abstract = {We examine volume computation of general-dimensional polytopes and more general convex bodies, defined by the intersection of a simplex by a family of parallel hyperplanes, and another family of parallel hyperplanes or a family of concentric ellipsoids. Such convex bodies appear in modeling and predicting financial crises. The impact of crises on the economy (labor, income, etc.) makes its detection of prime interest for the public in general and for policy makers in particular. Certain features of dependencies in the markets clearly identify times of turmoil. We describe the relationship between asset characteristics by means of a copula; each characteristic is either a linear or quadratic form of the portfolio components, hence the copula can be estimated by computing volumes of convex bodies. We design and implement practical algorithms in the exact and approximate setting, and experimentally juxtapose them in order to study the trade-off of exactness and accuracy for speed. We also experimentally find an efficient parameter-tuning to achieve a sufficiently good estimation of the probability density of each copula. Our C++ software, based on Eigen and available on github, is shown to be very effective in up to 100 dimensions. Our results offer novel, effective means of computing portfolio dependencies and an indicator of financial crises, which is shown to correctly identify past crises.}
+}
+
+@misc{sun2024polytopewalksparsemcmcsampling,
+      title={PolytopeWalk: Sparse MCMC Sampling over Polytopes}, 
+      author={Benny Sun and Yuansi Chen},
+      year={2024},
+      eprint={2412.06629},
+      archivePrefix={arXiv},
+      primaryClass={stat.CO},
+      url={https://arxiv.org/abs/2412.06629}, 
+}
+
+@article{10.1093/bioadv/vbae037,
+    author = {Chalkis, Apostolos and Fisikopoulos, Vissarion and Tsigaridas, Elias and Zafeiropoulos, Haris},
+    title = {dingo: a Python package for metabolic flux sampling},
+    journal = {Bioinformatics Advances},
+    volume = {4},
+    number = {1},
+    pages = {vbae037},
+    year = {2024},
+    month = {03},
+    abstract = {We present dingo, a Python package that supports a variety of methods to sample from the flux space of metabolic models, based on state-of-the-art random walks and rounding methods. For uniform sampling, dingo’s sampling methods provide significant speed-ups and outperform existing software. Indicatively, dingo can sample from the flux space of the largest metabolic model up to now (Recon3D) in less than a day using a personal computer, under several statistical guarantees; this computation is out of reach for other similar software. In addition, dingo supports common analysis methods, such as flux balance analysis and flux variability analysis, and visualization components. dingo contributes to the arsenal of tools in metabolic modelling by enabling flux sampling in high dimensions (in the order of thousands).The dingo Python library is available in GitHub at https://github.com/GeomScale/dingo and the data underlying this article are available in https://doi.org/10.5281/zenodo.10423335.},
+    issn = {2635-0041},
+    doi = {10.1093/bioadv/vbae037},
+    url = {https://doi.org/10.1093/bioadv/vbae037},
+    eprint = {https://academic.oup.com/bioinformaticsadvances/article-pdf/4/1/vbae037/57173983/vbae037.pdf},
+}
 
 
-@article{Chalkis_2021,
-   title={volesti: Volume Approximation and Sampling for Convex Polytopes in R},
-   volume={13},
-   ISSN={2073-4859},
-   url={http://dx.doi.org/10.32614/RJ-2021-077},
-   DOI={10.32614/rj-2021-077},
-   number={2},
-   journal={The R Journal},
-   publisher={The R Foundation},
-   author={Chalkis, Apostolos and Fisikopoulos, Vissarion},
-   year={2021},
-   pages={561} }
+@article{Chalkis2025, doi = {10.21105/joss.07886}, url = {https://doi.org/10.21105/joss.07886}, year = {2025}, publisher = {The Open Journal}, volume = {10}, number = {108}, pages = {7886}, author = {Chalkis, Apostolos and Fisikopoulos, Vissarion and Papachristou, Marios and Tsigaridas, Elias}, title = {volesti: A C++ library for sampling and volume computation on convex bodies}, journal = {Journal of Open Source Software} }
 
 @article{Yao2017, doi = {10.21105/joss.00061}, url = {https://doi.org/10.21105/joss.00061}, year = {2017}, publisher = {The Open Journal}, volume = {2}, number = {11}, pages = {61}, author = {Andy Yu Zhu Yao and David Kane}, title = {walkr: MCMC Sampling from Non-Negative Convex Polytopes}, journal = {Journal of Open Source Software} }
 
@@ -302,18 +298,4 @@
   title = {{Polyrun: A Java library for sampling from the bounded convex polytopes}},
   volume = {13},
   year = {2021}
-}
-
-@article {Emanuel:2007,
-    author = "Kerry Emanuel",
-    title = "Environmental Factors Affecting Tropical Cyclone Power Dissipation",
-    journal = "Journal of Climate",
-    year = "2007",
-    publisher = "American Meteorological Society",
-    address = "Boston MA, USA",
-    volume = "20",
-    number = "22",
-    doi = "10.1175/2007JCLI1571.1",
-    pages= "5497 - 5509",
-    url = "https://journals.ametsoc.org/view/journals/clim/20/22/2007jcli1571.1.xml"
 }
