@@ -82,19 +82,19 @@ Mixing times refer to the required number of steps to converge to stationary dis
 
 ## Package Comparison
 
-| Feature                  | ``PolytopeWalk`` | `Volesti` | `WalkR` | `Polyrun` |
+| Feature                  | ``PolytopeWalk`` | `Volesti` | `PolytopeSampler` | `Polyrun` |
 |--------------------------|:-------------:|:--------:|:------:|:--------:|
 | Constrained Formulation  | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{green}Y}$$ | $${\color{green}Y}$$ |
-| Sparse Friendly          | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
-| C++ Implementation       | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
+| Sparse Friendly          | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ |
+| C++ Implementation       | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ |
 | Facial Reduction         | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
-| Dikin Walk               | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ |
+| Dikin Walk               | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
 | Vaidya Walk              | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
 | John Walk                | $${\color{green}Y}$$ | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
 | Lee-Sidford Walk         | $${\color{green}Y}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ | $${\color{red}N}$$ |
 
 
-Table II contrasts the features of ``PolytopeWalk`` with `Volesti` [@Chalkis2025], `WalkR` [@Yao2017], and `Polyrun` [@CIOMEK2021100659]. `Volesti` is implemented in C++ with some of its code represented in the Python library `Dingo` [@10.1093/bioadv/vbae037]. Other papers have researched MCMC methods for sparse polytopes but have not developed open source packages [@10.5555/3600270.3602567]. `Polyrun` only works on Java and `WalkR` on R. Notably, `WalkR` was removed from the CRAN repository, motivating further open source MCMC sampling development.
+Table II contrasts the features of ``PolytopeWalk`` with `Volesti` [@Chalkis2025], `PoltopeSampler`[@10.5555/3600270.3602567], and `Polyrun` [@CIOMEK2021100659]. `Volesti` is implemented in C++ with some of its code represented in the Python library `Dingo` [@10.1093/bioadv/vbae037]. `PolytopeSampler` only works on Matlab and `Polyrun` on Java. Thus, ``PolytopeWalk`` adds additional features and novelties not found in other MCMC sampling packages.
 
 # Acknowledgements
 
