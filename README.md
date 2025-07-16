@@ -5,6 +5,7 @@
 ![Python](https://img.shields.io/pypi/pyversions/polytopewalk.svg)
 ![PyPI](https://img.shields.io/pypi/v/polytopewalk)
 ![ciwheels](https://github.com/ethz-randomwalk/polytopewalk/actions/workflows/ciwheels.yml/badge.svg?branch=main)
+[![DOI](https://zenodo.org/badge/802131619.svg)](https://doi.org/10.5281/zenodo.15988032)
 
 # PolytopeWalk
 **PolytopeWalk** is a `C++` library for running MCMC sampling algorithms to generate samples from a uniform distribution over a polytope with a `Python` interface. It handles preprocessing of the polytope (Facial Reduction algorithm) and initialization as well. Current implementations include the Dikin Walk, John Walk, Vaidya Walk, Ball Walk, Lee Sidford Walk, and Hit-and-Run in both the full-dimensional formulation and the sparse constrained formulation. For documentation on all functions/methods, please visit our webpage: https://polytopewalk.readthedocs.io/en/latest/ and read our paper on arXiv here: https://arxiv.org/abs/2412.06629. Finally, for example inputs and outputs, please visit the examples folder, which includes code to uniformly sample from both real-world polytopes from the `Netlib` dataset and structured polytopes.
