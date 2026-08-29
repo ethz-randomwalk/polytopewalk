@@ -108,7 +108,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: bash
         run: |
-          curl -owinglpk-4.65.zip -L --insecure https://jaist.dl.sourceforge.net/project/winglpk/winglpk/GLPK-4.65/winglpk-4.65.zip
+          curl -owinglpk-4.65.zip -L --insecure https://sourceforge.net/projects/winglpk/files/winglpk/GLPK-4.65/winglpk-4.65.zip/download
           7z x winglpk-4.65.zip
           cp glpk-4.65/w64/glpk_4_65.lib glpk-4.65/w64/glpk.lib
           mkdir lib
