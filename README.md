@@ -173,4 +173,4 @@ Then, we can individually run the test files:
 
 ## Community Guidelines
 
-For those wishing to contribute to the software, please feel free to use the pull-request feature on our Github page, alongside a brief description of the improvements to the code. For those who have any issues with our software, please let us know in the issues section of our Github page. Finally, if you have any questions, feel free to contact the authors of this page at this email address: bys7@duke.edu.
+For those wishing to contribute to the software, please feel free to use the pull-request feature on our Github page, alongside a brief description of the improvements to the code. For those who have any issues with our software, please let us know in the issues section of our Github page. Finally, if you have any questions, feel free to contact the authors of this page at this email address: bsun1220@gmail.com.
